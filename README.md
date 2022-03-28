@@ -23,11 +23,11 @@ TryExtensions.Try(() => {
 
 ## Document
 
-The output of each method is a [MethodResult](https://github.com/payadel/FunctionalUtility/blob/master/FunctionalUtility/ResultUtility/MethodResult.cs) class.
+The output of each method is a [MethodResult](https://github.com/hamidmolareza/FunctionalUtility/blob/master/FunctionalUtility/ResultUtility/MethodResult.cs) class.
 The MethodResult class has two important fields.
 
 1. **IsSuccess**: Determines whether the operation was successful or not.
-2. **[Detail](https://github.com/payadel/FunctionalUtility/blob/master/FunctionalUtility/ResultUtility/ResultDetail.cs)**: It keeps more details of the result. Like title, message, etc.
+2. **[Detail](https://github.com/hamidmolareza/FunctionalUtility/blob/master/FunctionalUtility/ResultUtility/ResultDetail.cs)**: It keeps more details of the result. Like title, message, etc.
 
 There are two types of MethodResult:
 
@@ -82,7 +82,7 @@ public static MethodResult PrintHelloVerbose() {
 
 ## Custom ResultDetail
 
-For simplicity, you can customize the [ResultDetail](https://github.com/payadel/FunctionalUtility/blob/master/FunctionalUtility/ResultUtility/ResultDetail.cs):
+For simplicity, you can customize the [ResultDetail](https://github.com/hamidmolareza/FunctionalUtility/blob/master/FunctionalUtility/ResultUtility/ResultDetail.cs):
 
 ```csharp
 public class CustomDetail : ResultDetail {
@@ -127,11 +127,11 @@ static void PrintCustomDetail() =>
 
 ## Customize Error Details
 
-It is better to inherit from the [ErrorDetail](https://github.com/payadel/FunctionalUtility/blob/master/FunctionalUtility/ResultDetails/Errors/ErrorDetail.cs) class to customize the **error details**. Because the ErrorDetail class includes fields like **StackTrace** and **exception data**.
+It is better to inherit from the [ErrorDetail](https://github.com/hamidmolareza/FunctionalUtility/blob/master/FunctionalUtility/ResultDetails/Errors/ErrorDetail.cs) class to customize the **error details**. Because the ErrorDetail class includes fields like **StackTrace** and **exception data**.
 
 ResultDetail is a **base class** for successful and unsuccessful operations. But the ErrorDetail class is designed for **failed operations**.
 
-Usually, to increase the **security** of the program, the details of the errors (such as 500 errors in the server) are not displayed to users. With the [ShowDefaultMessageToUser](https://github.com/payadel/FunctionalUtility/blob/master/FunctionalUtility/ResultDetails/Errors/ErrorDetail.cs#L16) field in the ErrorDetail class you can specify whether the default message is displayed or not.
+Usually, to increase the **security** of the program, the details of the errors (such as 500 errors in the server) are not displayed to users. With the [ShowDefaultMessageToUser](https://github.com/hamidmolareza/FunctionalUtility/blob/master/FunctionalUtility/ResultDetails/Errors/ErrorDetail.cs#L16) field in the ErrorDetail class you can specify whether the default message is displayed or not.
 
 For example:
 
@@ -178,7 +178,7 @@ static MethodResult Print(string input) =>
 
 ## Default ResultDetail
 
-[Types of Result Details that exist:](https://github.com/payadel/FunctionalUtility/tree/master/FunctionalUtility/ResultDetails/Errors)
+[Types of Result Details that exist:](https://github.com/hamidmolareza/FunctionalUtility/tree/master/FunctionalUtility/ResultDetails/Errors)
 
 - BadRequestError.cs
 - ConflictError.cs
