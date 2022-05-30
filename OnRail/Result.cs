@@ -1,6 +1,6 @@
 using OnRail.ResultDetails;
 
-namespace OnRail.Result;
+namespace OnRail;
 
 public sealed class Result : ResultBase {
     private Result(bool isSuccess, ResultDetail? detail = null) : base(isSuccess, detail) { }

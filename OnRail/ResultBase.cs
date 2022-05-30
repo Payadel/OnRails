@@ -1,6 +1,6 @@
 ﻿using OnRail.ResultDetails;
 
-namespace OnRail.Result;
+namespace OnRail;
 
 public abstract class ResultBase {
     protected ResultBase(bool isSuccess, ResultDetail? detail = null) {

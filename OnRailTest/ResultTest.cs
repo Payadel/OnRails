@@ -1,4 +1,4 @@
-using OnRail.Result;
+using OnRail;
 using OnRail.ResultDetails;
 
 namespace OnRailTest.Result;
@@ -6,14 +6,14 @@ namespace OnRailTest.Result;
 public class ResultTest {
     [Fact]
     public void Ok_NoInput() {
-        var result = OnRail.Result.Result.Ok();
+        var result = OnRail.Result.Ok();
         Assert.True(result.IsSuccess);
     }
 
     [Fact]
     public void Ok_WithDetail() {
         var resultDetail = new ResultDetail("title");
-        var result = OnRail.Result.Result.Ok(resultDetail);
+        var result = OnRail.Result.Ok(resultDetail);
 
         Assert.True(result.IsSuccess);
         Assert.StrictEqual(result.Detail, resultDetail);
@@ -21,7 +21,7 @@ public class ResultTest {
 
     [Fact]
     public void Fail() {
-        var result = OnRail.Result.Result.Fail();
+        var result = OnRail.Result.Fail();
         
         Assert.False(result.IsSuccess);
     }
