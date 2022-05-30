@@ -129,14 +129,14 @@ public static class TeeExtensions {
         Func<TResult> function) => TryExtensions.Try(() => @this.Tee(function));
 
     public static Result TryTee<TResult>(
-        Func<TResult> function) => TryExtensions.Try(() => TeeExtensions.Tee(function));
+        Func<TResult> function) => TryExtensions.Try(() => Tee(function));
 
     public static Result<T> TryTee<T>(
         this T @this,
         Action? action) => TryExtensions.Try(() => @this.Tee(action));
 
     public static Result TryTee(Action? action) =>
-        TryExtensions.Try(() => TeeExtensions.Tee(action));
+        TryExtensions.Try(() => Tee(action));
 
     #endregion
 
@@ -292,7 +292,7 @@ public static class TeeExtensions {
     public static Result TryTeeOnSuccess<TResult>(
         this Result @this,
         Func<TResult> function) => @this
-        .OnSuccess(() => TeeExtensions.TryTee(function));
+        .OnSuccess(() => TryTee(function));
 
     #endregion
 

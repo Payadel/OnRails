@@ -1,3 +1,4 @@
+using OnRail;
 using OnRail.Extensions;
 using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
@@ -5,18 +6,71 @@ using OnRail.ResultDetails.Errors;
 namespace OnRailTest.Extensions;
 
 public class TryExtensionsTest {
+    #region TestMethods
+
     private const string SuccessStr = "Success";
     private static void SuccessfulAction() { }
     private static void SuccessfulActionWithInput(string input) { }
     private static string SuccessfulFunctionReturnString() => SuccessStr;
     private static string SuccessfulFunctionReturnInput(string input) => input;
-    private static OnRail.Result SuccessfulFunctionReturnResult() => OnRail.Result.Ok();
+    private static Result SuccessfulFunctionReturnResult() => Result.Ok();
 
-    private static OnRail.Result<string> SuccessfulFunctionReturnResultWithString() =>
-        OnRail.Result<string>.Ok(SuccessStr);
+    private static Result<string> SuccessfulFunctionReturnResultWithString() =>
+        Result<string>.Ok(SuccessStr);
 
-    private static OnRail.Result<string> SuccessfulFunctionReturnResultWithString(string input) =>
-        OnRail.Result<string>.Ok(input);
+    private static Result<string> SuccessfulFunctionReturnResultWithString(string input) =>
+        Result<string>.Ok(input);
+
+    private static void FailAction() => throw new Exception();
+    private static void FailActionWithInput(string input) => throw new Exception();
+    private static string FailFunctionReturnString() => throw new Exception();
+    private static string FailFunctionReturnInput(string input) => throw new Exception();
+    private static Result FailFunctionReturnResult() => Result.Fail(new BadRequestError());
+
+    #endregion
+
+    #region Utility
+
+    private static void MustError(ResultBase result, int numOfTry) {
+        Assert.False(result.IsSuccess);
+
+        var detailsCount = result.Detail.MoreDetails?.Count;
+        if (numOfTry > 1) {
+            //We must have two objects: numOfTry - errors
+            Assert.Equal(2, detailsCount);
+        }
+        else {
+            //We must have only "numOfTry"
+            Assert.Equal(1, detailsCount);
+        }
+
+        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
+    }
+
+    private static void MustExceptionError(ResultBase result, int numOfTry) {
+        MustError(result, numOfTry);
+        Assert.True(result.Detail is ExceptionError);
+
+        if (numOfTry < 2)
+            return;
+
+        var exceptions =
+            result.Detail.GetMoreDetailProperties(type: typeof(List<Exception>)).Single() as List<Exception>;
+        Assert.Equal(numOfTry, exceptions!.Count);
+    }
+
+    private static void MustErrorDetail(ResultBase result, int numOfTry) {
+        MustError(result, numOfTry);
+
+        Assert.True(result.Detail is ErrorDetail);
+        var exceptions =
+            result.Detail.GetMoreDetailProperties(type: typeof(List<object>)).Single() as List<object>;
+        Assert.Equal(numOfTry, exceptions!.Count);
+    }
+
+    #endregion
+
+    #region Try
 
     [Fact]
     public void Try_SuccessfulAction_ReturnSuccessDetail() {
@@ -82,28 +136,17 @@ public class TryExtensionsTest {
     }
 
     //----------------------------------------------------------------------------
-    private static void FailAction() => throw new Exception();
-    private static void FailActionWithInput(string input) => throw new Exception();
-    private static string FailFunctionReturnString() => throw new Exception();
-    private static string FailFunctionReturnInput(string input) => throw new Exception();
-    private static OnRail.Result FailFunctionReturnResult() => OnRail.Result.Fail(new BadRequestError());
+    private static Result<string> FailFunctionReturnResultWithString() =>
+        Result<string>.Fail(new BadRequestError());
 
-    private static OnRail.Result<string> FailFunctionReturnResultWithString() =>
-        OnRail.Result<string>.Fail(new BadRequestError());
-
-    private static OnRail.Result<string> FailFunctionReturnResultWithString(string input) =>
-        OnRail.Result<string>.Fail(new BadRequestError());
+    private static Result<string> FailFunctionReturnResultWithString(string input) =>
+        Result<string>.Fail(new BadRequestError());
 
     [Fact]
     public void Try_FailAction_ReturnExceptionError() {
         var result = TryExtensions.Try(FailAction);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ExceptionError);
-        Assert.Single(result.Detail.MoreDetails!);
-
-        var numOfTry = result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single();
-        Assert.Equal(1, numOfTry);
+        MustExceptionError(result, 1);
     }
 
     [Fact]
@@ -111,14 +154,7 @@ public class TryExtensionsTest {
         const int numOfTry = 3;
         var result = TryExtensions.Try(FailAction, numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ExceptionError);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - exceptions
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<Exception>)).Single() as List<Exception>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustExceptionError(result, numOfTry);
     }
 
     [Fact]
@@ -134,14 +170,7 @@ public class TryExtensionsTest {
         const int numOfTry = 3;
         var result = TryExtensions.Try(() => FailActionWithInput("input"), numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ExceptionError);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - exceptions
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<Exception>)).Single() as List<Exception>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustExceptionError(result, numOfTry);
     }
 
     [Fact]
@@ -159,14 +188,7 @@ public class TryExtensionsTest {
         const string input = "input";
         var result = input.Try(FailActionWithInput, numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ExceptionError);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - exceptions
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<Exception>)).Single() as List<Exception>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustExceptionError(result, numOfTry);
     }
 
     [Fact]
@@ -182,14 +204,7 @@ public class TryExtensionsTest {
         const int numOfTry = 3;
         var result = TryExtensions.Try(FailFunctionReturnString, numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ExceptionError);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - exceptions
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<Exception>)).Single() as List<Exception>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustExceptionError(result, numOfTry);
     }
 
     [Fact]
@@ -205,14 +220,7 @@ public class TryExtensionsTest {
         const int numOfTry = 3;
         var result = TryExtensions.Try(FailFunctionReturnResultWithString, numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ErrorDetail);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - errors
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<object>)).Single() as List<object>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustErrorDetail(result, numOfTry);
     }
 
     [Fact]
@@ -228,14 +236,7 @@ public class TryExtensionsTest {
         const int numOfTry = 3;
         var result = TryExtensions.Try(FailFunctionReturnResult, numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ErrorDetail);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - errors
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<object>)).Single() as List<object>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustErrorDetail(result, numOfTry);
     }
 
     [Fact]
@@ -252,14 +253,7 @@ public class TryExtensionsTest {
         const int numOfTry = 3;
         var result = TryExtensions.Try(() => FailFunctionReturnInput("input"), numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ExceptionError);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - errors
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<Exception>)).Single() as List<Exception>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustExceptionError(result, numOfTry);
     }
 
     [Fact]
@@ -277,13 +271,45 @@ public class TryExtensionsTest {
         const string input = "input";
         var result = TryExtensions.Try(() => FailFunctionReturnResultWithString(input), numOfTry);
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.Detail is ErrorDetail);
-        Assert.Equal(2, result.Detail.MoreDetails?.Count); // numOfTry - errors
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
-
-        var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<object>)).Single() as List<object>;
-        Assert.Equal(numOfTry, exceptions!.Count);
+        MustErrorDetail(result, numOfTry);
     }
+
+    #endregion
+
+    #region TryAsync
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionReturnValue_ReturnValue() {
+        var result = await TryExtensions.TryAsync(() => Task.FromResult(SuccessStr));
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(SuccessStr, result.Value);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionReturnValue_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var result = await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnString()), numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionReturnResultWithValue_ReturnResultWithValue() {
+        var result = await TryExtensions.TryAsync(() => Task.FromResult(SuccessfulFunctionReturnResultWithString()));
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(SuccessStr, result.Value);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionReturnResultWithValue_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var result =
+            await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnResultWithString()), numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    #endregion
 }

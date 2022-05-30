@@ -4,24 +4,6 @@ using OnRail.ResultDetails.Errors;
 namespace OnRail.Extensions;
 
 public static class TryExtensions {
-    #region Try
-
-    public static Result<TResult> Try<TResult>(
-        Func<TResult> function, int numOfTry = 1) {
-        var errors = new List<Exception>(numOfTry);
-
-        for (var counter = 0; counter < numOfTry; counter++) {
-            try {
-                return Result<TResult>.Ok(function());
-            }
-            catch (Exception e) {
-                errors.Add(e);
-            }
-        }
-
-        return Result<TResult>.Fail(GenerateExceptionError(errors, numOfTry));
-    }
-
     private static ExceptionError GenerateExceptionError(IReadOnlyCollection<Exception> exceptions, int numOfTry) {
         var lastItem = exceptions.Last();
         var failResult = new ExceptionError(lastItem, message: lastItem.Message, moreDetails: new {numOfTry});
@@ -30,6 +12,24 @@ public static class TryExtensions {
             failResult.AddDetail(exceptions);
 
         return failResult;
+    }
+
+    #region Try
+
+    public static Result<T> Try<T>(
+        Func<T> function, int numOfTry = 1) {
+        var errors = new List<Exception>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
+            try {
+                return Result<T>.Ok(function());
+            }
+            catch (Exception e) {
+                errors.Add(e);
+            }
+        }
+
+        return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
     public static Result Try(
@@ -57,8 +57,8 @@ public static class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
-    public static Result<TResult> Try<TResult>(
-        Func<Result<TResult>> function, int numOfTry = 1) {
+    public static Result<T> Try<T>(
+        Func<Result<T>> function, int numOfTry = 1) {
         var errors = new List<object>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
@@ -79,7 +79,7 @@ public static class TryExtensions {
 
         var errorDetail = new ErrorDetail(moreDetails: errors);
         errorDetail.AddDetail(new {numOfTry});
-        return Result<TResult>.Fail(errorDetail);
+        return Result<T>.Fail(errorDetail);
     }
 
     public static Result Try(Action action, int numOfTry = 1) {
@@ -122,41 +122,50 @@ public static class TryExtensions {
 
     public static async Task<Result<T>> TryAsync<T>(
         Func<Task<T>> function,
-        int numOfTry) {
-        var counter = 0;
-        while (true) {
+        int numOfTry = 1) {
+        var errors = new List<Exception>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 return Result<T>.Ok(await function());
             }
             catch (Exception e) {
-                counter++;
-                if (counter >= numOfTry)
-                    return Result<T>.Fail(new ExceptionError(e,
-                        moreDetails: new {numOfTry}));
+                errors.Add(e);
             }
         }
+
+        return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
     public static async Task<Result<T>> TryAsync<T>(
         Func<Task<Result<T>>> function,
-        int numOfTry) {
-        var counter = 0;
-        while (true) {
+        int numOfTry = 1) {
+        var errors = new List<object>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
             try {
-                return await function();
+                var result = await function();
+
+                if (result.IsSuccess)
+                    return result;
+                if (numOfTry == 1)
+                    return result;
+
+                errors.Add(result.Detail);
             }
             catch (Exception e) {
-                counter++;
-                if (counter >= numOfTry)
-                    return Result<T>.Fail(new ExceptionError(e,
-                        moreDetails: new {numOfTry}));
+                errors.Add(e);
             }
         }
+
+        var errorDetail = new ErrorDetail(moreDetails: errors);
+        errorDetail.AddDetail(new {numOfTry});
+        return Result<T>.Fail(errorDetail);
     }
 
     public static async Task<Result> TryAsync(
         Func<Task> function,
-        int numOfTry) {
+        int numOfTry = 1) {
         var counter = 0;
         while (true) {
             try {
@@ -174,7 +183,7 @@ public static class TryExtensions {
 
     public static async Task<Result> TryAsync(
         Func<Task<Result>> function,
-        int numOfTry
+        int numOfTry = 1
     ) {
         var counter = 0;
         while (true) {
@@ -193,7 +202,7 @@ public static class TryExtensions {
     public static Task<Result> TryAsync<TSource>(
         this TSource @this,
         Func<TSource, Task> function,
-        int numOfTry
+        int numOfTry = 1
     ) => TryAsync(() => function(@this), numOfTry);
 
     public static async Task<Result> TryAsync<TSource>(
@@ -221,18 +230,6 @@ public static class TryExtensions {
         }
         catch (Exception e) {
             return Result.Fail(new ExceptionError(e, e.Message));
-        }
-    }
-
-    public static async Task<Result<T>> TryAsync<T>(
-        Func<Task<T>> onSuccessFunction
-    ) {
-        try {
-            var result = await onSuccessFunction();
-            return Result<T>.Ok(result);
-        }
-        catch (Exception e) {
-            return Result<T>.Fail(new ExceptionError(e, e.Message));
         }
     }
 
@@ -326,7 +323,7 @@ public static class TryExtensions {
     public static async Task<Result> TryAsync<TSource>(
         this Task<TSource> @this,
         Func<TSource, Task> function,
-        int numOfTry
+        int numOfTry = 1
     ) {
         var t = await @this;
         return await TryAsync(() => function(t), numOfTry);
@@ -335,13 +332,13 @@ public static class TryExtensions {
     public static Task<Result> TryAsync<TSource>(
         this TSource @this,
         Func<TSource, Task<Result>> function,
-        int numOfTry
+        int numOfTry = 1
     ) => TryAsync(() => function(@this), numOfTry);
 
     public static async Task<Result> TryAsync<TSource>(
         this Task<TSource> @this,
         Func<TSource, Task<Result>> function,
-        int numOfTry
+        int numOfTry = 1
     ) {
         var t = await @this;
         return await TryAsync(() => function(t), numOfTry);
