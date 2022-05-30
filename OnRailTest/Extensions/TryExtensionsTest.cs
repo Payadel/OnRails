@@ -311,5 +311,247 @@ public class TryExtensionsTest {
         MustErrorDetail(result, numOfTry);
     }
 
+    [Fact]
+    public async Task TryAsync_SuccessFunctionReturnTask_ReturnTask() {
+        var result = await TryExtensions.TryAsync(() => Task.Run(SuccessfulAction));
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionReturnTask_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var result = await TryExtensions.TryAsync(() => Task.Run(FailAction), numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionReturnTaskResult_ReturnTaskResult() {
+        var result = await TryExtensions.TryAsync(() => Task.FromResult(SuccessfulFunctionReturnResult()));
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionReturnTaskResult_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var result = await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionReturnTaskAndValue_ReturnTaskResult() {
+        var result = await SuccessStr.TryAsync(_ => Task.Run(SuccessfulAction));
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionReturnTaskAndValue_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var result = await SuccessStr.TryAsync(_ => Task.Run(FailAction), numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessActionWithInputAndCorrectValue_ReturnTaskResult() {
+        var @this = Task.FromResult(SuccessStr);
+        var result = await @this.TryAsync(SuccessfulActionWithInput);
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailValueCorrectActionWithInput_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.Run(FailFunctionReturnString);
+        var result = await @this.TryAsync(SuccessfulActionWithInput, numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailActionWithInputCorrectValue_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.Run(SuccessfulFunctionReturnString);
+        var result = await @this.TryAsync(FailActionWithInput, numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessActionAndCorrectTaskValue_ReturnTaskResult() {
+        var @this = Task.FromResult(SuccessStr);
+        var result = await @this.TryAsync(SuccessfulAction);
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailTaskValueCorrectAction_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.Run(FailFunctionReturnString);
+        var result = await @this.TryAsync(SuccessfulAction, numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailActionCorrectTaskValue_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.Run(SuccessfulFunctionReturnString);
+        var result = await @this.TryAsync(FailAction, numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessActionAndCorrectTask_ReturnTaskResult() {
+        var @this = Task.Run(() => { });
+        var result = await @this.TryAsync(SuccessfulAction);
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailTaskCorrectAction_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.Run(FailAction);
+        var result = await @this.TryAsync(SuccessfulAction, numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailActionCorrectTask_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.Run(() => { });
+        var result = await @this.TryAsync(FailAction, numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionAndCorrectTask_ReturnTaskResult() {
+        var @this = Task.Run(() => { });
+        var result = await @this.TryAsync(SuccessfulFunctionReturnResult);
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailTaskCorrectFunction_ReturnErrorDetail() {
+        const int numOfTry = 3;
+        var @this = Task.Run(FailAction);
+        var result = await @this.TryAsync(SuccessfulFunctionReturnResult, numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionCorrectTask_ReturnErrorDetail() {
+        const int numOfTry = 3;
+        var @this = Task.Run(() => { });
+        var result = await @this.TryAsync(FailFunctionReturnResult, numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionWithResultAndCorrectTask_ReturnTaskResult() {
+        var @this = Task.Run(() => { });
+        var result = await @this.TryAsync(() => Task.FromResult(SuccessfulFunctionReturnResult()));
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailTaskCorrectFunctionWithResult_ReturnErrorDetail() {
+        const int numOfTry = 3;
+        var @this = Task.Run(FailAction);
+        var result = await @this.TryAsync(() => Task.FromResult(SuccessfulFunctionReturnResult()), numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionWithResultCorrectTask_ReturnErrorDetail() {
+        const int numOfTry = 3;
+        var @this = Task.Run(() => { });
+        var result = await @this.TryAsync(() => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionWithInputAndCorrectTaskWithValue_ReturnTaskResult() {
+        var @this = Task.FromResult(SuccessStr);
+        var result = await @this.TryAsync(input => Task.FromResult(SuccessfulFunctionReturnInput(input)));
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailTaskWithValueAndCorrectFunctionWithInput_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.Run(FailFunctionReturnString);
+        var result = await @this.TryAsync(input => Task.FromResult(SuccessfulFunctionReturnInput(input)), numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionWithInputCorrectTaskWithValue_ReturnExceptionError() {
+        const int numOfTry = 3;
+        var @this = Task.FromResult(SuccessStr);
+        var result = await @this.TryAsync(input => Task.FromResult(FailFunctionReturnInput(input)), numOfTry);
+
+        MustExceptionError(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionReturnTaskResultAndValue_ReturnTaskResult() {
+        var result = await SuccessStr.TryAsync(_ => Task.FromResult(SuccessfulFunctionReturnResult()));
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionReturnTaskResultAndValue_ReturnErrorDetail() {
+        const int numOfTry = 3;
+        var result = await SuccessStr.TryAsync(_ => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_SuccessFunctionWithInputTaskResultAndCorrectTaskValue_ReturnTaskResult() {
+        var @this = Task.FromResult(SuccessStr);
+        var result = await @this.TryAsync<string>(s => Task.FromResult(SuccessfulFunctionReturnResult()));
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailTaskValueCorrectFunctionWithInputTaskResul_ReturnErrorDetail() {
+        const int numOfTry = 3;
+        var @this = Task.Run(FailFunctionReturnString);
+        var result = await @this.TryAsync<string>(s => Task.FromResult(SuccessfulFunctionReturnResult()), numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
+    [Fact]
+    public async Task TryAsync_FailFunctionWithInputTaskResulCorrectTaskValue_ReturnErrorDetail() {
+        const int numOfTry = 3;
+        var @this = Task.FromResult(SuccessStr);
+        var result = await @this.TryAsync<string>(s => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+
+        MustErrorDetail(result, numOfTry);
+    }
+
     #endregion
 }
