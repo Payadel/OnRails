@@ -22,7 +22,7 @@ public class ResultTest {
     [Fact]
     public void Fail() {
         var result = OnRail.Result.Fail();
-        
+
         Assert.False(result.IsSuccess);
     }
 }
@@ -32,7 +32,7 @@ public class ResultWithValue {
     public void Ok() {
         const string value = "value";
         var result = Result<string>.Ok(value);
-        
+
         Assert.True(result.IsSuccess);
         Assert.Equal(result.Value, value);
     }
@@ -47,11 +47,11 @@ public class ResultWithValue {
         Assert.StrictEqual(result.Detail, resultDetail);
         Assert.Equal(result.Value, value);
     }
-    
+
     [Fact]
     public void Fail() {
         var result = Result<string>.Fail();
-        
+
         Assert.False(result.IsSuccess);
         Assert.Null(result.Value);
     }
