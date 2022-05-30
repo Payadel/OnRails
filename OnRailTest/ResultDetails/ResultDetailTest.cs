@@ -1,7 +1,6 @@
-using System;
 using OnRail.ResultDetails;
 
-namespace OnRailTest;
+namespace OnRailTest.ResultDetails;
 
 public class ResultDetailTest {
     [Fact]
