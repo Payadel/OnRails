@@ -1,13 +1,10 @@
 using OnRail.Extensions;
 using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
-using Xunit.Abstractions;
 
 namespace OnRailTest.Extensions;
 
 public class TryExtensionsTest {
-    public TryExtensionsTest(ITestOutputHelper testOutputHelper) { }
-
     private const string SuccessStr = "Success";
     private static void SuccessfulAction() { }
     private static void SuccessfulActionWithInput(string input) { }
@@ -131,7 +128,7 @@ public class TryExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ExceptionError);
     }
-    
+
     [Fact]
     public void Try_FailActionWithInputRepeat_ReturnExceptionError() {
         const int numOfTry = 3;
@@ -155,7 +152,7 @@ public class TryExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ExceptionError);
     }
-    
+
     [Fact]
     public void Try_FailActionWithInputRepeat2_ReturnExceptionError() {
         const int numOfTry = 3;
@@ -179,7 +176,7 @@ public class TryExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ExceptionError);
     }
-    
+
     [Fact]
     public void Try_FailFunctionRepeat_ReturnExceptionError() {
         const int numOfTry = 3;
@@ -202,7 +199,7 @@ public class TryExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is BadRequestError);
     }
-    
+
     [Fact]
     public void Try_FailFunctionRepeat_ReturnErrorDetail() {
         const int numOfTry = 3;
@@ -225,7 +222,7 @@ public class TryExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ErrorDetail);
     }
-    
+
     [Fact]
     public void Try_FailFunctionReturnResult_ReturnErrorDetail() {
         const int numOfTry = 3;
@@ -249,7 +246,7 @@ public class TryExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ExceptionError);
     }
-    
+
     [Fact]
     public void Try_FailFunctionReturnResultRepeat_ReturnExceptionError() {
         const int numOfTry = 3;
@@ -273,7 +270,7 @@ public class TryExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ErrorDetail);
     }
-    
+
     [Fact]
     public void Try_FailFunctionReturnResultWithString_ReturnErrorDetail() {
         const int numOfTry = 3;
