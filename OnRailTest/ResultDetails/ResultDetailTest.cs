@@ -34,41 +34,51 @@ public class ResultDetailTest {
     }
 
     [Fact]
-    public void GetDetailProperty_GetExistObj_ReturnObject() {
+    public void GetMoreDetailProperties_GetExistObj_ReturnObject() {
         var result = new ResultDetail("Title");
         result.AddDetail(new {duplicate_Obj = "duplicate_Obj", obj2 = "obj2"});
         result.AddDetail(new {duplicate_Obj = "duplicate_Obj"});
 
-        var objs = result.GetDetailProperty("obj2", typeof(string));
+        var objs = result.GetMoreDetailProperties("obj2", typeof(string));
         Assert.Single(objs);
         Assert.Equal("obj2", objs.Single());
-        
-        Assert.Equal(2,result.GetDetailProperty("duplicate_Obj", typeof(string)).Count);
+
+        Assert.Equal(2, result.GetMoreDetailProperties("duplicate_Obj", typeof(string)).Count);
     }
 
     [Fact]
-    public void GetDetailProperty_GetNotExistObj_ReturnEmptyList() {
+    public void GetMoreDetailProperties_GetExistObjWithType_ReturnObject() {
+        var result = new ResultDetail("Title");
+        var list = new List<string> {"1", "2"};
+        result.AddDetail(new {obj = "obj"});
+        result.AddDetail(list);
+
+        var objs = result.GetMoreDetailProperties(type: typeof(List<string>));
+        Assert.Single(objs);
+        Assert.Equal(2, (objs.Single() as List<string>)?.Count);
+    }
+
+    [Fact]
+    public void GetMoreDetailProperties_GetNotExistObj_ReturnEmptyList() {
         var result = new ResultDetail("Title");
         result.AddDetail(new {obj1 = "obj1", obj2 = "obj2-exist"});
         result.AddDetail(new {obj3 = "obj3"});
 
-        Assert.False(result.GetDetailProperty("not-exist", typeof(string)).Any());
-        Assert.False(result.GetDetailProperty("obj2-exist", typeof(int)).Any()); //invalid type
+        Assert.False(result.GetMoreDetailProperties("not-exist", typeof(string)).Any());
+        Assert.False(result.GetMoreDetailProperties("obj2-exist", typeof(int)).Any()); //invalid type
     }
 
     [Fact]
-    public void GetDetailProperty_NoMoreDetails_ReturnEmptyList() {
+    public void GetMoreDetailProperties_NoMoreDetails_ReturnEmptyList() {
         var result = new ResultDetail("Title");
 
-        Assert.False(result.GetDetailProperty("not-exist", typeof(string)).Any());
+        Assert.False(result.GetMoreDetailProperties("not-exist", typeof(string)).Any());
     }
 
     [Fact]
-    public void GetDetailProperty_InvalidInputs_throwArgumentException() {
+    public void GetMoreDetailProperties_InvalidInput_throwArgumentException() {
         var result = new ResultDetail("Title");
 
-        Assert.Throws<ArgumentException>(() => result.GetDetailProperty(string.Empty, typeof(string)));
-        Assert.Throws<ArgumentException>(() => result.GetDetailProperty(" ", typeof(string)));
-        Assert.Throws<ArgumentNullException>(() => result.GetDetailProperty("Correct", null!));
+        Assert.Throws<ArgumentException>(() => result.GetMoreDetailProperties());
     }
 }

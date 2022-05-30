@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace OnRail.ResultDetails;
 
 public class ResultDetail {
@@ -24,17 +26,33 @@ public class ResultDetail {
         MoreDetails.Add(newDetail);
     }
 
-    public List<object> GetDetailProperty(string name, Type type) {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
-        if (type == null) throw new ArgumentNullException(nameof(type));
+    public List<object> GetMoreDetailProperties(string? name = null, Type? type = null) {
+        if (string.IsNullOrWhiteSpace(name) && type is null)
+            throw new ArgumentException("At least one of the inputs must not be empty.");
         if (MoreDetails is null || !MoreDetails.Any())
             return new List<object>();
 
-        return MoreDetails.Select(detail => detail.GetType()
-                .GetProperties()
-                .SingleOrDefault(prop => prop.Name == name && prop.PropertyType == type)
-                ?.GetValue(detail, null))
-            .Where(obj => obj is not null).ToList()!;
+        var result = new List<object>();
+        foreach (var detail in MoreDetails) {
+            if (string.IsNullOrWhiteSpace(name) && detail.GetType() == type) {
+                //The whole object is our target
+                result.Add(detail);
+                continue;
+            }
+
+            var props = detail.GetType().GetProperties();
+
+            IEnumerable<PropertyInfo> propertyInfos = new List<PropertyInfo>();
+            if (!string.IsNullOrWhiteSpace(name))
+                propertyInfos = props.Where(prop => prop.Name == name);
+            if (type is not null)
+                propertyInfos = propertyInfos.Where(prop => prop.PropertyType == type);
+
+            var objs = propertyInfos.Select(prop => prop.GetValue(detail, null))
+                .Where(obj => obj is not null);
+            result.AddRange(objs!);
+        }
+
+        return result;
     }
 }
