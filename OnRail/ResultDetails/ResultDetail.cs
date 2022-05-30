@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace OnRail.ResultDetails;
 
 public class ResultDetail {
@@ -25,5 +22,19 @@ public class ResultDetail {
             return;
         MoreDetails ??= new List<object>();
         MoreDetails.Add(newDetail);
+    }
+
+    public List<object> GetDetailProperty(string name, Type type) {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
+        if (type == null) throw new ArgumentNullException(nameof(type));
+        if (MoreDetails is null || !MoreDetails.Any())
+            return new List<object>();
+
+        return MoreDetails.Select(detail => detail.GetType()
+                .GetProperties()
+                .SingleOrDefault(prop => prop.Name == name && prop.PropertyType == type)
+                ?.GetValue(detail, null))
+            .Where(obj => obj is not null).ToList()!;
     }
 }
