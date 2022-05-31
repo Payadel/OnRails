@@ -38,16 +38,16 @@ public class ThrowExceptionExtensionsTest {
         Assert.True(result.IsSuccess);
         Assert.Equal("Ok", result.Value);
     }
-    
+
     [Fact]
     public void ThrowExceptionOnFail_FailConditionWithResult_ReturnResult() {
         CheckThrowException(() => Result<string>.Fail(_error)
             .ThrowExceptionOnFail());
-        
+
         CheckThrowException(() => Result<string>.Fail(_error)
             .ThrowExceptionOnFail(new Exception()));
     }
-    
+
     [Fact]
     public void ThrowExceptionOnFail_SuccessfulCondition_ReturnResult() {
         var result = Result.Ok()
@@ -56,12 +56,12 @@ public class ThrowExceptionExtensionsTest {
 
         Assert.True(result.IsSuccess);
     }
-    
+
     [Fact]
     public void ThrowExceptionOnFail_FailConditionsWith_ReturnResult() {
         CheckThrowException(() => Result.Fail(_error)
             .ThrowExceptionOnFail());
-        
+
         CheckThrowException(() => Result.Fail(_error)
             .ThrowExceptionOnFail(new Exception()));
     }

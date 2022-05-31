@@ -5,75 +5,75 @@ public static class UsingExtensions {
 
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
-        Func<TSource, TResult> function) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                return function(obj);
-            }
-        });
+        Func<TSource, TResult> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(() => function(obj), numOfTry);
+        }
+    }
 
     public static Result Using<T>(
         this T obj,
-        Func<T, Result> function) where T : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                return function(obj);
-            }
-        });
+        Func<T, Result> function,
+        int numOfTry = 1) where T : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(() => function(obj), numOfTry);
+        }
+    }
 
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
-        Func<TSource, Result<TResult>> function) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                return function(obj);
-            }
-        });
+        Func<TSource, Result<TResult>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(() => function(obj), numOfTry);
+        }
+    }
 
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
-        Func<TResult> function) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                return function();
-            }
-        });
+        Func<TResult> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(function, numOfTry);
+        }
+    }
 
     public static Result Using<TSource>(
         this TSource obj,
-        Func<Result> function) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                return function();
-            }
-        });
+        Func<Result> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(function, numOfTry);
+        }
+    }
 
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
-        Func<Result<TResult>> function) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                return function();
-            }
-        });
+        Func<Result<TResult>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(function, numOfTry);
+        }
+    }
 
     public static Result Using<TSource>(
         this TSource obj,
-        Action<TSource> action) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                action(obj);
-            }
-        });
+        Action<TSource> action,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(() => action(obj), numOfTry);
+        }
+    }
 
     public static Result Using<TSource>(
         this TSource obj,
-        Action action) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                action();
-            }
-        });
+        Action action,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.Try(action, numOfTry);
+        }
+    }
 
     #endregion
 
@@ -81,57 +81,57 @@ public static class UsingExtensions {
 
     public static Task<Result<TResult>> UsingAsync<TSource, TResult>(
         this TSource obj,
-        Func<TSource, Task<TResult>> function) where TSource : IDisposable =>
-        TryExtensions.TryAsync(async () => {
-            using (obj) {
-                return await function(obj);
-            }
-        });
+        Func<TSource, Task<TResult>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.TryAsync(() => function(obj), numOfTry);
+        }
+    }
 
     public static Task<Result> UsingAsync<TSource>(
         this TSource obj,
-        Func<Task<Result>> function) where TSource : IDisposable =>
-        TryExtensions.TryAsync(async () => {
-            using (obj) {
-                return await function();
-            }
-        });
+        Func<Task<Result>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.TryAsync(function, numOfTry);
+        }
+    }
 
     public static Task<Result> UsingAsync<TSource>(
         this TSource obj,
-        Func<TSource, Task<Result>> function) where TSource : IDisposable =>
-        TryExtensions.TryAsync(async () => {
-            using (obj) {
-                return await function(obj);
-            }
-        });
+        Func<TSource, Task<Result>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.TryAsync(() => function(obj), numOfTry);
+        }
+    }
 
     public static Task<Result<TResult>> UsingAsync<TSource, TResult>(
         this TSource obj,
-        Func<TSource, Task<Result<TResult>>> function) where TSource : IDisposable =>
-        TryExtensions.TryAsync(async () => {
-            using (obj) {
-                return await function(obj);
-            }
-        });
+        Func<TSource, Task<Result<TResult>>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.TryAsync(() => function(obj), numOfTry);
+        }
+    }
 
     public static Task<Result<TResult>> UsingAsync<TSource, TResult>(
         this TSource obj,
-        Func<Task<TResult>> function) where TSource : IDisposable =>
-        TryExtensions.TryAsync(async () => {
-            using (obj) {
-                return await function();
-            }
-        });
+        Func<Task<TResult>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.TryAsync(function, numOfTry);
+        }
+    }
 
     public static Task<Result<TResult>> UsingAsync<TSource, TResult>(
         this TSource obj,
-        Func<Task<Result<TResult>>> function) where TSource : IDisposable =>
-        TryExtensions.TryAsync(async () => {
-            using (obj) {
-                return await function();
-            }
-        });
+        Func<Task<Result<TResult>>> function,
+        int numOfTry = 1) where TSource : IDisposable {
+        using (obj) {
+            return TryExtensions.TryAsync(function, numOfTry);
+        }
+    }
 
     #endregion
 

@@ -1,6 +1,8 @@
 using OnRail;
 using OnRail.Extensions;
+using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
+using Xunit.Sdk;
 
 namespace OnRailTest.Extensions;
 
@@ -12,6 +14,14 @@ public class UsingExtensionsTest {
             IsDisposed = true;
             GC.SuppressFinalize(this);
         }
+    }
+
+    private const int DefaultNumOfTry = 4;
+
+    private static void EnsureTryWrapperValid(ResultDetail resultDetail) {
+        var lastException = (resultDetail.GetMoreDetailProperties(type: typeof(List<object>))
+            .SingleOrDefault() as List<object>)?.Last();
+        Assert.True(lastException is not FalseException);
     }
 
     #region Using
@@ -33,11 +43,12 @@ public class UsingExtensionsTest {
         Assert.False(disposableObj.IsDisposed);
 
         void Action() => throw new Exception();
-        var result = disposableObj.Using(Action);
+        var result = disposableObj.Using(Action, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ExceptionError);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -57,11 +68,12 @@ public class UsingExtensionsTest {
         Assert.False(disposableObj.IsDisposed);
 
         void Action(Disposable obj) => throw new Exception();
-        var result = disposableObj.Using(Action);
+        var result = disposableObj.Using(Action, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
         Assert.True(result.Detail is ExceptionError);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -88,10 +100,11 @@ public class UsingExtensionsTest {
             Assert.False(obj.IsDisposed);
             throw new Exception();
             return "result";
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -117,10 +130,11 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(obj => {
             Assert.False(obj.IsDisposed);
             return Result<string>.Fail();
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
 
@@ -148,10 +162,11 @@ public class UsingExtensionsTest {
             Assert.False(disposableObj.IsDisposed);
             throw new Exception();
             return "result";
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -177,10 +192,11 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             return Result<string>.Fail();
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -205,10 +221,11 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             return Result.Fail();
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -233,10 +250,11 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(obj => {
             Assert.False(disposableObj.IsDisposed);
             return Result.Fail();
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     #endregion
@@ -267,10 +285,11 @@ public class UsingExtensionsTest {
             Assert.False(obj.IsDisposed);
             throw new Exception();
             return Task.FromResult("result");
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -296,10 +315,11 @@ public class UsingExtensionsTest {
         var result = await disposableObj.UsingAsync(obj => {
             Assert.False(obj.IsDisposed);
             return Task.FromResult(Result<string>.Fail());
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -325,10 +345,11 @@ public class UsingExtensionsTest {
         var result = await disposableObj.UsingAsync(() => {
             Assert.False(disposableObj.IsDisposed);
             return Task.FromResult(Result<string>.Fail());
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -353,10 +374,11 @@ public class UsingExtensionsTest {
         var result = await disposableObj.UsingAsync(() => {
             Assert.False(disposableObj.IsDisposed);
             return Task.FromResult(Result.Fail());
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -381,10 +403,11 @@ public class UsingExtensionsTest {
         var result = await disposableObj.UsingAsync(obj => {
             Assert.False(obj.IsDisposed);
             return Task.FromResult(Result.Fail());
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
@@ -411,10 +434,11 @@ public class UsingExtensionsTest {
             Assert.False(disposableObj.IsDisposed);
             throw new Exception();
             return Task.FromResult("result");
-        });
+        }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
         Assert.False(result.IsSuccess);
+        EnsureTryWrapperValid(result.Detail);
     }
 
     #endregion
