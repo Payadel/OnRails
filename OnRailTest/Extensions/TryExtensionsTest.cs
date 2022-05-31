@@ -7,7 +7,8 @@ namespace OnRailTest.Extensions;
 
 public class TryExtensionsTest {
     #region TestMethods
-
+    
+    private const int DefaultNumOfTry = 3;
     private const string SuccessStr = "Success";
     private static void SuccessfulAction() { }
     private static void SuccessfulActionWithInput(string input) { }
@@ -60,7 +61,7 @@ public class TryExtensionsTest {
     }
 
     private static void MustErrorDetail(ResultBase result, int numOfTry) {
-        MustError(result, numOfTry);
+        MustError(result, DefaultNumOfTry);
 
         Assert.True(result.Detail is ErrorDetail);
         var exceptions =
@@ -151,10 +152,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailActionWithRepeat_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = TryExtensions.Try(FailAction, numOfTry);
+        var result = TryExtensions.Try(FailAction, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -167,10 +167,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailActionWithInputRepeat_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = TryExtensions.Try(() => FailActionWithInput("input"), numOfTry);
+        var result = TryExtensions.Try(() => FailActionWithInput("input"), DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -184,11 +183,10 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailActionWithInputRepeat2_ReturnExceptionError() {
-        const int numOfTry = 3;
         const string input = "input";
-        var result = input.Try(FailActionWithInput, numOfTry);
+        var result = input.Try(FailActionWithInput, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -201,10 +199,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailFunctionRepeat_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = TryExtensions.Try(FailFunctionReturnString, numOfTry);
+        var result = TryExtensions.Try(FailFunctionReturnString, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -217,10 +214,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailFunctionRepeat_ReturnErrorDetail() {
-        const int numOfTry = 3;
-        var result = TryExtensions.Try(FailFunctionReturnResultWithString, numOfTry);
+        var result = TryExtensions.Try(FailFunctionReturnResultWithString, DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -233,10 +229,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailFunctionReturnResult_ReturnErrorDetail() {
-        const int numOfTry = 3;
-        var result = TryExtensions.Try(FailFunctionReturnResult, numOfTry);
+        var result = TryExtensions.Try(FailFunctionReturnResult, DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -250,10 +245,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailFunctionReturnResultRepeat_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = TryExtensions.Try(() => FailFunctionReturnInput("input"), numOfTry);
+        var result = TryExtensions.Try(() => FailFunctionReturnInput("input"), DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -267,11 +261,10 @@ public class TryExtensionsTest {
 
     [Fact]
     public void Try_FailFunctionReturnResultWithString_ReturnErrorDetail() {
-        const int numOfTry = 3;
         const string input = "input";
-        var result = TryExtensions.Try(() => FailFunctionReturnResultWithString(input), numOfTry);
+        var result = TryExtensions.Try(() => FailFunctionReturnResultWithString(input), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     #endregion
@@ -288,10 +281,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailFunctionReturnValue_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnString()), numOfTry);
+        var result = await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnString()), DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -304,11 +296,10 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailFunctionReturnResultWithValue_ReturnExceptionError() {
-        const int numOfTry = 3;
         var result =
-            await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnResultWithString()), numOfTry);
+            await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnResultWithString()), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -320,10 +311,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailFunctionReturnTask_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = await TryExtensions.TryAsync(() => Task.Run(FailAction), numOfTry);
+        var result = await TryExtensions.TryAsync(() => Task.Run(FailAction), DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -335,10 +325,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailFunctionReturnTaskResult_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+        var result = await TryExtensions.TryAsync(() => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -350,10 +339,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailFunctionReturnTaskAndValue_ReturnExceptionError() {
-        const int numOfTry = 3;
-        var result = await SuccessStr.TryAsync(_ => Task.Run(FailAction), numOfTry);
+        var result = await SuccessStr.TryAsync(_ => Task.Run(FailAction), DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -366,20 +354,18 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailValueCorrectActionWithInput_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.TryAsync(SuccessfulActionWithInput, numOfTry);
+        var result = await @this.TryAsync(SuccessfulActionWithInput, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailActionWithInputCorrectValue_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.Run(SuccessfulFunctionReturnString);
-        var result = await @this.TryAsync(FailActionWithInput, numOfTry);
+        var result = await @this.TryAsync(FailActionWithInput, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -392,20 +378,18 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailTaskValueCorrectAction_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.TryAsync(SuccessfulAction, numOfTry);
+        var result = await @this.TryAsync(SuccessfulAction, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailActionCorrectTaskValue_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.Run(SuccessfulFunctionReturnString);
-        var result = await @this.TryAsync(FailAction, numOfTry);
+        var result = await @this.TryAsync(FailAction, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -418,20 +402,18 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailTaskCorrectAction_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.Run(FailAction);
-        var result = await @this.TryAsync(SuccessfulAction, numOfTry);
+        var result = await @this.TryAsync(SuccessfulAction, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailActionCorrectTask_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.Run(() => { });
-        var result = await @this.TryAsync(FailAction, numOfTry);
+        var result = await @this.TryAsync(FailAction, DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -444,20 +426,18 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailTaskCorrectFunction_ReturnErrorDetail() {
-        const int numOfTry = 3;
         var @this = Task.Run(FailAction);
-        var result = await @this.TryAsync(SuccessfulFunctionReturnResult, numOfTry);
+        var result = await @this.TryAsync(SuccessfulFunctionReturnResult, DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailFunctionCorrectTask_ReturnErrorDetail() {
-        const int numOfTry = 3;
         var @this = Task.Run(() => { });
-        var result = await @this.TryAsync(FailFunctionReturnResult, numOfTry);
+        var result = await @this.TryAsync(FailFunctionReturnResult, DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -470,20 +450,18 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailTaskCorrectFunctionWithResult_ReturnErrorDetail() {
-        const int numOfTry = 3;
         var @this = Task.Run(FailAction);
-        var result = await @this.TryAsync(() => Task.FromResult(SuccessfulFunctionReturnResult()), numOfTry);
+        var result = await @this.TryAsync(() => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailFunctionWithResultCorrectTask_ReturnErrorDetail() {
-        const int numOfTry = 3;
         var @this = Task.Run(() => { });
-        var result = await @this.TryAsync(() => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+        var result = await @this.TryAsync(() => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -496,20 +474,18 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailTaskWithValueAndCorrectFunctionWithInput_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.TryAsync(input => Task.FromResult(SuccessfulFunctionReturnInput(input)), numOfTry);
+        var result = await @this.TryAsync(input => Task.FromResult(SuccessfulFunctionReturnInput(input)), DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailFunctionWithInputCorrectTaskWithValue_ReturnExceptionError() {
-        const int numOfTry = 3;
         var @this = Task.FromResult(SuccessStr);
-        var result = await @this.TryAsync(input => Task.FromResult(FailFunctionReturnInput(input)), numOfTry);
+        var result = await @this.TryAsync(input => Task.FromResult(FailFunctionReturnInput(input)), DefaultNumOfTry);
 
-        MustExceptionError(result, numOfTry);
+        MustExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -521,10 +497,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailFunctionReturnTaskResultAndValue_ReturnErrorDetail() {
-        const int numOfTry = 3;
-        var result = await SuccessStr.TryAsync(_ => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+        var result = await SuccessStr.TryAsync(_ => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
@@ -537,20 +512,18 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailTaskValueCorrectFunctionWithInputTaskResul_ReturnErrorDetail() {
-        const int numOfTry = 3;
         var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.TryAsync<string>(s => Task.FromResult(SuccessfulFunctionReturnResult()), numOfTry);
+        var result = await @this.TryAsync<string>(s => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailFunctionWithInputTaskResulCorrectTaskValue_ReturnErrorDetail() {
-        const int numOfTry = 3;
         var @this = Task.FromResult(SuccessStr);
-        var result = await @this.TryAsync<string>(s => Task.FromResult(FailFunctionReturnResult()), numOfTry);
+        var result = await @this.TryAsync<string>(s => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        MustErrorDetail(result, numOfTry);
+        MustErrorDetail(result, DefaultNumOfTry);
     }
 
     #endregion
