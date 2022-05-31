@@ -7,7 +7,7 @@ namespace OnRailTest.Extensions;
 
 public class TryExtensionsTest {
     #region TestMethods
-    
+
     private const int DefaultNumOfTry = 3;
     private const string SuccessStr = "Success";
     private static void SuccessfulAction() { }
@@ -475,7 +475,8 @@ public class TryExtensionsTest {
     [Fact]
     public async Task TryAsync_FailTaskWithValueAndCorrectFunctionWithInput_ReturnExceptionError() {
         var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.TryAsync(input => Task.FromResult(SuccessfulFunctionReturnInput(input)), DefaultNumOfTry);
+        var result = await @this.TryAsync(input => Task.FromResult(SuccessfulFunctionReturnInput(input)),
+            DefaultNumOfTry);
 
         MustExceptionError(result, DefaultNumOfTry);
     }
@@ -513,7 +514,8 @@ public class TryExtensionsTest {
     [Fact]
     public async Task TryAsync_FailTaskValueCorrectFunctionWithInputTaskResul_ReturnErrorDetail() {
         var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.TryAsync<string>(s => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
+        var result =
+            await @this.TryAsync<string>(s => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
         MustErrorDetail(result, DefaultNumOfTry);
     }

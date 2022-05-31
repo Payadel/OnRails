@@ -8,7 +8,5 @@ public class ExceptionError : InternalError {
         MainException = exception;
     }
 
-    private Exception MainException { get; }
-
-    public Exception GetMainException() => MainException;
+    public Exception MainException { get; }
 }
