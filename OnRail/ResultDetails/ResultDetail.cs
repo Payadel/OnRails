@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace OnRail.ResultDetails;
 
 public class ResultDetail {
@@ -19,38 +17,35 @@ public class ResultDetail {
     public int? StatusCode { get; }
     public List<object>? MoreDetails { get; private set; }
 
-    public void AddDetail(object newDetail) {
-        if (newDetail == null!)
-            return;
+    public ResultDetail AddDetail(object newDetail) {
+        if (newDetail == null) throw new ArgumentNullException(nameof(newDetail));
         MoreDetails ??= new List<object>();
         MoreDetails.Add(newDetail);
+        return this;
     }
 
-    public List<object> GetMoreDetailProperties(string? name = null, Type? type = null) {
-        if (string.IsNullOrWhiteSpace(name) && type is null)
-            throw new ArgumentException("At least one of the inputs must not be empty.");
+    public List<T> GetMoreDetailProperties<T>(string? name = null) {
         if (MoreDetails is null || !MoreDetails.Any())
-            return new List<object>();
+            return new List<T>();
 
-        var result = new List<object>();
+        var result = new List<T>();
         foreach (var detail in MoreDetails) {
-            if (string.IsNullOrWhiteSpace(name) && detail.GetType() == type) {
+            if (string.IsNullOrWhiteSpace(name) && detail.GetType() == typeof(T)) {
                 //The whole object is our target
-                result.Add(detail);
+                result.Add((T) detail);
                 continue;
             }
 
-            var props = detail.GetType().GetProperties();
+            var props = detail.GetType().GetProperties()
+                .Where(prop => prop.PropertyType == typeof(T));
 
-            IEnumerable<PropertyInfo> propertyInfos = new List<PropertyInfo>();
             if (!string.IsNullOrWhiteSpace(name))
-                propertyInfos = props.Where(prop => prop.Name == name);
-            if (type is not null)
-                propertyInfos = propertyInfos.Where(prop => prop.PropertyType == type);
+                props = props.Where(prop => prop.Name == name);
 
-            var objs = propertyInfos.Select(prop => prop.GetValue(detail, null))
-                .Where(obj => obj is not null);
-            result.AddRange(objs!);
+            var objs = props.Select(prop => prop.GetValue(detail, null))
+                .Where(obj => obj is not null)
+                .Select(obj => (T) obj!);
+            result.AddRange(objs);
         }
 
         return result;
