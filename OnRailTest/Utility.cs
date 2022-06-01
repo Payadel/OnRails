@@ -18,7 +18,7 @@ public static class Utility {
             Assert.Equal(1, detailsCount);
         }
 
-        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties("numOfTry", typeof(int)).Single());
+        Assert.Equal(numOfTry, result.Detail.GetMoreDetailProperties<int>("numOfTry").Single());
     }
 
     public static void EnsureIsExceptionError(ResultBase result, int numOfTry) {
@@ -29,7 +29,7 @@ public static class Utility {
             return;
 
         var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<Exception>)).Single() as List<Exception>;
+            result.Detail.GetMoreDetailProperties<List<Exception>>().Single() as List<Exception>;
         Assert.Equal(numOfTry, exceptions!.Count);
     }
 
@@ -38,7 +38,7 @@ public static class Utility {
 
         Assert.True(result.Detail is ErrorDetail);
         var exceptions =
-            result.Detail.GetMoreDetailProperties(type: typeof(List<object>)).Single() as List<object>;
+            result.Detail.GetMoreDetailProperties<List<object>>().Single() as List<object>;
         Assert.Equal(numOfTry, exceptions!.Count);
     }
 }

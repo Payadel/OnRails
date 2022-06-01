@@ -14,6 +14,23 @@ public static class TryExtensions {
         return failResult;
     }
 
+    private static Result AddNumOfTry(this Result result,
+        int numOfTry, int maxTryRequested) {
+        result.Detail.AddNumOfTry(numOfTry, maxTryRequested);
+        return result;
+    }
+
+    private static Result<T> AddNumOfTry<T>(this Result<T> result,
+        int numOfTry, int maxTryRequested) {
+        result.Detail.AddNumOfTry(numOfTry, maxTryRequested);
+        return result;
+    }
+
+    private static void AddNumOfTry(this ResultDetail detail,
+        int numOfTry, int maxTryRequested) {
+        detail.AddDetail(new {numOfTry, maxTryRequested});
+    }
+
     #region Try
 
     public static Result<T> Try<T>(
@@ -22,7 +39,8 @@ public static class TryExtensions {
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
-                return Result<T>.Ok(function());
+                return Result<T>.Ok(function())
+                    .AddNumOfTry(counter + 1, numOfTry);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -40,10 +58,10 @@ public static class TryExtensions {
             try {
                 var result = function();
 
-                if (result.IsSuccess)
-                    return result;
-                if (numOfTry == 1)
-                    return result;
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
 
                 errors.Add(result.Detail);
             }
@@ -65,10 +83,10 @@ public static class TryExtensions {
             try {
                 var result = function();
 
-                if (result.IsSuccess)
-                    return result;
-                if (numOfTry == 1)
-                    return result;
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
 
                 errors.Add(result.Detail);
             }
@@ -88,7 +106,7 @@ public static class TryExtensions {
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 action();
-                return Result.Ok();
+                return Result.Ok().AddNumOfTry(counter + 1, numOfTry);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -113,7 +131,8 @@ public static class TryExtensions {
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
-                return Result<T>.Ok(await function());
+                return Result<T>.Ok(await function())
+                    .AddNumOfTry(counter + 1, numOfTry);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -132,10 +151,10 @@ public static class TryExtensions {
             try {
                 var result = await function();
 
-                if (result.IsSuccess)
-                    return result;
-                if (numOfTry == 1)
-                    return result;
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
 
                 errors.Add(result.Detail);
             }
@@ -157,7 +176,8 @@ public static class TryExtensions {
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 await function();
-                return Result.Ok();
+                return Result.Ok()
+                    .AddNumOfTry(counter + 1, numOfTry);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -177,10 +197,10 @@ public static class TryExtensions {
             try {
                 var result = await function();
 
-                if (result.IsSuccess)
-                    return result;
-                if (numOfTry == 1)
-                    return result;
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
 
                 errors.Add(result.Detail);
             }
@@ -211,7 +231,8 @@ public static class TryExtensions {
             try {
                 var source = await @this;
                 onSuccessAction(source);
-                return Result.Ok();
+                return Result.Ok()
+                    .AddNumOfTry(counter + 1, numOfTry);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -238,7 +259,8 @@ public static class TryExtensions {
             try {
                 await @this;
                 onSuccessAction();
-                return Result.Ok();
+                return Result.Ok()
+                    .AddNumOfTry(counter + 1, numOfTry);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -260,10 +282,10 @@ public static class TryExtensions {
                 await @this;
                 var result = onSuccessFunction();
 
-                if (result.IsSuccess)
-                    return result;
-                if (numOfTry == 1)
-                    return result;
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
 
                 errors.Add(result.Detail);
             }
@@ -289,10 +311,10 @@ public static class TryExtensions {
                 await @this;
                 var result = await onSuccessFunction();
 
-                if (result.IsSuccess)
-                    return result;
-                if (numOfTry == 1)
-                    return result;
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
 
                 errors.Add(result.Detail);
             }
@@ -316,7 +338,8 @@ public static class TryExtensions {
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 await onSuccessFunction(await @this);
-                return Result.Ok();
+                return Result.Ok()
+                    .AddNumOfTry(counter + 1, numOfTry);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -343,10 +366,10 @@ public static class TryExtensions {
             try {
                 var result = await onSuccessFunction(await @this);
 
-                if (result.IsSuccess)
-                    return result;
-                if (numOfTry == 1)
-                    return result;
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
 
                 errors.Add(result.Detail);
             }

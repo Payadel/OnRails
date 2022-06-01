@@ -23,7 +23,7 @@ public class UsingExtensionsTest {
         //and the unit-test result may be incorrect.
         //In this section, we want to make sure that the exception does not fall into our Try method.
 
-        var lastException = (resultDetail.GetMoreDetailProperties(type: typeof(List<object>))
+        var lastException = (resultDetail.GetMoreDetailProperties<List<object>>()
             .SingleOrDefault() as List<object>)?.Last();
         Assert.True(lastException is not FalseException);
     }
