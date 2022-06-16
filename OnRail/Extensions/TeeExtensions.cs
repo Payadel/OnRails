@@ -54,50 +54,62 @@ public static class TeeExtensions {
     public static async Task TeeAsync<TResult>(
         Func<Task<TResult>> function,
         int numOfTry = 1) {
-        await function();
+        await TryExtensions.TryAsync(function, numOfTry);
     }
 
     public static async Task<T> TeeAsync<T>(
         this Task<T> @this,
         Action<T> action,
         int numOfTry = 1) {
-        var t = await @this;
-        action(t);
-        return t;
+        await TryExtensions.TryAsync(async () => {
+            var t = await @this;
+            action(t);
+        }, numOfTry);
+
+        return await @this;
     }
 
     public static async Task<T> TeeAsync<T>(
         this Task<T> @this,
-        Action? action,
+        Action action,
         int numOfTry = 1) {
-        var t = await @this;
-        action?.Invoke();
-        return t;
+        await TryExtensions.TryAsync(async () => {
+            await @this;
+            action();
+        }, numOfTry);
+
+        return await @this;
     }
 
     public static async Task<TSource> TeeAsync<TSource, TResult>(
         this Task<TSource> @this,
         Func<TSource, TResult> function,
         int numOfTry = 1) {
-        var t = await @this;
-        function(t);
-        return t;
+        await TryExtensions.TryAsync(async () => {
+            var t = await @this;
+            function(t);
+        }, numOfTry);
+
+        return await @this;
     }
 
     public static async Task<TSource> TeeAsync<TSource, TResult>(
         this Task<TSource> @this,
         Func<TResult> function,
         int numOfTry = 1) {
-        var t = await @this;
-        function();
-        return t;
+        await TryExtensions.TryAsync(async () => {
+            await @this;
+            function();
+        }, numOfTry);
+
+        return await @this;
     }
 
     public static async Task<TSource> TeeAsync<TSource, TResult>(
         this TSource @this,
         Func<TSource, Task<TResult>> function,
         int numOfTry = 1) {
-        await function(@this);
+        await TryExtensions.TryAsync(() => function(@this), numOfTry);
         return @this;
     }
 
@@ -105,7 +117,7 @@ public static class TeeExtensions {
         this TSource @this,
         Func<Task<TResult>> function,
         int numOfTry = 1) {
-        await function();
+        await TryExtensions.TryAsync(function, numOfTry);
         return @this;
     }
 
@@ -113,18 +125,24 @@ public static class TeeExtensions {
         this Task<TSource> @this,
         Func<TSource, Task<TResult>> function,
         int numOfTry = 1) {
-        var t = await @this;
-        await function(t);
-        return t;
+        await TryExtensions.TryAsync(async () => {
+            var t = await @this;
+            await function(t);
+        }, numOfTry);
+
+        return await @this;
     }
 
     public static async Task<TSource> TeeAsync<TSource, TResult>(
         this Task<TSource> @this,
         Func<Task<TResult>> function,
         int numOfTry = 1) {
-        var t = await @this;
-        await function();
-        return t;
+        await TryExtensions.TryAsync(async () => {
+            await @this;
+            await function();
+        }, numOfTry);
+
+        return await @this;
     }
 
     #endregion
