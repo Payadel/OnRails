@@ -13,7 +13,7 @@ public static class TaskExtensions {
                 await task;
             }
         }, numOfTry);
-    
+
     public static Task<Result<List<T>>> BindAsync<T>(
         this IEnumerable<Task<T>> tasks,
         int numOfTry = 1) =>
@@ -28,13 +28,13 @@ public static class TaskExtensions {
             return result;
         }, numOfTry);
 
-    
+
     //TODO: Test
     public static Task<Result> BindAsync(
         this Task thisTask,
         int numOfTry = 1,
         params Task[] tasks) =>
-        TryExtensions.TryAsync(async () =>await thisTask, numOfTry)
+        TryExtensions.TryAsync(async () => await thisTask, numOfTry)
             .OnSuccessAsync(() => tasks.BindAsync());
 
     //TODO: Test
