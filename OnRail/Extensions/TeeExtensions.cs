@@ -149,12 +149,14 @@ public static class TeeExtensions {
 
     #region TeeOnSuccess
 
+    //TODO: numOfTry
+    //TODO: Test
+
     public static Result<T> TeeOnSuccess<T>(
         this Result<T> @this,
         Action<T> action,
         int numOfTry = 1) {
-        if (@this.IsSuccess)
-            action(@this.Value);
+        @this.OnSuccess(() => action(@this.Value!));
         return @this;
     }
 
@@ -174,8 +176,7 @@ public static class TeeExtensions {
         this Result<TSource> @this,
         Func<TSource, TResult> function,
         int numOfTry = 1) {
-        if (@this.IsSuccess)
-            function(@this.Value);
+        @this.OnSuccess(() => function(@this.Value!));
         return @this;
     }
 
@@ -195,14 +196,15 @@ public static class TeeExtensions {
 
     #region TeeOnSuccessAsync
 
+    //TODO: numOfTry
+    //TODO: Test
+
     public static async Task<Result<T>> TeeOnSuccessAsync<T>(
         this Task<Result<T>> @this,
         Action<T> action,
         int numOfTry = 1) {
-        var t = await @this;
-        if (t.IsSuccess)
-            action(t.Value);
-        return t;
+        await @this.OnSuccessAsync(action);
+        return await @this;
     }
 
     public static Task<Result<T>> TeeOnSuccessAsync<T>(
@@ -221,10 +223,8 @@ public static class TeeExtensions {
         this Task<Result<TSource>> @this,
         Func<TSource, TResult> function,
         int numOfTry = 1) {
-        var t = await @this;
-        if (t.IsSuccess)
-            function(t.Value);
-        return t;
+        await @this.OnSuccessAsync(function);
+        return await @this;
     }
 
     public static Task<Result<TSource>> TeeOnSuccessAsync<TSource, TResult>(
