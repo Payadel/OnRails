@@ -130,7 +130,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_SuccessfulFunctionReturnsResul_ExecuteFunction() {
         var counter = 0;
 
-        await TeeExtensions.TeeAsync(() => Task.FromResult(counter++), DefaultNumOfTry);
+        await TeeExtensions.Tee(() => Task.FromResult(counter++), DefaultNumOfTry);
 
         Assert.Equal(1, counter);
     }
@@ -139,7 +139,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailFunctionReturnsResul_TryFunctionAndReturnTask() {
         var counter = 0;
 
-        await TeeExtensions.TeeAsync(() => {
+        await TeeExtensions.Tee(() => {
             counter++;
             throw new Exception("Fake");
             return Task.FromResult(counter);
@@ -152,7 +152,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_SuccessfulActionWithInput_ExecuteActionAndReturnTask() {
         var counterTask = Task.FromResult(0);
 
-        await counterTask.TeeAsync((int input) => { }, DefaultNumOfTry);
+        await counterTask.Tee((int input) => { }, DefaultNumOfTry);
 
         var counter = await counterTask;
         Assert.Equal(0, counter);
@@ -162,7 +162,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailActionWithInput_TryActionAndReturnFirstTask() {
         var counter = 0;
         var result = await Task.FromResult(1)
-            .TeeAsync((int number) => {
+            .Tee((int number) => {
                 counter++;
                 throw new Exception("Fake");
             }, DefaultNumOfTry);
@@ -175,7 +175,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_SuccessfulAction_ExecuteActionAndReturnTask() {
         var counterTask = Task.FromResult(0);
 
-        await counterTask.TeeAsync(() => { }, DefaultNumOfTry);
+        await counterTask.Tee(() => { }, DefaultNumOfTry);
 
         var counter = await counterTask;
         Assert.Equal(0, counter);
@@ -185,7 +185,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailAction_TryActionAndReturnFirstTask() {
         var counter = 0;
         var result = await Task.FromResult(1)
-            .TeeAsync(() => {
+            .Tee(() => {
                 counter++;
                 throw new Exception("Fake");
             }, DefaultNumOfTry);
@@ -198,7 +198,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_SuccessfulFunctionWithInputOutput_ExecuteFunctionAndReturnTask() {
         var counterTask = Task.FromResult(0);
 
-        await counterTask.TeeAsync((int number) => 1, DefaultNumOfTry);
+        await counterTask.Tee((int number) => 1, DefaultNumOfTry);
 
         var counter = await counterTask;
         Assert.Equal(0, counter);
@@ -208,7 +208,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailFunctionWithInputOutput_TryFunctionAndReturnFirstTask() {
         var counter = 0;
         var result = await Task.FromResult(1)
-            .TeeAsync((int _) => {
+            .Tee((int _) => {
                 counter++;
                 throw new Exception("Fake");
                 return counter;
@@ -222,7 +222,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_SuccessfulFunctionWithInput_ExecuteFunctionAndReturnTask() {
         var counterTask = Task.FromResult(0);
 
-        await counterTask.TeeAsync(() => 1, DefaultNumOfTry);
+        await counterTask.Tee(() => 1, DefaultNumOfTry);
 
         var counter = await counterTask;
         Assert.Equal(0, counter);
@@ -232,7 +232,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailFunctionWithInput_TryFunctionAndReturnFirstTask() {
         var counter = 0;
         var result = await Task.FromResult(1)
-            .TeeAsync(() => {
+            .Tee(() => {
                 counter++;
                 throw new Exception("Fake");
                 return counter;
@@ -244,7 +244,7 @@ public class TeeExtensionsTest {
 
     [Fact]
     public async Task TeeAsync_SuccessfulFunctionWithInputAndResultOnObject_ExecuteFunctionAndReturnTask() {
-        var result = await "str".TeeAsync((string _) => Task.FromResult(0), DefaultNumOfTry);
+        var result = await "str".Tee((string _) => Task.FromResult(0), DefaultNumOfTry);
 
         Assert.Equal("str", result);
     }
@@ -253,7 +253,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailFunctionWithInputAndResultOnObject_TryFunctionAndReturnFirstTask() {
         var counter = 0;
 
-        var result = await "str".TeeAsync((string _) => {
+        var result = await "str".Tee((string _) => {
             counter++;
             throw new Exception("Fake");
             return Task.FromResult(1);
@@ -265,7 +265,7 @@ public class TeeExtensionsTest {
 
     [Fact]
     public async Task TeeAsync_SuccessfulFunctionWithResultOnObject_ExecuteFunctionAndReturnTask() {
-        var result = await "str".TeeAsync(() => Task.FromResult(0), DefaultNumOfTry);
+        var result = await "str".Tee(() => Task.FromResult(0), DefaultNumOfTry);
 
         Assert.Equal("str", result);
     }
@@ -274,7 +274,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailFunctionWithResultOnObject_TryFunctionAndReturnFirstTask() {
         var counter = 0;
 
-        var result = await "str".TeeAsync(() => {
+        var result = await "str".Tee(() => {
             counter++;
             throw new Exception("Fake");
             return Task.FromResult(1);
@@ -288,7 +288,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_SuccessfulFunctionWithInputAndResult_ExecuteFunctionAndReturnTask() {
         var counterTask = Task.FromResult(0);
 
-        await counterTask.TeeAsync((int _) => Task.FromResult(""), DefaultNumOfTry);
+        await counterTask.Tee((int _) => Task.FromResult(""), DefaultNumOfTry);
 
         var counter = await counterTask;
         Assert.Equal(0, counter);
@@ -299,7 +299,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailFunctionWithInputAndResult_TryFunctionAndReturnFirstTask() {
         var counter = 0;
         var result = await Task.FromResult(1)
-            .TeeAsync((int _) => {
+            .Tee((int _) => {
                 counter++;
                 throw new Exception("Fake");
                 return Task.FromResult("");
@@ -313,7 +313,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_SuccessfulFunctionWithResult_ExecuteFunctionAndReturnTask() {
         var counterTask = Task.FromResult(0);
 
-        await counterTask.TeeAsync(() => Task.FromResult(""), DefaultNumOfTry);
+        await counterTask.Tee(() => Task.FromResult(""), DefaultNumOfTry);
 
         var counter = await counterTask;
         Assert.Equal(0, counter);
@@ -323,7 +323,7 @@ public class TeeExtensionsTest {
     public async Task TeeAsync_FailFunctionWithResult_TryFunctionAndReturnFirstTask() {
         var counter = 0;
         var result = await Task.FromResult(1)
-            .TeeAsync(() => {
+            .Tee(() => {
                 counter++;
                 throw new Exception("Fake");
                 return Task.FromResult("");

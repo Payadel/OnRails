@@ -5,19 +5,19 @@ namespace OnRail.Extensions;
 public static class TaskExtensions {
     #region Task
 
-    public static Task<Result> BindAsync(
+    public static Task<Result> Bind(
         this IEnumerable<Task> tasks,
         int numOfTry = 1) =>
-        TryExtensions.TryAsync(async () => {
+        TryExtensions.Try(async () => {
             foreach (var task in tasks) {
                 await task;
             }
         }, numOfTry);
 
-    public static Task<Result<List<T>>> BindAsync<T>(
+    public static Task<Result<List<T>>> Bind<T>(
         this IEnumerable<Task<T>> tasks,
         int numOfTry = 1) =>
-        TryExtensions.TryAsync(async () => {
+        TryExtensions.Try(async () => {
             var items = tasks.ToList();
             var result = new List<T>(items.Count);
 
@@ -30,20 +30,20 @@ public static class TaskExtensions {
 
 
     //TODO: Test
-    public static Task<Result> BindAsync(
+    public static Task<Result> Bind(
         this Task thisTask,
         int numOfTry = 1,
         params Task[] tasks) =>
-        TryExtensions.TryAsync(async () => await thisTask, numOfTry)
-            .OnSuccessAsync(() => tasks.BindAsync());
+        TryExtensions.Try(async () => await thisTask, numOfTry)
+            .OnSuccessAsync(() => tasks.Bind());
 
     //TODO: Test
-    public static Task<Result<List<T>>> BindAsync<T>(
+    public static Task<Result<List<T>>> Bind<T>(
         this Task<T> thisTask,
         int numOfTry = 1,
         params Task<T>[] tasks) =>
-        TryExtensions.TryAsync(async () => await thisTask, numOfTry)
-            .OnSuccessAsync(task1 => tasks.BindAsync()
+        TryExtensions.Try(async () => await thisTask, numOfTry)
+            .OnSuccessAsync(task1 => tasks.Bind()
                 .OnSuccessAsync(taskResults => {
                     taskResults.Add(task1);
                     return taskResults;

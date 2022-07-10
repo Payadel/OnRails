@@ -320,7 +320,7 @@ public static class MapExtensions {
     public static Task<Result<TResult>> TryMapAsync<TSource, TResult>(
         this TSource @this,
         Func<TSource, Task<Result<TResult>>> onSuccessFunction
-    ) => TryExtensions.TryAsync(() => onSuccessFunction(@this));
+    ) => TryExtensions.Try(() => onSuccessFunction(@this));
 
     public static async Task<Result<TResult>> TryMapAsync<TSource, TResult>(
         this Task<TSource> @this,
@@ -339,7 +339,7 @@ public static class MapExtensions {
     public static Task<Result<TResult>> TryMapAsync<TSource, TResult>(
         this TSource @this,
         Func<TSource, Task<TResult>> onSuccessFunction
-    ) => TryExtensions.TryAsync(() => onSuccessFunction(@this));
+    ) => TryExtensions.Try(() => onSuccessFunction(@this));
 
     public static async Task<Result> TryMapAsync<TSource>(
         this Task<TSource> @this,
@@ -612,13 +612,13 @@ public static class MapExtensions {
     public static Task<Result> TryMapAsync<TSource>(
         this TSource _,
         Func<Task<Result>> onSuccessFunction
-    ) => TryExtensions.TryAsync(onSuccessFunction);
+    ) => TryExtensions.Try(onSuccessFunction);
 
     public static Task<Result<TResult>> TryMapAsync<TSource, TResult>(
         this TSource @this,
         Func<TSource, Task<TResult>> function,
         int numOfTry
-    ) => TryExtensions.TryAsync(() => function(@this), numOfTry);
+    ) => TryExtensions.Try(() => function(@this), numOfTry);
 
     public static async Task<Result<TResult>> TryMapAsync<TSource, TResult>(
         this Task<TSource> @this,
@@ -626,14 +626,14 @@ public static class MapExtensions {
         int numOfTry
     ) {
         var t = await @this;
-        return await TryExtensions.TryAsync(() => function(t), numOfTry);
+        return await TryExtensions.Try(() => function(t), numOfTry);
     }
 
     public static Task<Result<TResult>> TryMapAsync<TSource, TResult>(
         this TSource @this,
         Func<TSource, Task<Result<TResult>>> function,
         int numOfTry
-    ) => TryExtensions.TryAsync(() => function(@this), numOfTry);
+    ) => TryExtensions.Try(() => function(@this), numOfTry);
 
     public static async Task<Result<TResult>> TryMapAsync<TSource, TResult>(
         this Task<TSource> @this,
@@ -641,7 +641,7 @@ public static class MapExtensions {
         int numOfTry
     ) {
         var t = await @this;
-        return await TryExtensions.TryAsync(() => function(t), numOfTry);
+        return await TryExtensions.Try(() => function(t), numOfTry);
     }
 
     public static async Task<Result<TResult>> TryMapAsync<TSource, TResult>(

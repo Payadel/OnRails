@@ -268,7 +268,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(obj => {
+        var result = await disposableObj.Using(obj => {
             Assert.False(obj.IsDisposed);
             return Task.FromResult("result");
         });
@@ -283,7 +283,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(obj => {
+        var result = await disposableObj.Using(obj => {
             Assert.False(obj.IsDisposed);
             throw new Exception();
             return Task.FromResult("result");
@@ -299,7 +299,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(obj => {
+        var result = await disposableObj.Using(obj => {
             Assert.False(obj.IsDisposed);
             return Task.FromResult(Result<string>.Ok("result"));
         });
@@ -314,7 +314,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(obj => {
+        var result = await disposableObj.Using(obj => {
             Assert.False(obj.IsDisposed);
             return Task.FromResult(Result<string>.Fail());
         }, DefaultNumOfTry);
@@ -329,7 +329,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(() => {
+        var result = await disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             return Task.FromResult(Result<string>.Ok("result"));
         });
@@ -344,7 +344,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(() => {
+        var result = await disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             return Task.FromResult(Result<string>.Fail());
         }, DefaultNumOfTry);
@@ -359,7 +359,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(() => {
+        var result = await disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             return Task.FromResult(Result.Ok());
         });
@@ -373,7 +373,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(() => {
+        var result = await disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             return Task.FromResult(Result.Fail());
         }, DefaultNumOfTry);
@@ -388,7 +388,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(obj => {
+        var result = await disposableObj.Using(obj => {
             Assert.False(obj.IsDisposed);
             return Task.FromResult(Result.Ok());
         });
@@ -402,7 +402,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(obj => {
+        var result = await disposableObj.Using(obj => {
             Assert.False(obj.IsDisposed);
             return Task.FromResult(Result.Fail());
         }, DefaultNumOfTry);
@@ -417,7 +417,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(() => {
+        var result = await disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             return Task.FromResult("result");
         });
@@ -432,7 +432,7 @@ public class UsingExtensionsTest {
         var disposableObj = new Disposable();
         Assert.False(disposableObj.IsDisposed);
 
-        var result = await disposableObj.UsingAsync(() => {
+        var result = await disposableObj.Using(() => {
             Assert.False(disposableObj.IsDisposed);
             throw new Exception();
             return Task.FromResult("result");

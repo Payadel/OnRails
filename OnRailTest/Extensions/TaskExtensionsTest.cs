@@ -28,14 +28,14 @@ public static class TaskExtensionsTest {
 
     [Fact]
     public static async Task BindAsync_SuccessfulTasks_BindTasks() {
-        var result = await SuccessfulTasks.BindAsync(DefaultNumOfTry);
+        var result = await SuccessfulTasks.Bind(DefaultNumOfTry);
 
         Assert.True(result.IsSuccess);
     }
 
     [Fact]
     public static async Task BindAsync_FailTasks_ReturnExceptionError() {
-        var result = await FailTasks.BindAsync(DefaultNumOfTry);
+        var result = await FailTasks.Bind(DefaultNumOfTry);
 
         Assert.False(result.IsSuccess);
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
@@ -43,7 +43,7 @@ public static class TaskExtensionsTest {
 
     [Fact]
     public static async Task BindAsync_SuccessfulTasksWithOutput_ReturnResult() {
-        var result = await SuccessfulTasksWithOutput.BindAsync(DefaultNumOfTry);
+        var result = await SuccessfulTasksWithOutput.Bind(DefaultNumOfTry);
 
         Assert.True(result.IsSuccess);
         Assert.IsType<List<int>>(result.Value);
@@ -52,7 +52,7 @@ public static class TaskExtensionsTest {
 
     [Fact]
     public static async Task BindAsync_FailTasksWithOutput_ReturnExceptionError() {
-        var result = await FailTasksWithOutput.BindAsync(DefaultNumOfTry);
+        var result = await FailTasksWithOutput.Bind(DefaultNumOfTry);
 
         Assert.False(result.IsSuccess);
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);

@@ -424,13 +424,13 @@ public static class OnSuccessExtensions {
         this Task<Result> @this,
         Func<Task<TResult>> success,
         int numOfTry) =>
-        @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+        @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TResult>(
         this Task<Result> @this,
         Func<Task<Result<TResult>>> success,
         int numOfTry) =>
-        @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+        @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TSource, TResult>(
         this Task<Result<TSource>> @this,
@@ -448,49 +448,49 @@ public static class OnSuccessExtensions {
         this Task<Result<TSource>> @this,
         Func<Task<TResult>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TSource, TResult>(
         this Task<Result<TSource>> @this,
         Func<Task<Result<TResult>>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Task<Result<TSource>> @this,
         Func<TSource, Task> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(source => source.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(source => source.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Task<Result<TSource>> @this,
         Func<TSource, Task<Result>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(source => source.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(source => source.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Task<Result<TSource>> @this,
         Func<Task> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Task<Result<TSource>> @this,
         Func<Task<Result>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync(
         this Task<Result> @this,
         Func<Task> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync(
         this Task<Result> @this,
         Func<Task<Result>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TSource, TResult>(
         this Task<Result<TSource>> @this,
@@ -500,12 +500,12 @@ public static class OnSuccessExtensions {
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Task<Result<TSource>> @this,
         Func<TSource, Task> success
-    ) => @this.OnSuccessAsync(source => source.TryAsync(success));
+    ) => @this.OnSuccessAsync(source => source.Try(success));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Task<Result<TSource>> @this,
         Func<TSource, Task<Result>> success
-    ) => @this.OnSuccessAsync(source => source.TryAsync(success));
+    ) => @this.OnSuccessAsync(source => source.Try(success));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TSource, TResult>(
         this Task<Result<TSource>> @this,
@@ -541,7 +541,7 @@ public static class OnSuccessExtensions {
         this Result @this,
         Func<Task<TResult>> success,
         int numOfTry) =>
-        @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+        @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TSource, TResult>(
         this Result<TSource> @this,
@@ -553,31 +553,31 @@ public static class OnSuccessExtensions {
         this Result<TSource> @this,
         Func<Task<TResult>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Result<TSource> @this,
         Func<TSource, Task> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(source => source.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(source => source.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Result<TSource> @this,
         Func<Task> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync(
         this Result @this,
         Func<Task> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TResult>(
         this Result @this,
         Func<Task<Result<TResult>>> success,
         int numOfTry) =>
-        @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+        @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result<TResult>> TryOnSuccessAsync<TSource, TResult>(
         this Result<TSource> @this,
@@ -589,25 +589,25 @@ public static class OnSuccessExtensions {
         this Result<TSource> @this,
         Func<Task<Result<TResult>>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Result<TSource> @this,
         Func<TSource, Task<Result>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(source => source.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(source => source.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync<TSource>(
         this Result<TSource> @this,
         Func<Task<Result>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     public static Task<Result> TryOnSuccessAsync(
         this Result @this,
         Func<Task<Result>> success,
         int numOfTry
-    ) => @this.OnSuccessAsync(() => TryExtensions.TryAsync(success, numOfTry));
+    ) => @this.OnSuccessAsync(() => TryExtensions.Try(success, numOfTry));
 
     #endregion
 
@@ -1034,7 +1034,7 @@ public static class OnSuccessExtensions {
         this Task<Result> @this,
         Func<bool> predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Task<Result> @this,
@@ -1052,7 +1052,7 @@ public static class OnSuccessExtensions {
         this Task<Result<T>> @this,
         Func<bool> predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
@@ -1076,7 +1076,7 @@ public static class OnSuccessExtensions {
         this Task<Result<T>> @this,
         Func<T, bool> predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate(source), operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate(source), operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
@@ -1130,7 +1130,7 @@ public static class OnSuccessExtensions {
         this Task<Result> @this,
         bool predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
@@ -1148,7 +1148,7 @@ public static class OnSuccessExtensions {
         this Task<Result<T>> @this,
         bool predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
@@ -1178,157 +1178,157 @@ public static class OnSuccessExtensions {
         this Result @this,
         Func<bool> predicate,
         Func<Task<Result>> operation
-    ) => @this.OnSuccessAsync(() => @this.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => @this.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Result @this,
         Func<bool> predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(() => @this.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => @this.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<bool> predicate,
         Func<Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(() => @this.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => @this.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<T, bool> predicate,
         Func<Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => @this.OperateWhenAsync(predicate(source), operation));
+    ) => @this.OnSuccessAsync(source => @this.OperateWhen(predicate(source), operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<T, bool> predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(source => @this.OperateWhenAsync(predicate(source), operation));
+    ) => @this.OnSuccessAsync(source => @this.OperateWhen(predicate(source), operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<bool> predicate,
         Func<T, Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => @this.OperateWhenAsync(predicate, () => operation(source)));
+    ) => @this.OnSuccessAsync(source => @this.OperateWhen(predicate, () => operation(source)));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<T, bool> predicate,
         Func<T, Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => @this.OperateWhenAsync(predicate(source), () => operation(source)));
+    ) => @this.OnSuccessAsync(source => @this.OperateWhen(predicate(source), () => operation(source)));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<bool> predicate,
         Func<Task<T>> operation
-    ) => @this.OnSuccessAsync(source => @this.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => @this.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<T, bool> predicate,
         Func<Task<T>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate(source), operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate(source), operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<bool> predicate,
         Func<T, Task<T>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         Func<T, bool> predicate,
         Func<T, Task<T>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate(source), operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate(source), operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Result @this,
         bool predicate,
         Func<Task<Result>> operation
-    ) => @this.OnSuccessAsync(() => @this.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => @this.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Result @this,
         bool predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(() => @this.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => @this.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         bool predicate,
         Func<Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         bool predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         bool predicate,
         Func<T, Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         bool predicate,
         Func<Task<T>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,
         bool predicate,
         Func<T, Task<T>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Task<Result> @this,
         Func<bool> predicate,
         Func<Task<Result>> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
         Func<bool> predicate,
         Func<Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
         Func<T, bool> predicate,
         Func<Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate(source), operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate(source), operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
         Func<bool> predicate,
         Func<T, Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
         Func<T, bool> predicate,
         Func<T, Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate(source), operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate(source), operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Task<Result> @this,
         bool predicate,
         Func<Task<Result>> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
         bool predicate,
         Func<Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
         bool predicate,
         Func<T, Task<Result<T>>> operation
-    ) => @this.OnSuccessAsync(source => source.OperateWhenAsync(predicate, operation));
+    ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     #endregion
 

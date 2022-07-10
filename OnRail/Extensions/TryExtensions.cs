@@ -122,9 +122,9 @@ public static class TryExtensions {
 
     #endregion
 
-    #region TryAsync
+    #region Async methods
 
-    public static async Task<Result<T>> TryAsync<T>(
+    public static async Task<Result<T>> Try<T>(
         Func<Task<T>> function,
         int numOfTry = 1) {
         var errors = new List<Exception>(numOfTry);
@@ -142,7 +142,7 @@ public static class TryExtensions {
         return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
-    public static async Task<Result<T>> TryAsync<T>(
+    public static async Task<Result<T>> Try<T>(
         Func<Task<Result<T>>> function,
         int numOfTry = 1) {
         var errors = new List<object>(numOfTry);
@@ -168,7 +168,7 @@ public static class TryExtensions {
         return Result<T>.Fail(errorDetail);
     }
 
-    public static async Task<Result> TryAsync(
+    public static async Task<Result> Try(
         Func<Task> function,
         int numOfTry = 1) {
         var errors = new List<Exception>(numOfTry);
@@ -187,7 +187,7 @@ public static class TryExtensions {
         return Result.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
-    public static async Task<Result> TryAsync(
+    public static async Task<Result> Try(
         Func<Task<Result>> function,
         int numOfTry = 1
     ) {
@@ -214,13 +214,13 @@ public static class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
-    public static Task<Result> TryAsync<T>(
+    public static Task<Result> Try<T>(
         this T @this,
         Func<T, Task> function,
         int numOfTry = 1
-    ) => TryAsync(() => function(@this), numOfTry);
+    ) => Try(() => function(@this), numOfTry);
 
-    public static async Task<Result> TryAsync<T>(
+    public static async Task<Result> Try<T>(
         this Task<T> @this,
         Action<T> onSuccessAction,
         int numOfTry = 1
@@ -242,13 +242,16 @@ public static class TryExtensions {
         return Result.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
-    public static Task<Result> TryAsync<T>(
+    public static Task<Result> Try<T>(
         this Task<T> @this,
         Action onSuccessAction,
-        int numOfTry = 1
-    ) => @this.TryAsync(_ => onSuccessAction(), numOfTry);
+        int numOfTry = 1) =>
+        Try(async () => {
+            await @this;
+            onSuccessAction();
+        }, numOfTry);
 
-    public static async Task<Result> TryAsync(
+    public static async Task<Result> Try(
         this Task @this,
         Action onSuccessAction,
         int numOfTry = 1
@@ -270,7 +273,7 @@ public static class TryExtensions {
         return Result.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
-    public static async Task<Result> TryAsync(
+    public static async Task<Result> Try(
         this Task @this,
         Func<Result> onSuccessFunction,
         int numOfTry = 1
@@ -299,7 +302,7 @@ public static class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
-    public static async Task<Result> TryAsync(
+    public static async Task<Result> Try(
         this Task @this,
         Func<Task<Result>> onSuccessFunction,
         int numOfTry = 1
@@ -328,7 +331,7 @@ public static class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
-    public static async Task<Result> TryAsync<T>(
+    public static async Task<Result> Try<T>(
         this Task<T> @this,
         Func<T, Task> onSuccessFunction,
         int numOfTry = 1
@@ -349,13 +352,13 @@ public static class TryExtensions {
         return Result.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
-    public static Task<Result> TryAsync<T>(
+    public static Task<Result> Try<T>(
         this T @this,
         Func<T, Task<Result>> function,
         int numOfTry = 1
-    ) => TryAsync(() => function(@this), numOfTry);
+    ) => Try(() => function(@this), numOfTry);
 
-    public static async Task<Result> TryAsync<T>(
+    public static async Task<Result> Try<T>(
         this Task<T> @this,
         Func<T, Task<Result>> onSuccessFunction,
         int numOfTry = 1

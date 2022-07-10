@@ -183,13 +183,13 @@ public static class OnFailExtensions {
         this Result<T> @this,
         Func<Task<ErrorDetail>> errorDetail) =>
         @this.OnFailAsync(
-            methodResult => TryExtensions.TryAsync(async () => methodResult.Fail(await errorDetail())));
+            methodResult => TryExtensions.Try(async () => methodResult.Fail(await errorDetail())));
 
     public static Task<Result<T>> TryOnFailAsync<T>(
         this Task<Result<T>> @this,
         Func<Task<ErrorDetail>> errorDetail) =>
         @this.OnFailAsync(
-            methodResult => TryExtensions.TryAsync(async () => methodResult.Fail(await errorDetail())));
+            methodResult => TryExtensions.Try(async () => methodResult.Fail(await errorDetail())));
 
     public static Task<Result> TryOnFailAsync(
         this Task<Result> @this,
@@ -205,13 +205,13 @@ public static class OnFailExtensions {
         this Result @this,
         Func<Task<ErrorDetail>> errorDetail) =>
         @this.OnFailAsync(
-            methodResult => TryExtensions.TryAsync(async () => methodResult.Fail(await errorDetail())));
+            methodResult => TryExtensions.Try(async () => methodResult.Fail(await errorDetail())));
 
     public static Task<Result> TryOnFailAsync(
         this Task<Result> @this,
         Func<Task<ErrorDetail>> errorDetail) =>
         @this.OnFailAsync(
-            methodResult => TryExtensions.TryAsync(async () => methodResult.Fail(await errorDetail())));
+            methodResult => TryExtensions.Try(async () => methodResult.Fail(await errorDetail())));
 
     public static Task<Result<T>> TryOnFailAsync<T>(
         this Task<Result<T>> @this,
@@ -221,12 +221,12 @@ public static class OnFailExtensions {
     public static Task<Result<T>> TryOnFailAsync<T>(
         this Result<T> @this,
         Func<Result<T>, Task<Result<T>>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(() => fail(methodResult)));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(() => fail(methodResult)));
 
     public static Task<Result<T>> TryOnFailAsync<T>(
         this Task<Result<T>> @this,
         Func<Result<T>, Task<Result<T>>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(() => fail(methodResult)));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(() => fail(methodResult)));
 
     public static Task<Result<T>> TryOnFailAsync<T>(
         this Task<Result<T>> @this,
@@ -236,12 +236,12 @@ public static class OnFailExtensions {
     public static Task<Result<T>> TryOnFailAsync<T>(
         this Result<T> @this,
         Func<Task<Result<T>>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(fail));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(fail));
 
     public static Task<Result<T>> TryOnFailAsync<T>(
         this Task<Result<T>> @this,
         Func<Task<Result<T>>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(fail));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(fail));
 
     public static Task<Result> TryOnFailAsync(
         this Task<Result> @this,
@@ -251,12 +251,12 @@ public static class OnFailExtensions {
     public static Task<Result> TryOnFailAsync(
         this Result @this,
         Func<Result, Task<Result>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(() => fail(methodResult)));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(() => fail(methodResult)));
 
     public static Task<Result> TryOnFailAsync(
         this Task<Result> @this,
         Func<Result, Task<Result>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(() => fail(methodResult)));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(() => fail(methodResult)));
 
     public static Task<Result> TryOnFailAsync(
         this Task<Result> @this,
@@ -266,12 +266,12 @@ public static class OnFailExtensions {
     public static Task<Result> TryOnFailAsync(
         this Result @this,
         Func<Task<Result>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(fail));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(fail));
 
     public static Task<Result> TryOnFailAsync(
         this Task<Result> @this,
         Func<Task<Result>> fail) =>
-        @this.OnFailAsync(methodResult => TryExtensions.TryAsync(fail));
+        @this.OnFailAsync(methodResult => TryExtensions.Try(fail));
 
     public static Task<Result> TryOnFailAsync(
         this Task<Result> @this,
@@ -471,7 +471,7 @@ public static class OnFailExtensions {
         this Task<Result<T>> @this,
         bool predicate,
         Func<Task<Result<T>>> operation
-    ) => @this.OnFailAsync(() => @this.OperateWhen(predicate, operation));
+    ) => @this.OnFailAsync(() => @this.OperateWhen<Task<Result<T>>>(predicate, operation));
 
     public static Task<Result<T>> OnFailOperateWhenAsync<T>(
         this Task<Result<T>> @this,

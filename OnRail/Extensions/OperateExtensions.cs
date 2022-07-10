@@ -312,21 +312,21 @@ public static class OperateExtensions {
 
     #endregion
 
-    #region OperateWhenAsync
+    #region OperateWhen Async
 
-    public static async Task OperateWhenAsync(
+    public static async Task OperateWhen(
         bool predicate,
         Func<Task> function) {
         if (predicate)
             await function();
     }
 
-    public static Task OperateWhenAsync(
+    public static Task OperateWhen(
         Func<bool> predicate,
         Func<Task> function) =>
-        OperateWhenAsync(predicate(), function);
+        OperateWhen(predicate(), function);
 
-    public static async Task<Result> OperateWhenAsync(
+    public static async Task<Result> OperateWhen(
         bool predicate,
         Func<Task<Result>> function) {
         if (predicate)
@@ -334,12 +334,12 @@ public static class OperateExtensions {
         return Result.Ok();
     }
 
-    public static Task<Result> OperateWhenAsync(
+    public static Task<Result> OperateWhen(
         Func<bool> predicate,
         Func<Task<Result>> function) =>
-        OperateWhenAsync(predicate(), function);
+        OperateWhen(predicate(), function);
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
         Func<Task<T>> function) {
@@ -349,7 +349,7 @@ public static class OperateExtensions {
         return t;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<Result<T>> @this,
         bool predicate,
         Func<Task<T>> function) {
@@ -357,7 +357,7 @@ public static class OperateExtensions {
         return predicate ? Result<T>.Ok(await function()) : t;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
         Func<Task<Result<T>>> function) {
@@ -367,7 +367,7 @@ public static class OperateExtensions {
         return Result<T>.Ok(t);
     }
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
         Func<T, Task<T>> function) {
@@ -377,7 +377,7 @@ public static class OperateExtensions {
         return t;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
         Func<T, Task<Result<T>>> function) {
@@ -387,19 +387,19 @@ public static class OperateExtensions {
         return Result<T>.Ok(t);
     }
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicate,
         Func<T, Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicate,
         Func<T, Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this Task<T> @this,
         Func<T, bool> predicate,
         Func<T, Task<T>> function) {
@@ -409,7 +409,7 @@ public static class OperateExtensions {
         return t;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<T, bool> predicate,
         Func<T, Task<Result<T>>> function) {
@@ -419,7 +419,7 @@ public static class OperateExtensions {
         return Result<T>.Ok(t);
     }
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
         Func<T, T> function) {
@@ -427,7 +427,7 @@ public static class OperateExtensions {
         return predicate ? function(t) : t;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
         Func<T, Result<T>> function) {
@@ -435,19 +435,19 @@ public static class OperateExtensions {
         return predicate ? function(t) : Result<T>.Ok(t);
     }
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicate,
         Func<T, T> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicate,
         Func<T, Result<T>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this Task<T> @this,
         Func<T, bool> predicate,
         Func<T, T> function) {
@@ -455,7 +455,7 @@ public static class OperateExtensions {
         return predicate(t) ? function(t) : t;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<T, bool> predicate,
         Func<T, Result<T>> function) {
@@ -463,25 +463,25 @@ public static class OperateExtensions {
         return predicate(t) ? function(t) : Result<T>.Ok(t);
     }
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicate,
         Func<Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<Result<T>> @this,
         Func<bool> predicate,
         Func<Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicate,
         Func<Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this Task<T> @this,
         Func<T, bool> predicate,
         Func<Task<T>> function) {
@@ -491,7 +491,7 @@ public static class OperateExtensions {
         return t;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<T, bool> predicate,
         Func<Task<Result<T>>> function) {
@@ -501,7 +501,7 @@ public static class OperateExtensions {
         return Result<T>.Ok(t);
     }
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this T @this,
         bool predicate,
         Func<Task<T>> function) {
@@ -510,7 +510,7 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this T @this,
         bool predicate,
         Func<Task> function) {
@@ -519,13 +519,13 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         bool predicate,
         Func<Task<T>> function) =>
         predicate ? Result<T>.Ok(await function()) : @this;
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this T @this,
         bool predicate,
         Func<Task<Result<T>>> function) {
@@ -534,7 +534,7 @@ public static class OperateExtensions {
         return Result<T>.Ok(@this);
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         bool predicate,
         Func<Task<Result<T>>> function) {
@@ -543,37 +543,37 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicate,
         Func<Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicate,
         Func<Task> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicate,
         Func<Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this T @this,
         Func<bool> predicate,
         Func<Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicate,
         Func<Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this Task<Result<T>> @this,
         bool predicate,
         Func<Task<Result<T>>> function) {
@@ -583,19 +583,19 @@ public static class OperateExtensions {
         return t;
     }
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
         Func<Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(@this), function);
+        @this.OperateWhen(predicate(@this), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
         Func<Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(@this), function);
+        @this.OperateWhen(predicate(@this), function);
 
-    public static async Task<T> OperateWhenAsync<T>(
+    public static async Task<T> OperateWhen<T>(
         this T @this,
         bool predicate,
         Func<T, Task<T>> function) {
@@ -604,7 +604,7 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static async Task<Result<T>> OperateWhenAsync<T>(
+    public static async Task<Result<T>> OperateWhen<T>(
         this T @this,
         bool predicate,
         Func<T, Task<Result<T>>> function) {
@@ -613,41 +613,41 @@ public static class OperateExtensions {
         return Result<T>.Ok(@this);
     }
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicate,
         Func<T, Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this T @this,
         Func<bool> predicate,
         Func<T, Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(), function);
+        @this.OperateWhen(predicate(), function);
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
         Func<T, Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(@this), function);
+        @this.OperateWhen(predicate(@this), function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
         Func<T, Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(@this), function);
+        @this.OperateWhen(predicate(@this), function);
 
-    public static Task<T> OperateWhenAsync<T>(
+    public static Task<T> OperateWhen<T>(
         this T @this,
         Func<T, Result> predicate,
         Func<Task<T>> function) =>
-        @this.OperateWhenAsync(predicate(@this).IsSuccess, function);
+        @this.OperateWhen(predicate(@this).IsSuccess, function);
 
-    public static Task<Result<T>> OperateWhenAsync<T>(
+    public static Task<Result<T>> OperateWhen<T>(
         this T @this,
         Func<T, Result> predicate,
         Func<Task<Result<T>>> function) =>
-        @this.OperateWhenAsync(predicate(@this).IsSuccess, function);
+        @this.OperateWhen(predicate(@this).IsSuccess, function);
 
     #endregion
 
@@ -715,9 +715,9 @@ public static class OperateExtensions {
 
     #endregion
 
-    #region TeeOperateWhenAsync
+    #region TeeOperateWhen Async
 
-    public static async Task<T> TeeOperateWhenAsync<T>(
+    public static async Task<T> TeeOperateWhen<T>(
         this T @this,
         bool predicate,
         Func<Task> function) {
@@ -726,7 +726,7 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static async Task<Result<T>> TeeOperateWhenAsync<T>(
+    public static async Task<Result<T>> TeeOperateWhen<T>(
         this Result<T> @this,
         bool predicate,
         Func<Task> function) {
@@ -735,7 +735,7 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static async Task<Result<TSource>> TeeOperateWhenAsync<TSource, TResult>(
+    public static async Task<Result<TSource>> TeeOperateWhen<TSource, TResult>(
         this TSource @this,
         bool predicate,
         Func<Task<TResult>> function) {
@@ -744,7 +744,7 @@ public static class OperateExtensions {
         return Result<TSource>.Ok(@this);
     }
 
-    public static async Task<Result<TSource>> TeeOperateWhenAsync<TSource, TResult>(
+    public static async Task<Result<TSource>> TeeOperateWhen<TSource, TResult>(
         this Result<TSource> @this,
         bool predicate,
         Func<Task<TResult>> function) {
@@ -753,43 +753,43 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static Task<T> TeeOperateWhenAsync<T>(
+    public static Task<T> TeeOperateWhen<T>(
         this T @this,
         Func<bool> predicate,
         Func<Task> function) =>
-        @this.TeeOperateWhenAsync(predicate(), function);
+        @this.TeeOperateWhen(predicate(), function);
 
-    public static Task<Result<T>> TeeOperateWhenAsync<T>(
+    public static Task<Result<T>> TeeOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicate,
         Func<Task> function) =>
-        @this.TeeOperateWhenAsync(predicate(), function);
+        @this.TeeOperateWhen(predicate(), function);
 
-    public static Task<Result<TSource>> TeeOperateWhenAsync<TSource, TResult>(
+    public static Task<Result<TSource>> TeeOperateWhen<TSource, TResult>(
         this TSource @this,
         Func<bool> predicate,
         Func<Task<TResult>> function) =>
-        @this.TeeOperateWhenAsync(predicate(), function);
+        @this.TeeOperateWhen(predicate(), function);
 
-    public static Task<Result<TSource>> TeeOperateWhenAsync<TSource, TResult>(
+    public static Task<Result<TSource>> TeeOperateWhen<TSource, TResult>(
         this Result<TSource> @this,
         Func<bool> predicate,
         Func<Task<TResult>> function) =>
-        @this.TeeOperateWhenAsync(predicate(), function);
+        @this.TeeOperateWhen(predicate(), function);
 
-    public static Task<T> TeeOperateWhenAsync<T>(
+    public static Task<T> TeeOperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
         Func<Task> function) =>
-        @this.TeeOperateWhenAsync(predicate(@this), function);
+        @this.TeeOperateWhen(predicate(@this), function);
 
-    public static Task<Result<TSource>> TeeOperateWhenAsync<TSource, TResult>(
+    public static Task<Result<TSource>> TeeOperateWhen<TSource, TResult>(
         this TSource @this,
         Func<TSource, bool> predicate,
         Func<Task<TResult>> function) =>
-        @this.TeeOperateWhenAsync(predicate(@this), function);
+        @this.TeeOperateWhen(predicate(@this), function);
 
-    public static async Task<T> TeeOperateWhenAsync<T>(
+    public static async Task<T> TeeOperateWhen<T>(
         this T @this,
         bool predicate,
         Func<T, Task> function) {
@@ -798,13 +798,13 @@ public static class OperateExtensions {
         return @this;
     }
 
-    public static Task<T> TeeOperateWhenAsync<T>(
+    public static Task<T> TeeOperateWhen<T>(
         this T @this,
         Func<bool> predicate,
         Func<T, Task> function) =>
-        @this.TeeOperateWhenAsync(predicate(), function);
+        @this.TeeOperateWhen(predicate(), function);
 
-    public static async Task<Result<TSource>> TeeOperateWhenAsync<TSource, TResult>(
+    public static async Task<Result<TSource>> TeeOperateWhen<TSource, TResult>(
         this TSource @this,
         bool predicate,
         Func<TSource, Task<TResult>> function) {
@@ -813,11 +813,11 @@ public static class OperateExtensions {
         return Result<TSource>.Ok(@this);
     }
 
-    public static Task<Result<TSource>> TeeOperateWhenAsync<TSource, TResult>(
+    public static Task<Result<TSource>> TeeOperateWhen<TSource, TResult>(
         this TSource @this,
         Func<bool> predicate,
         Func<TSource, Task<TResult>> function) =>
-        @this.TeeOperateWhenAsync(predicate(), function);
+        @this.TeeOperateWhen(predicate(), function);
 
     #endregion
 
@@ -954,5 +954,5 @@ public static class OperateExtensions {
 
     #endregion
 
-    //TODO: TryOperateWhenAsync
+    //TODO: TryOperateWhen Async
 }
