@@ -23,7 +23,7 @@ public static class StringExtensionsTest {
         Assert.False(result.IsSuccess);
         Assert.IsType<ArgumentError>(result.Detail);
     }
-    
+
     [Fact]
     public static void MustMatchRegex_NoMatchRegexWithErrorDetail_ReturnErrorDetail() {
         var result = InvalidEmail.MustMatchRegex(EmailRegex, new BadRequestError());

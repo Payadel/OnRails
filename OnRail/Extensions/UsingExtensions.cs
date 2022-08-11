@@ -139,13 +139,15 @@ public static class UsingExtensions {
 
     public static TSource TeeUsing<TSource, TResult>(
         this TSource obj,
-        Func<TSource, TResult> function) where TSource : IDisposable =>
-        obj.Tee(() => obj.Using(function));
+        Func<TSource, TResult> function,
+        int numOfTry = 1) where TSource : IDisposable =>
+        obj.Tee(() => obj.Using(function, numOfTry));
 
     public static TSource TeeUsing<TSource, TResult>(
         this TSource obj,
-        Func<TResult> function) where TSource : IDisposable =>
-        obj.Tee(() => obj.Using(function));
+        Func<TResult> function,
+        int numOfTry = 1) where TSource : IDisposable =>
+        obj.Tee(() => obj.Using(function, numOfTry));
 
     #endregion
 }

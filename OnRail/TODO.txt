@@ -1,2 +1,4 @@
 //TODO:
 Add XML to methods
+Test
+Document

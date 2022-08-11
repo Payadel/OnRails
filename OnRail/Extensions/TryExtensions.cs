@@ -120,6 +120,12 @@ public static class TryExtensions {
         this T @this,
         Action<T> action, int numOfTry = 1) => Try(() => action(@this), numOfTry);
 
+    //TODO: Test
+    public static Result<TResult> Try<TSource, TResult>(
+        this TSource @this,
+        Func<TSource, TResult> func,
+        int numOfTry = 1) => Try(() => func(@this), numOfTry);
+
     #endregion
 
     #region Async methods

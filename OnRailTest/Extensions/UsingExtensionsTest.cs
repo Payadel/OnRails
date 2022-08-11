@@ -261,7 +261,7 @@ public class UsingExtensionsTest {
 
     #endregion
 
-    #region UsingAsync
+    #region Using Async
 
     [Fact]
     public async Task UsingAsync_SuccessfulFunctionWithInputOutput_DisposeObjectAndReturnResult() {
