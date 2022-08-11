@@ -1,3 +1,4 @@
+using OnRail.Extensions.OperateWhen;
 using OnRail.ResultDetails;
 
 namespace OnRail.Extensions;

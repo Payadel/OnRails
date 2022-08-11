@@ -1,5 +1,5 @@
 using OnRail;
-using OnRail.Extensions;
+using OnRail.Extensions.ThrowException;
 using OnRail.ResultDetails.Errors;
 
 namespace OnRailTest.Extensions;

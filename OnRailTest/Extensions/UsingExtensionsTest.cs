@@ -1,5 +1,5 @@
 using OnRail;
-using OnRail.Extensions;
+using OnRail.Extensions.Using;
 using OnRail.ResultDetails;
 using Xunit.Sdk;
 

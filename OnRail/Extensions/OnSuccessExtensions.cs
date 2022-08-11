@@ -1,3 +1,5 @@
+using OnRail.Extensions.OperateWhen;
+using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 
 namespace OnRail.Extensions;
@@ -830,7 +832,7 @@ public static class OnSuccessExtensions {
         this Result @this,
         Func<bool> predicateFun,
         Func<Result> operation
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicateFun, operation));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -885,19 +887,19 @@ public static class OnSuccessExtensions {
         this Result @this,
         Func<bool> predicateFun,
         Action action
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicateFun, action));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, action));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
         bool predicate,
         Func<Result> operation
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
         bool predicate,
         Action action
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicate, action));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -927,7 +929,7 @@ public static class OnSuccessExtensions {
         this Result @this,
         Func<Result> predicateFun,
         Func<Result> operation
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicateFun, operation));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -982,19 +984,19 @@ public static class OnSuccessExtensions {
         this Result @this,
         Func<Result> predicateFun,
         Action action
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicateFun, action));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, action));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
         Result predicate,
         Func<Result> operation
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
         Result predicate,
         Action operation
-    ) => @this.OnSuccess(() => OperateExtensions.OperateWhen(predicate.IsSuccess, operation));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate.IsSuccess, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -1028,19 +1030,19 @@ public static class OnSuccessExtensions {
         this Task<Result> @this,
         Func<bool> predicate,
         Func<Result> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Task<Result> @this,
         Func<bool> predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Task<Result> @this,
         Func<bool> predicate,
         Action operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
@@ -1118,19 +1120,19 @@ public static class OnSuccessExtensions {
         this Task<Result> @this,
         bool predicate,
         Func<Result> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Task<Result> @this,
         bool predicate,
         Action operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result> OnSuccessOperateWhenAsync(
         this Task<Result> @this,
         bool predicate,
         Func<Task> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
@@ -1286,7 +1288,7 @@ public static class OnSuccessExtensions {
         this Task<Result> @this,
         Func<bool> predicate,
         Func<Task<Result>> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,
@@ -1316,7 +1318,7 @@ public static class OnSuccessExtensions {
         this Task<Result> @this,
         bool predicate,
         Func<Task<Result>> operation
-    ) => @this.OnSuccessAsync(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnSuccessAsync(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Task<Result<T>> @this,

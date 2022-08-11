@@ -1,3 +1,4 @@
+using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
 

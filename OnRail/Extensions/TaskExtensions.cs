@@ -1,10 +1,10 @@
+using OnRail.Extensions.Try;
+
 namespace OnRail.Extensions;
 
 //TODO: Add numOfTry to OnSuccessAsync
 
 public static class TaskExtensions {
-    #region Task
-
     public static Task<Result> Bind(
         this IEnumerable<Task> tasks,
         int numOfTry = 1) =>
@@ -48,6 +48,4 @@ public static class TaskExtensions {
                     taskResults.Add(task1);
                     return taskResults;
                 }));
-
-    #endregion
 }

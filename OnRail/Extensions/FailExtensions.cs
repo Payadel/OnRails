@@ -112,4 +112,7 @@ public static class FailExtensions {
     ) => Result<T>.Fail(errorDetail);
 
     #endregion
+
+    //TODO: TeeOnFail
+    //TODO: TeeOnFail Async
 }

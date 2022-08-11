@@ -2,3 +2,4 @@
 Add XML to methods
 Test
 Document
+Use partial class instead of region

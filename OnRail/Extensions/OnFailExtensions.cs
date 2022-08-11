@@ -1,3 +1,5 @@
+using OnRail.Extensions.OperateWhen;
+using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
 
@@ -297,7 +299,7 @@ public static class OnFailExtensions {
         this Result @this,
         bool predicate,
         Func<Result> operation
-    ) => @this.OnFail(() => OperateExtensions.OperateWhen(predicate, operation));
+    ) => @this.OnFail(() => OperateWhenExtensions.OperateWhen(predicate, operation));
 
     public static Result<T> OnFailOperateWhen<T>(
         this Result<T> @this,
