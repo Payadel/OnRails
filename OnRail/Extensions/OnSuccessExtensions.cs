@@ -7,6 +7,11 @@ namespace OnRail.Extensions;
 public static class OnSuccessExtensions {
     #region OnSuccess
 
+    public static Result<TResult> OnSuccessAsync<TSource, TResult>(Result<TSource> @this, TResult obj) =>
+        @this.IsSuccess
+            ? Result<TResult>.Ok(obj)
+            : Result<TResult>.Fail(@this.Detail);
+
     public static Result<TResult> OnSuccess<TSource, TResult>(
         this Result<TSource> @this,
         TResult successResult) =>
@@ -94,6 +99,26 @@ public static class OnSuccessExtensions {
     #endregion
 
     #region OnSuccessAsync
+
+    public static async Task<Result<TResult>> OnSuccessAsync<TSource, TResult>(this Result<TSource> @this,
+        Task<TResult> obj, int numOfTry = 1) => @this.IsSuccess
+        ? await TryExtensions.Try(obj, numOfTry)
+        : Result<TResult>.Fail(@this.Detail);
+
+    public static async Task<Result<TResult>> OnSuccessAsync<TSource, TResult>(this Result<TSource> @this,
+        Task<Result<TResult>> obj, int numOfTry = 1) => @this.IsSuccess
+        ? await TryExtensions.Try(obj, numOfTry)
+        : Result<TResult>.Fail(@this.Detail);
+
+    public static Task<Result<TResult>> OnSuccessAsync<TSource, TResult>(this Task<Result<TSource>> @this,
+        Task<TResult> obj, int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(() => obj);
+
+    public static Task<Result<TResult>> OnSuccessAsync<TSource, TResult>(this Task<Result<TSource>> @this,
+        Task<Result<TResult>> obj, int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(() => obj);
 
     public static async Task<Result<TResult>> OnSuccessAsync<TSource, TResult>(
         this Task<Result<TSource>> @this,
@@ -206,6 +231,13 @@ public static class OnSuccessExtensions {
         onSuccessTask();
         return @this;
     });
+
+    public static Task<Result<T>> OnSuccessAsync<T>(
+        this Task<Result<T>> @this,
+        T obj,
+        int numOfTry = 1
+    ) => TryExtensions.Try(@this, numOfTry)
+        .OnSuccessAsync(() => obj);
 
     public static async Task<Result<TResult>> OnSuccessAsync<TResult>(
         this Task<Result> @this,
@@ -838,7 +870,7 @@ public static class OnSuccessExtensions {
         this Result<T> @this,
         Func<bool> predicateFun,
         Func<Result<T>> operation
-    ) => @this.OnSuccess(() => @this.OperateWhen(predicateFun, operation));
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -1333,7 +1365,4 @@ public static class OnSuccessExtensions {
     ) => @this.OnSuccessAsync(source => source.OperateWhen(predicate, operation));
 
     #endregion
-
-    //TODO: OnSuccessTryOperateWhen
-    //TODO: OnSuccessTryOperateWhenAsync
 }
