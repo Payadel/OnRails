@@ -231,6 +231,29 @@ public static partial class TryExtensions {
         return Result.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
+    //TODO: Test
+    public static async Task<Result<T>> Try<T>(
+        this Task<T> @this,
+        Func<T, Task<Result<T>>> onSuccessFunction,
+        int numOfTry = 1
+    ) {
+        var errors = new List<Exception>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
+            try {
+                var t = await @this;
+                await onSuccessFunction(t);
+                return Result<T>.Ok(t)
+                    .AddNumOfTry(counter + 1, numOfTry);
+            }
+            catch (Exception e) {
+                errors.Add(e);
+            }
+        }
+
+        return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
+    }
+
     public static Task<Result> Try<T>(
         this T @this,
         Func<T, Task<Result>> function,
@@ -263,5 +286,41 @@ public static partial class TryExtensions {
         var errorDetail = new ErrorDetail(moreDetails: errors);
         errorDetail.AddDetail(new {numOfTry});
         return Result.Fail(errorDetail);
+    }
+
+//TODO: Test
+    public static Task<Result<T>> Try<T>(Task<T> task, int numOfTry = 1) =>
+        Try(async () => await task, numOfTry);
+
+//TODO: Test
+    public static Task<Result<T>> Try<T>(Task<Result<T>> task, int numOfTry = 1) =>
+        Try(async () => await task, numOfTry);
+
+    public static async Task<Result<T>> Try<T>(
+        this T @this,
+        Func<T, Task<Result<T>>> onSuccessFunction,
+        int numOfTry = 1
+    ) {
+        var errors = new List<object>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
+            try {
+                var result = await onSuccessFunction(@this);
+
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
+
+                errors.Add(result.Detail);
+            }
+            catch (Exception e) {
+                errors.Add(e);
+            }
+        }
+
+        var errorDetail = new ErrorDetail(moreDetails: errors);
+        errorDetail.AddDetail(new {numOfTry});
+        return Result<T>.Fail(errorDetail);
     }
 }
