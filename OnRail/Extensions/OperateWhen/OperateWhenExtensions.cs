@@ -47,8 +47,7 @@ public static partial class OperateWhenExtensions {
         Result predicate,
         Func<Result<T>> operation
     ) => predicate
-        .OnSuccess(operation)
-        .OnFail(() => @this);
+        .OnSuccess(operation);
 
     //TODO: Test (OnSuccess must support try)
     public static Result<T> OperateWhen<T>(
@@ -150,7 +149,7 @@ public static partial class OperateWhenExtensions {
         Func<T, bool> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(() => predicate(@this), function, numOfTry);
+    ) => @this.OperateWhen(predicate(@this), function, numOfTry);
 
     //TODO: Test
     public static Result<T> OperateWhen<T>(

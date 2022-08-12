@@ -1,338 +1,305 @@
+using OnRail.Extensions.Try;
+
 namespace OnRail.Extensions.OperateWhen;
 
 public static partial class OperateWhenExtensions {
-    public static async Task OperateWhen(
-        bool predicate,
-        Func<Task> function) {
-        if (predicate)
-            await function();
-    }
-
-    public static Task OperateWhen(
-        Func<bool> predicateFun,
-        Func<Task> function) =>
-        OperateWhen(predicateFun(), function);
-
+    //TODO: Test
     public static async Task<Result> OperateWhen(
         bool predicate,
-        Func<Task<Result>> function) {
+        Func<Task> function,
+        int numOfTry = 1) {
         if (predicate)
-            return await function();
+            return await TryExtensions.Try(function, numOfTry);
         return Result.Ok();
     }
 
+    //TODO: Test
     public static Task<Result> OperateWhen(
         Func<bool> predicateFun,
-        Func<Task<Result>> function) =>
-        OperateWhen(predicateFun(), function);
+        Func<Task> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun)
+            .OnSuccessAsync(predicate => OperateWhen(predicate, function, numOfTry));
 
-    public static async Task<T> OperateWhen<T>(
-        this Task<T> @this,
+    //TODO: Test
+    public static async Task<Result> OperateWhen(
         bool predicate,
-        Func<Task<T>> function) {
-        var t = await @this;
+        Func<Task<Result>> function,
+        int numOfTry = 1) {
         if (predicate)
-            return await function();
-        return t;
+            return await TryExtensions.Try(function, numOfTry);
+        return Result.Ok();
     }
 
+    //TODO: Test
+    public static Task<Result> OperateWhen(
+        Func<bool> predicateFun,
+        Func<Task<Result>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun)
+            .OnSuccessAsync(predicate => OperateWhen(predicate, function, numOfTry));
+
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
+        this Task<T> @this,
+        bool predicate,
+        Func<Task<T>> function,
+        int numOfTry = 1) =>
+        predicate
+            ? TryExtensions.Try(function, numOfTry)
+            : TryExtensions.Try(@this, numOfTry);
+
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
         this Task<Result<T>> @this,
         bool predicate,
-        Func<Task<T>> function) {
-        var t = await @this;
-        return predicate ? Result<T>.Ok(await function()) : t;
-    }
+        Func<Task<T>> function,
+        int numOfTry = 1) => predicate
+        ? await TryExtensions.Try(function, numOfTry)
+        : await TryExtensions.Try(@this, numOfTry);
 
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
-        Func<Task<Result<T>>> function) {
-        var t = await @this;
-        if (predicate)
-            return await function();
-        return Result<T>.Ok(t);
-    }
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) => predicate
+        ? await TryExtensions.Try(function, numOfTry)
+        : await TryExtensions.Try(@this, numOfTry);
 
-    public static async Task<T> OperateWhen<T>(
-        this Task<T> @this,
-        bool predicate,
-        Func<T, Task<T>> function) {
-        var t = await @this;
-        if (predicate)
-            return await function(t);
-        return t;
-    }
-
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
-        Func<T, Task<Result<T>>> function) {
-        var t = await @this;
-        if (predicate)
-            return await function(t);
-        return Result<T>.Ok(t);
-    }
+        Func<T, Task<Result<T>>> function,
+        int numOfTry = 1) => predicate
+        ? await @this.Try(function, numOfTry)
+        : await TryExtensions.Try(@this, numOfTry);
 
-    public static Task<T> OperateWhen<T>(
-        this Task<T> @this,
-        Func<bool> predicateFun,
-        Func<T, Task<T>> function) =>
-        @this.OperateWhen(predicateFun(), function);
-
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicateFun,
-        Func<T, Task<Result<T>>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<T, Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
-    public static async Task<T> OperateWhen<T>(
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
-        Func<T, bool> predicate,
-        Func<T, Task<T>> function) {
-        var t = await @this;
-        if (predicate(t))
-            return await function(t);
-        return t;
-    }
+        Func<T, bool> predicateFun,
+        Func<T, Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(async () => predicateFun(await @this))
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
-    public static async Task<Result<T>> OperateWhen<T>(
-        this Task<T> @this,
-        Func<T, bool> predicate,
-        Func<T, Task<Result<T>>> function) {
-        var t = await @this;
-        if (predicate(t))
-            return await function(t);
-        return Result<T>.Ok(t);
-    }
-
-    public static async Task<T> OperateWhen<T>(
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         bool predicate,
-        Func<T, T> function) {
-        var t = await @this;
-        return predicate ? function(t) : t;
-    }
+        Func<T, Result<T>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(t => t.OperateWhen(predicate, function, numOfTry));
 
-    public static async Task<Result<T>> OperateWhen<T>(
-        this Task<T> @this,
-        bool predicate,
-        Func<T, Result<T>> function) {
-        var t = await @this;
-        return predicate ? function(t) : Result<T>.Ok(t);
-    }
-
-    public static Task<T> OperateWhen<T>(
-        this Task<T> @this,
-        Func<bool> predicateFun,
-        Func<T, T> function) =>
-        @this.OperateWhen(predicateFun(), function);
-
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicateFun,
-        Func<T, Result<T>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<T, Result<T>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
 
-    public static async Task<T> OperateWhen<T>(
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
-        Func<T, bool> predicate,
-        Func<T, T> function) {
-        var t = await @this;
-        return predicate(t) ? function(t) : t;
-    }
+        Func<T, bool> predicateFun,
+        Func<T, Result<T>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
 
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
-        this Task<T> @this,
-        Func<T, bool> predicate,
-        Func<T, Result<T>> function) {
-        var t = await @this;
-        return predicate(t) ? function(t) : Result<T>.Ok(t);
-    }
+        this T @this,
+        bool predicate,
+        Func<Task<T>> function,
+        int numOfTry = 1) => predicate
+        ? await TryExtensions.Try(function, numOfTry)
+        : Result<T>.Ok(@this);
 
-    public static Task<T> OperateWhen<T>(
-        this Task<T> @this,
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
+        this T @this,
         Func<bool> predicateFun,
-        Func<Task<T>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<Task<T>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
+    //TODO: Test
+    public static async Task<Result<T>> OperateWhen<T>(
+        this T @this,
+        bool predicate,
+        Func<Task> function,
+        int numOfTry = 1) => predicate
+        ? await TryExtensions.Try(function, numOfTry)
+            .OnSuccessAsync(() => @this)
+        : Result<T>.Ok(@this);
+
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this Task<Result<T>> @this,
         Func<bool> predicateFun,
-        Func<Task<T>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<Task<T>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
 
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
         Func<bool> predicateFun,
-        Func<Task<Result<T>>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
 
-    public static async Task<T> OperateWhen<T>(
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<T> @this,
-        Func<T, bool> predicate,
-        Func<Task<T>> function) {
-        var t = await @this;
-        if (predicate(t))
-            return await function();
-        return t;
-    }
+        Func<T, bool> predicateFun,
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
 
-    public static async Task<Result<T>> OperateWhen<T>(
-        this Task<T> @this,
-        Func<T, bool> predicate,
-        Func<Task<Result<T>>> function) {
-        var t = await @this;
-        if (predicate(t))
-            return await function();
-        return Result<T>.Ok(t);
-    }
-
-    public static async Task<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
-        Func<Task<T>> function) {
-        if (predicate)
-            return await function();
-        return @this;
-    }
-
-    public static async Task<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
-        Func<Task> function) {
-        if (predicate)
-            await function();
-        return @this;
-    }
-
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         bool predicate,
-        Func<Task<T>> function) =>
-        predicate ? Result<T>.Ok(await function()) : @this;
+        Func<Task<T>> function,
+        int numOfTry = 1) => predicate
+        ? await TryExtensions.Try(function, numOfTry)
+        : @this;
 
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
         this T @this,
         bool predicate,
-        Func<Task<Result<T>>> function) {
-        if (predicate)
-            return await function();
-        return Result<T>.Ok(@this);
-    }
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) => predicate
+        ? await TryExtensions.Try(function, numOfTry)
+        : Result<T>.Ok(@this);
 
+    //TODO: Test
+    public static async Task<Result<T>> OperateWhen<T>(
+        this T @this,
+        bool predicate,
+        Func<T, Task> function,
+        int numOfTry = 1) => predicate
+        ? await @this.Try(function, numOfTry)
+            .OnSuccessAsync(() => @this)
+        : Result<T>.Ok(@this);
+
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         bool predicate,
-        Func<Task<Result<T>>> function) {
-        if (predicate)
-            return await function();
-        return @this;
-    }
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) => predicate
+        ? await TryExtensions.Try(function, numOfTry)
+        : @this;
 
-    public static Task<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
-        Func<Task<T>> function) =>
-        @this.OperateWhen(predicateFun(), function);
-
-    public static Task<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
-        Func<Task> function) =>
-        @this.OperateWhen(predicateFun(), function);
-
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
-        Func<Task<T>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<Task<T>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
-        Func<Task<Result<T>>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
-        Func<Task<Result<T>>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
-    public static async Task<Result<T>> OperateWhen<T>(
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
         this Task<Result<T>> @this,
-        bool predicate,
-        Func<Task<Result<T>>> function) {
-        var t = await @this;
-        if (predicate)
-            return await function();
-        return t;
-    }
+        bool predicateFun,
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(@this, numOfTry)
+            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
 
-    public static Task<T> OperateWhen<T>(
-        this T @this,
-        Func<T, bool> predicate,
-        Func<Task<T>> function) =>
-        @this.OperateWhen(predicate(@this), function);
-
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this T @this,
-        Func<T, bool> predicate,
-        Func<Task<Result<T>>> function) =>
-        @this.OperateWhen(predicate(@this), function);
+        Func<T, bool> predicateFun,
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        @this.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
-    public static async Task<T> OperateWhen<T>(
+    //TODO: Test
+    public static Task<Result<T>> OperateWhen<T>(
         this T @this,
-        bool predicate,
-        Func<T, Task<T>> function) {
-        if (predicate)
-            return await function(@this);
-        return @this;
-    }
+        Func<T, bool> predicateFun,
+        Func<Task> function,
+        int numOfTry = 1) =>
+        @this.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
+    //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
         this T @this,
         bool predicate,
-        Func<T, Task<Result<T>>> function) {
-        if (predicate)
-            return await function(@this);
-        return Result<T>.Ok(@this);
-    }
+        Func<T, Task<Result<T>>> function,
+        int numOfTry = 1) => predicate
+        ? await @this.Try(function, numOfTry)
+        : Result<T>.Ok(@this);
 
-    public static Task<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
-        Func<T, Task<T>> function) =>
-        @this.OperateWhen(predicateFun(), function);
-
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
-        Func<T, Task<Result<T>>> function) =>
-        @this.OperateWhen(predicateFun(), function);
+        Func<T, Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        TryExtensions.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
-    public static Task<T> OperateWhen<T>(
-        this T @this,
-        Func<T, bool> predicate,
-        Func<T, Task<T>> function) =>
-        @this.OperateWhen(predicate(@this), function);
-
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this T @this,
-        Func<T, bool> predicate,
-        Func<T, Task<Result<T>>> function) =>
-        @this.OperateWhen(predicate(@this), function);
+        Func<T, bool> predicateFun,
+        Func<T, Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        @this.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
-    public static Task<T> OperateWhen<T>(
-        this T @this,
-        Func<T, Result> predicate,
-        Func<Task<T>> function) =>
-        @this.OperateWhen(predicate(@this).IsSuccess, function);
-
+    //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this T @this,
-        Func<T, Result> predicate,
-        Func<Task<Result<T>>> function) =>
-        @this.OperateWhen(predicate(@this).IsSuccess, function);
+        Func<T, Result> predicateFun,
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1) =>
+        @this.Try(predicateFun, numOfTry)
+            .OnSuccessAsync(predicate => @this.OperateWhen(predicate.IsSuccess, function, numOfTry));
 }
