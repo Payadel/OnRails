@@ -75,7 +75,10 @@ public static class OperateExtensionsTest {
 
     [Fact]
     public static void OperateWhen_PredicateThrowException_FailedResult() {
-        var result = OperateWhenExtensions.OperateWhen(() => throw new Exception("Fake"),
+        var result = OperateWhenExtensions.OperateWhen(() => {
+                throw new Exception("Fake");
+                return true;
+            },
             Result.Ok, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
@@ -122,7 +125,10 @@ public static class OperateExtensionsTest {
 
     [Fact]
     public static void OperateWhen_PredicateFunctionThrowException_SuccessResult() {
-        var result = OperateWhenExtensions.OperateWhen(() => throw new Exception("Fake"),
+        var result = OperateWhenExtensions.OperateWhen(() => {
+                throw new Exception("Fake");
+                return true;
+            },
             () => { }, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
