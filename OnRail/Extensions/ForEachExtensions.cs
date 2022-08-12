@@ -132,7 +132,7 @@ public static class ForEachExtensions {
         this Task<IEnumerable<T>> @this,
         Func<T, Task<Result>> function) =>
         TryExtensions.Try(() => @this)
-            .OnSuccessAsync(async items => {
+            .OnSuccess(async items => {
                 foreach (var item in items) {
                     var result = await function(item);
                     if (!result.IsSuccess)
@@ -146,7 +146,7 @@ public static class ForEachExtensions {
         this Task<IEnumerable<Result<T>>> @this,
         Func<T, Task<Result>> function) =>
         TryExtensions.Try(() => @this)
-            .OnSuccessAsync(async items => {
+            .OnSuccess(async items => {
                 foreach (var item in items) {
                     if (!item.IsSuccess)
                         return item.MapResult();
@@ -190,7 +190,7 @@ public static class ForEachExtensions {
         this Task<IEnumerable<TSource>> @this,
         Func<TSource, Task<Result<TResult>>> function) =>
         TryExtensions.Try(() => @this)
-            .OnSuccessAsync(async items => {
+            .OnSuccess(async items => {
                 foreach (var item in items) {
                     var result = await function(item);
                     if (!result.IsSuccess)
@@ -204,7 +204,7 @@ public static class ForEachExtensions {
         this Task<IEnumerable<Result<TSource>>> @this,
         Func<TSource, Task<Result<TResult>>> function) =>
         TryExtensions.Try(() => @this)
-            .OnSuccessAsync(async items => {
+            .OnSuccess(async items => {
                 foreach (var item in items) {
                     if (!item.IsSuccess)
                         return item.MapResult();
@@ -257,7 +257,7 @@ public static class ForEachExtensions {
     public static Task<Result> ForEachUntilIsSuccessAsync<T>(
         this Task<IEnumerable<T>> @this,
         Func<T, Task> action) => TryExtensions.Try(() => @this)
-        .OnSuccessAsync(async items => {
+        .OnSuccess(async items => {
             var list = items.ToList();
             foreach (var item in list) {
                 try {
@@ -275,7 +275,7 @@ public static class ForEachExtensions {
     public static Task<Result> ForEachUntilIsSuccessAsync<T>(
         this Task<IEnumerable<Result<T>>> @this,
         Func<T, Task> action) => TryExtensions.Try(() => @this)
-        .OnSuccessAsync(async items => {
+        .OnSuccess(async items => {
             var list = items.ToList();
             foreach (var item in list) {
                 if (!item.IsSuccess)

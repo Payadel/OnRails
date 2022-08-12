@@ -111,7 +111,7 @@ public static partial class TeeExtensions {
         this Task<Result<T>> @this,
         Action<T> action,
         int numOfTry = 1) {
-        await @this.OnSuccessAsync(action);
+        await @this.OnSuccess(action);
         return await @this;
     }
 
@@ -119,19 +119,19 @@ public static partial class TeeExtensions {
         this Task<Result<T>> @this,
         Action action,
         int numOfTry = 1) => @this
-        .OnSuccessAsync(() => @this.Tee<Task<Result<T>>>(action));
+        .OnSuccess(() => @this.Tee<Task<Result<T>>>(action));
 
     public static Task<Result> TeeOnSuccess(
         this Task<Result> @this,
         Action action,
         int numOfTry = 1) =>
-        @this.OnSuccessAsync(() => @this.Tee<Task<Result>>(action));
+        @this.OnSuccess(() => @this.Tee<Task<Result>>(action));
 
     public static async Task<Result<TSource>> TeeOnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
         Func<TSource, TResult> function,
         int numOfTry = 1) {
-        await @this.OnSuccessAsync(function);
+        await @this.OnSuccess(function);
         return await @this;
     }
 
@@ -139,13 +139,13 @@ public static partial class TeeExtensions {
         this Task<Result<TSource>> @this,
         Func<TResult> function,
         int numOfTry = 1) => @this
-        .OnSuccessAsync(() => @this.Tee<Task<Result<TSource>>, TResult>(function));
+        .OnSuccess(() => @this.Tee<Task<Result<TSource>>, TResult>(function));
 
     public static Task<Result> TeeOnSuccess<TResult>(
         this Task<Result> @this,
         Func<TResult> function,
         int numOfTry = 1) =>
-        @this.OnSuccessAsync(() => @this.Tee<Task<Result>, TResult>(function));
+        @this.OnSuccess(() => @this.Tee<Task<Result>, TResult>(function));
 
     #endregion
 }

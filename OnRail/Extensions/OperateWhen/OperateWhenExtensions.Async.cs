@@ -19,7 +19,7 @@ public static partial class OperateWhenExtensions {
         Func<Task> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun)
-            .OnSuccessAsync(predicate => OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static async Task<Result> OperateWhen(
@@ -37,7 +37,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun)
-            .OnSuccessAsync(predicate => OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -83,7 +83,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -92,7 +92,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(async () => predicateFun(await @this))
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -101,7 +101,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Result<T>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(@this, numOfTry)
-            .OnSuccessAsync(t => t.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(t => t.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -110,7 +110,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Result<T>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(@this, numOfTry)
-            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
+            .OnSuccess(t => t.OperateWhen(predicateFun, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -119,7 +119,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Result<T>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(@this, numOfTry)
-            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
+            .OnSuccess(t => t.OperateWhen(predicateFun, function, numOfTry));
 
     //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
@@ -146,7 +146,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<T>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -155,7 +155,7 @@ public static partial class OperateWhenExtensions {
         Func<Task> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
@@ -164,7 +164,7 @@ public static partial class OperateWhenExtensions {
         Func<Task> function,
         int numOfTry = 1) => predicate
         ? await TryExtensions.Try(function, numOfTry)
-            .OnSuccessAsync(() => @this)
+            .OnSuccess(() => @this)
         : Result<T>.Ok(@this);
 
     //TODO: Test
@@ -174,7 +174,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<T>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(@this, numOfTry)
-            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
+            .OnSuccess(t => t.OperateWhen(predicateFun, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -183,7 +183,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(@this, numOfTry)
-            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
+            .OnSuccess(t => t.OperateWhen(predicateFun, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -192,7 +192,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(@this, numOfTry)
-            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
+            .OnSuccess(t => t.OperateWhen(predicateFun, function, numOfTry));
 
     //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
@@ -219,7 +219,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Task> function,
         int numOfTry = 1) => predicate
         ? await @this.Try(function, numOfTry)
-            .OnSuccessAsync(() => @this)
+            .OnSuccess(() => @this)
         : Result<T>.Ok(@this);
 
     //TODO: Test
@@ -238,7 +238,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<T>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -247,7 +247,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -256,7 +256,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -265,7 +265,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(@this, numOfTry)
-            .OnSuccessAsync(t => t.OperateWhen(predicateFun, function, numOfTry));
+            .OnSuccess(t => t.OperateWhen(predicateFun, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -274,7 +274,7 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         @this.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -283,7 +283,7 @@ public static partial class OperateWhenExtensions {
         Func<Task> function,
         int numOfTry = 1) =>
         @this.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -292,7 +292,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Task<T>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static async Task<Result<T>> OperateWhen<T>(
@@ -310,7 +310,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Task<Result<T>>> function,
         int numOfTry = 1) =>
         TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -319,7 +319,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Task<Result<T>>> function,
         int numOfTry = 1) =>
         @this.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
@@ -328,5 +328,5 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         @this.Try(predicateFun, numOfTry)
-            .OnSuccessAsync(predicate => @this.OperateWhen(predicate.IsSuccess, function, numOfTry));
+            .OnSuccess(predicate => @this.OperateWhen(predicate.IsSuccess, function, numOfTry));
 }

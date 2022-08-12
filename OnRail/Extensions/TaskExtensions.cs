@@ -35,7 +35,7 @@ public static class TaskExtensions {
         int numOfTry = 1,
         params Task[] tasks) =>
         TryExtensions.Try(async () => await thisTask, numOfTry)
-            .OnSuccessAsync(() => tasks.Bind());
+            .OnSuccess(() => tasks.Bind());
 
     //TODO: Test
     public static Task<Result<List<T>>> Bind<T>(
@@ -43,8 +43,8 @@ public static class TaskExtensions {
         int numOfTry = 1,
         params Task<T>[] tasks) =>
         TryExtensions.Try(async () => await thisTask, numOfTry)
-            .OnSuccessAsync(task1 => tasks.Bind()
-                .OnSuccessAsync(taskResults => {
+            .OnSuccess(task1 => tasks.Bind()
+                .OnSuccess(taskResults => {
                     taskResults.Add(task1);
                     return taskResults;
                 }));

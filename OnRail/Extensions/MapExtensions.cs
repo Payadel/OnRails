@@ -662,7 +662,7 @@ public static class MapExtensions {
         Func<TSource, TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(detail => onFailFunction(detail.Detail));
 
     public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
@@ -670,7 +670,7 @@ public static class MapExtensions {
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(detail => onFailFunction(detail.Detail));
 
     public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
@@ -678,21 +678,21 @@ public static class MapExtensions {
         Func<TSource, TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(onFailFunction);
 
     public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
         this Task<Result<TSource>> @this,
         Func<TSource, TResult> onSuccessFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction);
+        .OnSuccess(onSuccessFunction);
 
     public static async Task<Result> TryMapResultAsync<TSource>(
         this Task<Result<TSource>> @this,
         Action<TSource> onSuccessFunction,
         Func<ResultDetail, Result> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(detail => onFailFunction(detail.Detail));
 
     public static async Task<Result> TryMapResultAsync<TSource>(
@@ -700,7 +700,7 @@ public static class MapExtensions {
         Action onSuccessFunction,
         Func<ResultDetail, Result> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(detail => onFailFunction(detail.Detail));
 
     public static async Task<Result> TryMapResultAsync<TSource>(
@@ -708,21 +708,21 @@ public static class MapExtensions {
         Action<TSource> onSuccessFunction,
         Func<Result> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(onFailFunction);
 
     public static async Task<Result> TryMapResultAsync<TSource>(
         this Task<Result<TSource>> @this,
         Action<TSource> onSuccessFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction);
+        .OnSuccess(onSuccessFunction);
 
     public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
         this Task<Result> @this,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(detail => onFailFunction(detail.Detail));
 
     public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
@@ -730,21 +730,21 @@ public static class MapExtensions {
         Func<TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(onFailFunction);
 
     public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
         this Task<Result> @this,
         Func<TResult> onSuccessFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction);
+        .OnSuccess(onSuccessFunction);
 
     public static async Task<Result> TryMapResultAsync(
         this Task<Result> @this,
         Action onSuccessFunction,
         Func<ResultDetail, Result> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(detail => onFailFunction(detail.Detail));
 
     public static async Task<Result> TryMapResultAsync(
@@ -752,14 +752,14 @@ public static class MapExtensions {
         Action onSuccessFunction,
         Func<Result> onFailFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction)
+        .OnSuccess(onSuccessFunction)
         .TryOnFail(onFailFunction);
 
     public static async Task<Result> TryMapResultAsync(
         this Task<Result> @this,
         Action onSuccessFunction
     ) => (await @this)
-        .TryOnSuccess(onSuccessFunction);
+        .OnSuccess(onSuccessFunction);
 
     #endregion
 
