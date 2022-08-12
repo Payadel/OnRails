@@ -21,6 +21,11 @@ public static partial class TryExtensions {
         return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
+    public static Task<Result<T>> Try<T>(
+        this T @this,
+        Func<T, Task<T>> function,
+        int numOfTry = 1) => Try(() => function(@this), numOfTry);
+
     public static async Task<Result<T>> Try<T>(
         Func<Task<Result<T>>> function,
         int numOfTry = 1) {
