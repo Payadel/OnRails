@@ -187,7 +187,7 @@ public static partial class OnSuccessExtensions {
         this Result<T> @this,
         Func<bool> predicate,
         Func<T, Task<Result<T>>> operation
-    ) => @this.OnSuccess(source => @this.OperateWhen<T>(predicate, () => operation(source)));
+    ) => @this.OnSuccess(source => @this.OperateWhen(predicate, () => operation(source)));
 
     public static Task<Result<T>> OnSuccessOperateWhenAsync<T>(
         this Result<T> @this,

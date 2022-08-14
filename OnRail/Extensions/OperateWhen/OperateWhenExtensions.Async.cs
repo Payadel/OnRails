@@ -301,7 +301,7 @@ public static partial class OperateWhenExtensions {
         bool predicate,
         Func<T, Task<Result<T>>> function,
         int numOfTry = 1) => predicate
-        ? await @this.Try(function, numOfTry)
+        ? await @this.Try<T>(function, numOfTry)
         : Result<T>.Ok(@this);
 
     //TODO: Test
@@ -329,5 +329,5 @@ public static partial class OperateWhenExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1) =>
         @this.Try(predicateFun, numOfTry)
-            .OnSuccess(predicate => @this.OperateWhen(predicate.IsSuccess, function, numOfTry));
+            .OnSuccess<Result>(predicate => @this.OperateWhen(predicate.IsSuccess, function, numOfTry));
 }

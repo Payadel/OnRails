@@ -2,6 +2,8 @@ using OnRail.Extensions.OperateWhen;
 
 namespace OnRail.Extensions.OnSuccess;
 
+//TODO: Test all methods
+
 public static partial class OnSuccessExtensions {
     public static Result OnSuccessOperateWhen(
         this Result @this,
@@ -13,19 +15,19 @@ public static partial class OnSuccessExtensions {
         this Result<T> @this,
         Func<bool> predicateFun,
         Func<Result<T>> operation
-    ) => @this.OnSuccess(t => t.OperateWhen(predicateFun, operation));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
         Action action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicateFun, action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
         Action<T> action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicateFun, action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -37,13 +39,13 @@ public static partial class OnSuccessExtensions {
         this Result<T> @this,
         Func<T, bool> predicateFun,
         Action action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicateFun, action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<T, bool> predicateFun,
         Action<T> action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicateFun, action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -86,13 +88,13 @@ public static partial class OnSuccessExtensions {
         this Result<T> @this,
         bool predicate,
         Action action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicate, action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         bool predicate,
         Action<T> action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicate, action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -116,13 +118,13 @@ public static partial class OnSuccessExtensions {
         this Result<T> @this,
         Func<Result> predicateFun,
         Action action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicateFun(), action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun(), action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<Result> predicateFun,
         Action<T> action
-    ) => @this.OnSuccess(t => t.OperateWhen(predicateFun(), action));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun(), action));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -146,7 +148,7 @@ public static partial class OnSuccessExtensions {
         this Result<T> @this,
         Func<Result> predicateFun,
         Func<T, Result<T>> operation
-    ) => @this.OnSuccess(value => @this.Value.OperateWhen(predicateFun, operation));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
@@ -177,19 +179,19 @@ public static partial class OnSuccessExtensions {
         this Result<T> @this,
         Result predicate,
         Func<Result<T>> operation
-    ) => @this.OnSuccess(t => t.OperateWhen(predicate.IsSuccess, operation));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate.IsSuccess, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Result predicate,
         Action operation
-    ) => @this.OnSuccess(t => t.OperateWhen(predicate, operation));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Result predicate,
         Action<T> operation
-    ) => @this.OnSuccess(t => t.OperateWhen(predicate, operation));
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,

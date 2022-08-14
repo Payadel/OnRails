@@ -303,14 +303,14 @@ public static partial class TryExtensions {
 
     public static async Task<Result<T>> Try<T>(
         this T @this,
-        Func<T, Task<Result<T>>> onSuccessFunction,
+        Func<T, Task<Result<T>>> func,
         int numOfTry = 1
     ) {
         var errors = new List<object>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
-                var result = await onSuccessFunction(@this);
+                var result = await func(@this);
 
                 if (result.IsSuccess || numOfTry == 1) {
                     return result

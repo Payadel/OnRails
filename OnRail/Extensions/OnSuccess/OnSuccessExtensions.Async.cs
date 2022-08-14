@@ -3,304 +3,425 @@ using OnRail.Extensions.Try;
 namespace OnRail.Extensions.OnSuccess;
 
 public static partial class OnSuccessExtensions {
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(this Result<TSource> @this,
         Task<TResult> obj, int numOfTry = 1) => @this.IsSuccess
         ? await TryExtensions.Try(obj, numOfTry)
         : Result<TResult>.Fail(@this.Detail);
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(this Result<TSource> @this,
         Task<Result<TResult>> obj, int numOfTry = 1) => @this.IsSuccess
         ? await TryExtensions.Try(obj, numOfTry)
         : Result<TResult>.Fail(@this.Detail);
 
-    public static Task<Result<TResult>> OnSuccess<TSource, TResult>(this Task<Result<TSource>> @this,
-        Task<TResult> obj, int numOfTry = 1) =>
-        TryExtensions.Try(@this, numOfTry)
-            .OnSuccess(() => obj);
+    //TODO: Test
+    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(this Task<Result<TSource>> @this,
+        Task<TResult> obj, int numOfTry = 1) {
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(obj, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
+    }
 
-    public static Task<Result<TResult>> OnSuccess<TSource, TResult>(this Task<Result<TSource>> @this,
-        Task<Result<TResult>> obj, int numOfTry = 1) =>
-        TryExtensions.Try(@this, numOfTry)
-            .OnSuccess(() => obj);
+    //TODO: Test
+    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(this Task<Result<TSource>> @this,
+        Task<Result<TResult>> obj, int numOfTry = 1) {
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(obj, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
+    }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
-        Func<TSource, Task<Result<TResult>>> onSuccessTask
-    ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess
-            ? await onSuccessTask(methodResult.Value)
-            : Result<TResult>.Fail(methodResult.Detail);
+        Func<TSource, Task<Result<TResult>>> onSuccessTask,
+        int numOfTry = 1) {
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await t.Value!.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
     }
 
-    public static Task<Result<TSource>> OnSuccess<TSource>(
+    //TODO: Test
+    public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Action onSuccessTask
-    ) => @this.OnSuccess(() => {
-        onSuccessTask();
-        return @this;
-    });
+        Action onSuccessTask,
+        int numOfTry = 1
+    ) {
+        var t = await TryExtensions.Try(@this, numOfTry);
+        if (t.IsSuccess)
+            TryExtensions.Try(onSuccessTask, numOfTry);
+        return t.MapResult();
+    }
 
-    public static Task<Result<TSource>> OnSuccess<TSource>(
+    //TODO: Test
+    public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Action<TSource> onSuccessTask
-    ) => @this.OnSuccess(methodResult => {
-        onSuccessTask(methodResult);
-        return @this;
-    });
+        Action<TSource> onSuccessTask,
+        int numOfTry = 1
+    ) {
+        var t = await TryExtensions.Try(@this, numOfTry);
+        if (t.IsSuccess)
+            t.Value!.Try(onSuccessTask, numOfTry);
+        return t.MapResult();
+    }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
-        Func<TSource, Task<TResult>> onSuccessTask
+        Func<TSource, Task<TResult>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess
-            ? Result<TResult>.Ok(await onSuccessTask(methodResult.Value))
-            : Result<TResult>.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await t.Value!.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
-        Func<Task<Result<TResult>>> onSuccessTask
+        Func<Task<Result<TResult>>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess ? await onSuccessTask() : Result<TResult>.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
-        Func<Task<TResult>> onSuccessTask
+        Func<Task<TResult>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess
-            ? Result<TResult>.Ok(await onSuccessTask())
-            : Result<TResult>.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Func<TSource, Task<Result>> onSuccessTask
+        Func<TSource, Task<Result>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess
-            ? await onSuccessTask(methodResult.Value)
-            : Result.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await t.Value!.Try(onSuccessTask, numOfTry)
+            : Result.Fail(t.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Func<TSource, Task> onSuccessTask
+        Func<TSource, Task> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        if (!methodResult.IsSuccess)
-            return Result.Fail(methodResult.Detail);
-
-        await onSuccessTask(methodResult.Value);
-        return Result.Ok();
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await t.Value!.Try(onSuccessTask, numOfTry)
+            : Result.Fail(t.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Func<Task<Result>> onSuccessTask
+        Func<Task<Result>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess ? await onSuccessTask() : Result.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result.Fail(t.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Func<Task> onSuccessTask
+        Func<Task> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        if (!methodResult.IsSuccess)
-            return Result.Fail(methodResult.Detail);
-
-        await onSuccessTask();
-        return Result.Ok();
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result.Fail(t.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TResult>(
         this Task<Result> @this,
-        Func<Task<Result<TResult>>> onSuccessTask
+        Func<Task<Result<TResult>>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess ? await onSuccessTask() : Result<TResult>.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
     }
 
-    public static Task<Result> OnSuccess(
+    //TODO: Test
+    public static async Task<Result> OnSuccess(
         this Task<Result> @this,
-        Action onSuccessTask
-    ) => @this.OnSuccess(() => {
-        onSuccessTask();
-        return @this;
-    });
+        Action onSuccessTask,
+        int numOfTry = 1
+    ) {
+        var t = await TryExtensions.Try(@this, numOfTry);
+        if (t.IsSuccess)
+            TryExtensions.Try(onSuccessTask, numOfTry);
+        return t.MapResult();
+    }
 
-    public static Task<Result<T>> OnSuccess<T>(
+//TODO: Test
+    public static async Task<Result<T>> OnSuccess<T>(
         this Task<Result<T>> @this,
         T obj,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
-        .OnSuccess(() => obj);
+    ) {
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess ? Result<T>.Ok(obj) : t;
+    }
 
+//TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TResult>(
         this Task<Result> @this,
-        Func<Task<TResult>> onSuccessTask
+        Func<Task<TResult>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess
-            ? Result<TResult>.Ok(await onSuccessTask())
-            : Result<TResult>.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(t.Detail);
     }
 
+//TODO: Test
     public static async Task<Result> OnSuccess(
         this Task<Result> @this,
-        Func<Task<Result>> onSuccessTask
+        Func<Task<Result>> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess ? await onSuccessTask() : Result.Fail(methodResult.Detail);
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result.Fail(t.Detail);
     }
 
+//TODO: Test
     public static async Task<Result> OnSuccess(
         this Task<Result> @this,
-        Func<Task> onSuccessTask
+        Func<Task> onSuccessTask,
+        int numOfTry = 1
     ) {
-        var methodResult = await @this;
-        if (!methodResult.IsSuccess)
-            return Result.Fail(methodResult.Detail);
-
-        await onSuccessTask();
-        return Result.Ok();
+        var t = await TryExtensions.Try(@this, numOfTry);
+        return t.IsSuccess
+            ? await TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result.Fail(t.Detail);
     }
 
+//TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Result<TSource> @this,
-        Func<TSource, Task<Result<TResult>>> onSuccessTask
-    ) => @this.IsSuccess ? await onSuccessTask(@this.Value) : Result<TResult>.Fail(@this.Detail);
-
-    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
-        this Result<TSource> @this,
-        Func<TSource, Task<TResult>> onSuccessTask
+        Func<TSource, Task<Result<TResult>>> onSuccessTask,
+        int numOfTry = 1
     ) => @this.IsSuccess
-        ? Result<TResult>.Ok(await onSuccessTask(@this.Value))
+        ? await @this.Value!.Try(onSuccessTask, numOfTry)
         : Result<TResult>.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Result<TSource> @this,
-        Func<Task<Result<TResult>>> onSuccessTask
-    ) => @this.IsSuccess ? await onSuccessTask() : Result<TResult>.Fail(@this.Detail);
-
-    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
-        this Result<TSource> @this,
-        Func<Task<TResult>> onSuccessTask
+        Func<TSource, Task<TResult>> onSuccessTask,
+        int numOfTry = 1
     ) => @this.IsSuccess
-        ? Result<TResult>.Ok(await onSuccessTask())
+        ? await @this.Value!.Try(onSuccessTask, numOfTry)
         : Result<TResult>.Fail(@this.Detail);
 
+//TODO: Test
+    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
+        this Result<TSource> @this,
+        Func<Task<Result<TResult>>> onSuccessTask,
+        int numOfTry = 1
+    ) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result<TResult>.Fail(@this.Detail);
+
+//TODO: Test
+    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
+        this Result<TSource> @this,
+        Func<Task<TResult>> onSuccessTask,
+        int numOfTry = 1
+    ) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result<TResult>.Fail(@this.Detail);
+
+//TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Result<TSource> @this,
-        Func<TSource, Task<Result>> onSuccessTask
-    ) => @this.IsSuccess ? await onSuccessTask(@this.Value) : Result.Fail(@this.Detail);
+        Func<TSource, Task<Result>> onSuccessTask,
+        int numOfTry = 1
+    ) => @this.IsSuccess
+        ? await @this.Value!.Try(onSuccessTask, numOfTry)
+        : Result.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Result<TSource> @this,
-        Func<TSource, Task> onSuccessTask) {
-        if (!@this.IsSuccess)
-            return Result.Fail(@this.Detail);
-        await onSuccessTask(@this.Value);
-        return Result.Ok();
-    }
+        Func<TSource, Task> onSuccessTask,
+        int numOfTry = 1) => @this.IsSuccess
+        ? await @this.Value!.Try(onSuccessTask, numOfTry)
+        : Result.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Result<TSource> @this,
-        Func<Task<Result>> onSuccessTask
-    ) => @this.IsSuccess ? await onSuccessTask() : Result.Fail(@this.Detail);
+        Func<Task<Result>> onSuccessTask,
+        int numOfTry = 1
+    ) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Result<TSource> @this,
-        Func<Task> onSuccessTask) {
-        if (!@this.IsSuccess)
-            return Result.Fail(@this.Detail);
-        await onSuccessTask();
-        return Result.Ok();
-    }
+        Func<Task> onSuccessTask,
+        int numOfTry = 1) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TResult>(
         this Result @this,
-        Func<Task<Result<TResult>>> onSuccessTask
-    ) => @this.IsSuccess ? await onSuccessTask() : Result<TResult>.Fail(@this.Detail);
+        Func<Task<Result<TResult>>> onSuccessTask,
+        int numOfTry = 1
+    ) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result<TResult>.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TResult>(
         this Result @this,
-        Func<Task<TResult>> onSuccessTask) =>
-        @this.IsSuccess
-            ? Result<TResult>.Ok(await onSuccessTask())
-            : Result<TResult>.Fail(@this.Detail);
+        Func<Task<TResult>> onSuccessTask,
+        int numOfTry = 1) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result<TResult>.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result> OnSuccess(
         this Result @this,
-        Func<Task<Result>> onSuccessTask
-    ) => @this.IsSuccess ? await onSuccessTask() : Result.Fail(@this.Detail);
+        Func<Task<Result>> onSuccessTask,
+        int numOfTry = 1
+    ) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result.Fail(@this.Detail);
 
+//TODO: Test
     public static async Task<Result> OnSuccess(
         this Result @this,
-        Func<Task> onSuccessTask) {
-        if (!@this.IsSuccess)
-            return Result.Fail(@this.Detail);
-        await onSuccessTask();
-        return Result.Ok();
+        Func<Task> onSuccessTask,
+        int numOfTry = 1) => @this.IsSuccess
+        ? await TryExtensions.Try(onSuccessTask, numOfTry)
+        : Result.Fail(@this.Detail);
+
+    //TODO: Test
+    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
+        this Task<Result<TSource>> @this,
+        Func<TSource, Result<TResult>> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? result.Value!.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(result.Detail);
     }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
-        Func<TSource, Result<TResult>> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<TSource, TResult> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? result.Value!.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(result.Detail);
+    }
 
+//TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
-        Func<TSource, TResult> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<Result<TResult>> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(result.Detail);
+    }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Task<Result<TSource>> @this,
-        Func<Result<TResult>> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<TResult> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(result.Detail);
+    }
 
-    public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TResult> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
-
+    //TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Func<TSource, Result> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<TSource, Result> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? result.Value!.Try(onSuccessTask, numOfTry)
+            : Result.Fail(result.Detail);
+    }
 
+    //TODO: Test
     public static async Task<Result> OnSuccess<TSource>(
         this Task<Result<TSource>> @this,
-        Func<Result> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<Result> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result.Fail(result.Detail);
+    }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TResult>(
         this Task<Result> @this,
-        Func<Result<TResult>> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<Result<TResult>> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(result.Detail);
+    }
 
+    //TODO: Test
     public static async Task<Result<TResult>> OnSuccess<TResult>(
         this Task<Result> @this,
-        Func<TResult> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<TResult> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result<TResult>.Fail(result.Detail);
+    }
 
+    //TODO: Test
     public static async Task<Result> OnSuccess(
         this Task<Result> @this,
-        Func<Result> onSuccessTask
-    ) => (await @this)
-        .OnSuccess(onSuccessTask);
+        Func<Result> onSuccessTask,
+        int numOfTry = 1) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? TryExtensions.Try(onSuccessTask, numOfTry)
+            : Result.Fail(result.Detail);
+    }
 }

@@ -88,11 +88,24 @@ public static partial class TryExtensions {
 
     public static Result Try<T>(
         this T @this,
-        Action<T> action, int numOfTry = 1) => Try(() => action(@this), numOfTry);
+        Action<T> action, int numOfTry = 1) =>
+        Try(() => action(@this), numOfTry);
 
+    //TODO: Test
+    public static Task<Result<TResult>> Try<TSource, TResult>(
+        this TSource @this,
+        Func<TSource, Task<Result<TResult>>> fun,
+        int numOfTry = 1) => Try(() => fun(@this), numOfTry);
+    
     //TODO: Test
     public static Result<TResult> Try<TSource, TResult>(
         this TSource @this,
-        Func<TSource, TResult> func,
+        Func<TSource, Result<TResult>> func,
+        int numOfTry = 1) => Try(() => func(@this), numOfTry);
+    
+    //TODO: Test
+    public static Result Try<TSource>(
+        this TSource @this,
+        Func<TSource, Result> func,
         int numOfTry = 1) => Try(() => func(@this), numOfTry);
 }
