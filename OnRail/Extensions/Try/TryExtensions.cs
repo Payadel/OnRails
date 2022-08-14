@@ -20,6 +20,25 @@ public static partial class TryExtensions {
         return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
+    public static Result<TResult> Try<TSource, TResult>(
+        this TSource @this,
+        Func<TSource, TResult> function,
+        int numOfTry = 1) {
+        var errors = new List<Exception>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
+            try {
+                return Result<TResult>.Ok(function(@this))
+                    .AddNumOfTry(counter + 1, numOfTry);
+            }
+            catch (Exception e) {
+                errors.Add(e);
+            }
+        }
+
+        return Result<TResult>.Fail(GenerateExceptionError(errors, numOfTry));
+    }
+
     public static Result Try(
         Func<Result> function, int numOfTry = 1) {
         var errors = new List<object>(numOfTry);
@@ -96,13 +115,13 @@ public static partial class TryExtensions {
         this TSource @this,
         Func<TSource, Task<Result<TResult>>> fun,
         int numOfTry = 1) => Try(() => fun(@this), numOfTry);
-    
+
     //TODO: Test
     public static Result<TResult> Try<TSource, TResult>(
         this TSource @this,
         Func<TSource, Result<TResult>> func,
         int numOfTry = 1) => Try(() => func(@this), numOfTry);
-    
+
     //TODO: Test
     public static Result Try<TSource>(
         this TSource @this,

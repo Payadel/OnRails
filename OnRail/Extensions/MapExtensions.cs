@@ -656,196 +656,196 @@ public static class MapExtensions {
 
     #endregion
 
-    #region TryMapResultAsync
+    // #region TryMapResultAsync
+    //
+    // public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TSource, TResult> onSuccessFunction,
+    //     Func<ResultDetail, Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TResult> onSuccessFunction,
+    //     Func<ResultDetail, Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TSource, TResult> onSuccessFunction,
+    //     Func<Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(onFailFunction);
+    //
+    // public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TSource, TResult> onSuccessFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction);
+    //
+    // public static async Task<Result> TryMapResultAsync<TSource>(
+    //     this Task<Result<TSource>> @this,
+    //     Action<TSource> onSuccessFunction,
+    //     Func<ResultDetail, Result> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result> TryMapResultAsync<TSource>(
+    //     this Task<Result<TSource>> @this,
+    //     Action onSuccessFunction,
+    //     Func<ResultDetail, Result> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result> TryMapResultAsync<TSource>(
+    //     this Task<Result<TSource>> @this,
+    //     Action<TSource> onSuccessFunction,
+    //     Func<Result> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(onFailFunction);
+    //
+    // public static async Task<Result> TryMapResultAsync<TSource>(
+    //     this Task<Result<TSource>> @this,
+    //     Action<TSource> onSuccessFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction);
+    //
+    // public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
+    //     this Task<Result> @this,
+    //     Func<TResult> onSuccessFunction,
+    //     Func<ResultDetail, Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
+    //     this Task<Result> @this,
+    //     Func<TResult> onSuccessFunction,
+    //     Func<Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(onFailFunction);
+    //
+    // public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
+    //     this Task<Result> @this,
+    //     Func<TResult> onSuccessFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction);
+    //
+    // public static async Task<Result> TryMapResultAsync(
+    //     this Task<Result> @this,
+    //     Action onSuccessFunction,
+    //     Func<ResultDetail, Result> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result> TryMapResultAsync(
+    //     this Task<Result> @this,
+    //     Action onSuccessFunction,
+    //     Func<Result> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .TryOnFail(onFailFunction);
+    //
+    // public static async Task<Result> TryMapResultAsync(
+    //     this Task<Result> @this,
+    //     Action onSuccessFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction);
+    //
+    // #endregion
 
-    public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TSource, TResult> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TResult> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TSource, TResult> onSuccessFunction,
-        Func<Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(onFailFunction);
-
-    public static async Task<Result<TResult>> TryMapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TSource, TResult> onSuccessFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction);
-
-    public static async Task<Result> TryMapResultAsync<TSource>(
-        this Task<Result<TSource>> @this,
-        Action<TSource> onSuccessFunction,
-        Func<ResultDetail, Result> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result> TryMapResultAsync<TSource>(
-        this Task<Result<TSource>> @this,
-        Action onSuccessFunction,
-        Func<ResultDetail, Result> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result> TryMapResultAsync<TSource>(
-        this Task<Result<TSource>> @this,
-        Action<TSource> onSuccessFunction,
-        Func<Result> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(onFailFunction);
-
-    public static async Task<Result> TryMapResultAsync<TSource>(
-        this Task<Result<TSource>> @this,
-        Action<TSource> onSuccessFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction);
-
-    public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
-        this Task<Result> @this,
-        Func<TResult> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
-        this Task<Result> @this,
-        Func<TResult> onSuccessFunction,
-        Func<Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(onFailFunction);
-
-    public static async Task<Result<TResult>> TryMapResultAsync<TResult>(
-        this Task<Result> @this,
-        Func<TResult> onSuccessFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction);
-
-    public static async Task<Result> TryMapResultAsync(
-        this Task<Result> @this,
-        Action onSuccessFunction,
-        Func<ResultDetail, Result> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result> TryMapResultAsync(
-        this Task<Result> @this,
-        Action onSuccessFunction,
-        Func<Result> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .TryOnFail(onFailFunction);
-
-    public static async Task<Result> TryMapResultAsync(
-        this Task<Result> @this,
-        Action onSuccessFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction);
-
-    #endregion
-
-    #region MapResultAsync
-
-    public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TSource, Result<TResult>> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .OnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<Result<TResult>> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .OnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TSource, Result<TResult>> onSuccessFunction,
-        Func<Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .OnFail(onFailFunction);
-
-    public static async Task<Result> MapResultAsync<TSource>(
-        this Task<Result<TSource>> @this,
-        Func<TSource, Result> onSuccessFunction,
-        Func<Result> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .OnFail(onFailFunction);
-
-    public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
-        this Task<Result<TSource>> @this,
-        Func<TSource, Result<TResult>> onSuccessFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction);
-
-    public static async Task<Result> MapResultAsync<TSource>(
-        this Task<Result<TSource>> @this,
-        Func<Result> onSuccessFunction,
-        Func<ResultDetail, Result> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .OnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result<TResult>> MapResultAsync<TResult>(
-        this Task<Result> @this,
-        Func<Result<TResult>> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .OnFail(detail => onFailFunction(detail.Detail));
-
-    public static async Task<Result<TResult>> MapResultAsync<TResult>(
-        this Task<Result> @this,
-        Func<Result<TResult>> onSuccessFunction,
-        Func<Result<TResult>> onFailFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction)
-        .OnFail(onFailFunction);
-
-    public static async Task<Result<TResult>> MapResultAsync<TResult>(
-        this Task<Result> @this,
-        Func<Result<TResult>> onSuccessFunction
-    ) => (await @this)
-        .OnSuccess(onSuccessFunction);
-
-    public static async Task<Result<TResult>> MapResultAsync<TResult>(
-        this Task<Result> @this,
-        TResult result
-    ) => (await @this).MapResult(result);
-
-    public static async Task<Result> MapResultAsync<TSource>(
-        this Task<Result<TSource>> @this) {
-        var methodResult = await @this;
-        return methodResult.IsSuccess ? Result.Ok() : Result.Fail(methodResult.Detail);
-    }
-
-    #endregion
+    // #region MapResultAsync
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TSource, Result<TResult>> onSuccessFunction,
+    //     Func<ResultDetail, Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .OnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<Result<TResult>> onSuccessFunction,
+    //     Func<ResultDetail, Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .OnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TSource, Result<TResult>> onSuccessFunction,
+    //     Func<Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .OnFail(onFailFunction);
+    //
+    // public static async Task<Result> MapResultAsync<TSource>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TSource, Result> onSuccessFunction,
+    //     Func<Result> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .OnFail(onFailFunction);
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TSource, TResult>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<TSource, Result<TResult>> onSuccessFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction);
+    //
+    // public static async Task<Result> MapResultAsync<TSource>(
+    //     this Task<Result<TSource>> @this,
+    //     Func<Result> onSuccessFunction,
+    //     Func<ResultDetail, Result> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .OnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TResult>(
+    //     this Task<Result> @this,
+    //     Func<Result<TResult>> onSuccessFunction,
+    //     Func<ResultDetail, Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .OnFail(detail => onFailFunction(detail.Detail));
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TResult>(
+    //     this Task<Result> @this,
+    //     Func<Result<TResult>> onSuccessFunction,
+    //     Func<Result<TResult>> onFailFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction)
+    //     .OnFail(onFailFunction);
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TResult>(
+    //     this Task<Result> @this,
+    //     Func<Result<TResult>> onSuccessFunction
+    // ) => (await @this)
+    //     .OnSuccess(onSuccessFunction);
+    //
+    // public static async Task<Result<TResult>> MapResultAsync<TResult>(
+    //     this Task<Result> @this,
+    //     TResult result
+    // ) => (await @this).MapResult(result);
+    //
+    // public static async Task<Result> MapResultAsync<TSource>(
+    //     this Task<Result<TSource>> @this) {
+    //     var methodResult = await @this;
+    //     return methodResult.IsSuccess ? Result.Ok() : Result.Fail(methodResult.Detail);
+    // }
+    //
+    // #endregion
 
     #region GetValue
 

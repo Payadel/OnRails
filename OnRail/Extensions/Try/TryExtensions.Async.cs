@@ -297,6 +297,26 @@ public static partial class TryExtensions {
     public static Task<Result<T>> Try<T>(Task<T> task, int numOfTry = 1) =>
         Try(async () => await task, numOfTry);
 
+    //TODO: Test
+    public static async Task<Result<TResult>> Try<TSource, TResult>(
+        this TSource @this,
+        Func<TSource, Task<TResult>> func,
+        int numOfTry = 1) {
+        var errors = new List<Exception>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
+            try {
+                return Result<TResult>.Ok(await func(@this))
+                    .AddNumOfTry(counter + 1, numOfTry);
+            }
+            catch (Exception e) {
+                errors.Add(e);
+            }
+        }
+
+        return Result<TResult>.Fail(GenerateExceptionError(errors, numOfTry));
+    }
+
 //TODO: Test
     public static Task<Result<T>> Try<T>(Task<Result<T>> task, int numOfTry = 1) =>
         Try(async () => await task, numOfTry);
