@@ -4,6 +4,8 @@ using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.Fail;
 
+//TODO: Test
+
 public static partial class FailExtensions {
     public static Result FailWhen(
         bool predicate,
