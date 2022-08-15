@@ -1,10 +1,8 @@
-﻿using OnRail.ResultDetails;
+using OnRail.ResultDetails;
 
-namespace OnRail.Extensions;
+namespace OnRail.Extensions.Fail;
 
-public static class FailExtensions {
-    #region FailWhen
-
+public static partial class FailExtensions {
     public static Result FailWhen(
         bool predicate,
         ErrorDetail errorDetail
@@ -96,33 +94,4 @@ public static class FailExtensions {
         Func<T, Result> predicate,
         Func<T, ErrorDetail> errorDetail
     ) => @this.FailWhen(predicate(@this), errorDetail);
-
-    #endregion
-
-    #region Fail
-
-    public static Result Fail(
-        this Result @this,
-        ErrorDetail errorDetail
-    ) {
-        var failResult = Result.Fail(errorDetail);
-        if (!@this.IsSuccess)
-            failResult.Detail.AddDetail(@this.Detail);
-        return failResult;
-    }
-
-    public static Result<T> Fail<T>(
-        this Result<T> @this,
-        ErrorDetail errorDetail
-    ) {
-        var failResult = Result<T>.Fail(errorDetail);
-        if (!@this.IsSuccess)
-            failResult.Detail.AddDetail(@this.Detail);
-        return failResult;
-    }
-
-    #endregion
-
-    //TODO: TeeOnFail
-    //TODO: TeeOnFail Async
 }

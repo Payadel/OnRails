@@ -174,7 +174,7 @@ public static partial class OnSuccessExtensions {
         var t = await TryExtensions.Try(@this, numOfTry);
         if (t.IsSuccess)
             TryExtensions.Try(onSuccessTask, numOfTry);
-        return t.Map();
+        return t;
     }
 
 //TODO: Test

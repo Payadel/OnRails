@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using OnRail.Extensions.Fail;
 using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
 

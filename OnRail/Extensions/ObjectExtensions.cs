@@ -1,3 +1,4 @@
+using OnRail.Extensions.Fail;
 using OnRail.Extensions.ForEach;
 using OnRail.Extensions.Map;
 using OnRail.Extensions.OnFail;
