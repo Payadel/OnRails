@@ -8,7 +8,7 @@
         <Authors>Payadel Team</Authors>
         <RepositoryUrl>https://github.com/Payadel/OnRail</RepositoryUrl>
         <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-        <PackageReadmeFile>../README.md</PackageReadmeFile>
+        <PackageReadmeFile>..\README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <PropertyGroup>
