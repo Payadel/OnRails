@@ -21,6 +21,33 @@ public static partial class TryExtensions {
         return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
     }
 
+    //TODO: Test
+    public static async Task<Result> Try(
+        Task<Result> task,
+        int numOfTry = 1) {
+        var errors = new List<object>(numOfTry);
+
+        for (var counter = 0; counter < numOfTry; counter++) {
+            try {
+                var result = await task;
+
+                if (result.IsSuccess || numOfTry == 1) {
+                    return result
+                        .AddNumOfTry(counter + 1, numOfTry);
+                }
+
+                errors.Add(result.Detail);
+            }
+            catch (Exception e) {
+                errors.Add(e);
+            }
+        }
+
+        var errorDetail = new ErrorDetail(moreDetails: errors);
+        errorDetail.AddDetail(new {numOfTry});
+        return Result.Fail(errorDetail);
+    }
+
     public static Task<Result<T>> Try<T>(
         this T @this,
         Func<T, Task<T>> function,

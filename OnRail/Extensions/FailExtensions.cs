@@ -102,14 +102,24 @@ public static class FailExtensions {
     #region Fail
 
     public static Result Fail(
-        this Result _,
+        this Result @this,
         ErrorDetail errorDetail
-    ) => Result.Fail(errorDetail);
+    ) {
+        var failResult = Result.Fail(errorDetail);
+        if (!@this.IsSuccess)
+            failResult.Detail.AddDetail(@this.Detail);
+        return failResult;
+    }
 
     public static Result<T> Fail<T>(
-        this Result<T> _,
+        this Result<T> @this,
         ErrorDetail errorDetail
-    ) => Result<T>.Fail(errorDetail);
+    ) {
+        var failResult = Result<T>.Fail(errorDetail);
+        if (!@this.IsSuccess)
+            failResult.Detail.AddDetail(@this.Detail);
+        return failResult;
+    }
 
     #endregion
 

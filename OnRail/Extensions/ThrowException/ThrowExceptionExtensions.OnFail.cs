@@ -1,3 +1,5 @@
+using OnRail.Extensions.OnFail;
+
 namespace OnRail.Extensions.ThrowException;
 
 public static partial class ThrowExceptionExtensions {
