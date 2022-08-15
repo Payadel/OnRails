@@ -14,7 +14,7 @@ public static class ObjectExtensions {
         ErrorDetail? errorDetail = null) =>
         @this.FailWhen(@this is null, errorDetail ?? new ErrorDetail(
                 title: "NullError", message: "Object is null."))
-            .MapResult((T) @this!);
+            .Map((T) @this!);
 
     public static Result<TResult> As<TResult>(
         this object @this,

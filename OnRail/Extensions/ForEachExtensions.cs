@@ -25,7 +25,7 @@ public static class ForEachExtensions {
         Func<T, Result> function) {
         foreach (var item in @this) {
             if (!item.IsSuccess)
-                return item.MapResult();
+                return item.Map();
 
             var result = function(item.Value);
             if (!result.IsSuccess)
@@ -52,7 +52,7 @@ public static class ForEachExtensions {
         Func<TSource, Result<TResult>> function) {
         foreach (var item in @this) {
             if (!item.IsSuccess)
-                return item.MapResult();
+                return item.Map();
 
             var result = function(item.Value);
             if (!result.IsSuccess)
@@ -85,7 +85,7 @@ public static class ForEachExtensions {
         var list = @this.ToList();
         foreach (var item in list) {
             if (!item.IsSuccess)
-                return item.MapResult();
+                return item.Map();
 
             try {
                 action(item.Value);
@@ -120,7 +120,7 @@ public static class ForEachExtensions {
         Func<T, Task<Result>> function) {
         foreach (var item in @this) {
             if (!item.IsSuccess)
-                return item.MapResult();
+                return item.Map();
 
             var result = await function(item.Value);
             if (!result.IsSuccess)
@@ -151,7 +151,7 @@ public static class ForEachExtensions {
             .OnSuccess(async items => {
                 foreach (var item in items) {
                     if (!item.IsSuccess)
-                        return item.MapResult();
+                        return item.Map();
 
                     var result = await function(item.Value);
                     if (!result.IsSuccess)
@@ -178,7 +178,7 @@ public static class ForEachExtensions {
         Func<TSource, Task<Result<TResult>>> function) {
         foreach (var item in @this) {
             if (!item.IsSuccess)
-                return item.MapResult();
+                return item.Map();
 
             var result = await function(item.Value);
             if (!result.IsSuccess)
@@ -209,7 +209,7 @@ public static class ForEachExtensions {
             .OnSuccess(async items => {
                 foreach (var item in items) {
                     if (!item.IsSuccess)
-                        return item.MapResult();
+                        return item.Map();
 
                     var result = await function(item.Value);
                     if (!result.IsSuccess)
@@ -242,7 +242,7 @@ public static class ForEachExtensions {
         var list = @this.ToList();
         foreach (var item in list) {
             if (!item.IsSuccess)
-                return item.MapResult();
+                return item.Map();
 
             try {
                 await action(item.Value);
@@ -281,7 +281,7 @@ public static class ForEachExtensions {
             var list = items.ToList();
             foreach (var item in list) {
                 if (!item.IsSuccess)
-                    return item.MapResult();
+                    return item.Map();
 
                 try {
                     await action(item.Value);

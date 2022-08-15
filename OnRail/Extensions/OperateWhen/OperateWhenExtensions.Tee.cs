@@ -36,7 +36,7 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1) =>
         @this.Try(predicateFun, numOfTry)
             .OnSuccess(predicate => OperateWhen(predicate, action, numOfTry))
-            .Map(@this);
+            .Map<Result, T>(@this);
 
     //TODO: Test
     public static T TeeOperateWhen<T>(

@@ -54,7 +54,7 @@ public static partial class OnSuccessExtensions {
         var t = await TryExtensions.Try(@this, numOfTry);
         if (t.IsSuccess)
             TryExtensions.Try(onSuccessTask, numOfTry);
-        return t.MapResult();
+        return t.Map();
     }
 
     //TODO: Test
@@ -66,7 +66,7 @@ public static partial class OnSuccessExtensions {
         var t = await TryExtensions.Try(@this, numOfTry);
         if (t.IsSuccess)
             t.Value!.Try(onSuccessTask, numOfTry);
-        return t.MapResult();
+        return t.Map();
     }
 
     //TODO: Test
@@ -174,7 +174,7 @@ public static partial class OnSuccessExtensions {
         var t = await TryExtensions.Try(@this, numOfTry);
         if (t.IsSuccess)
             TryExtensions.Try(onSuccessTask, numOfTry);
-        return t.MapResult();
+        return t.Map();
     }
 
 //TODO: Test
