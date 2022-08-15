@@ -4,6 +4,8 @@ using OnRail.ResultDetails.Errors;
 
 namespace OnRail.Extensions;
 
+//TODO: Test
+
 public static class StringExtensions {
     public static Result<string> MustMatchRegex(
         this string @this,

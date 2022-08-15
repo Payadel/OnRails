@@ -1,3 +1,4 @@
+using OnRail.Extensions.Map;
 using OnRail.Extensions.Try;
 
 namespace OnRail.Extensions.OnSuccess;

@@ -5,6 +5,8 @@ using OnRail.ResultDetails;
 
 namespace OnRail.Extensions;
 
+//TODO: Test
+
 public static class MustExtensions {
     public static Result<T> Must<T>(
         this T @this,
