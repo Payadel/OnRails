@@ -8,8 +8,12 @@
         <Authors>Payadel Team</Authors>
         <RepositoryUrl>https://github.com/Payadel/OnRail</RepositoryUrl>
         <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-        <PackageReadmeFile>..\README.md</PackageReadmeFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
