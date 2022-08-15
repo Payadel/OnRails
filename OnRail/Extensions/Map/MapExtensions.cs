@@ -33,7 +33,7 @@ public static partial class MapExtensions {
         this TSource @this,
         Func<TSource, Result<TResult>> function,
         int numOfTry = 1) => @this.Try(function, numOfTry);
-    
+
     public static Result<TResult> Map<TSource, TResult>(
         this Result<TSource> @this,
         Func<TSource, Result<TResult>> onSuccessFunction,
@@ -249,7 +249,7 @@ public static partial class MapExtensions {
     ) => @this
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
-    
+
     #endregion
 
     #region GetValue

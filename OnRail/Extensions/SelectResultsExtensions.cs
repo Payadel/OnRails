@@ -1,9 +1,9 @@
 using OnRail.ResultDetails.Errors;
 
-namespace OnRail.Extensions; 
+namespace OnRail.Extensions;
 
 public static class SelectResultsExtensions {
-        #region SelectResults
+    #region SelectResults
 
     public static Result<List<TResult>> SelectResults<TSource, TResult>(
         this IEnumerable<TSource> @this,

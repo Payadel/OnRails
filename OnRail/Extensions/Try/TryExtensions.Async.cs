@@ -20,7 +20,7 @@ public static partial class TryExtensions {
 
         return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
     }
-    
+
     //TODO: Test
     public static async Task<Result> Try(
         Task task,
