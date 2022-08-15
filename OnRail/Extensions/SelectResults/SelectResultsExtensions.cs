@@ -14,7 +14,7 @@ public static partial class SelectResultsExtensions {
         foreach (var item in thisList) {
             var result = item.Try(function, numOfTry)
                 .OnFail(result => result.Detail.AddDetail(new {thisObj = thisList, targetItem = item}));
-            if (!result.IsSuccess) 
+            if (!result.IsSuccess)
                 return Result<List<TResult>>.Fail(result.Detail);
 
             selectedResult.Add(result.Value!);
@@ -33,7 +33,7 @@ public static partial class SelectResultsExtensions {
         foreach (var item in thisList) {
             var result = item.Try(function, numOfTry)
                 .OnFail(result => result.Detail.AddDetail(new {thisObj = thisList, targetItem = item}));
-            if (!result.IsSuccess) 
+            if (!result.IsSuccess)
                 return Result<List<TResult>>.Fail(result.Detail);
 
             selectedResult.Add(result.Value!);

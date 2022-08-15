@@ -8,14 +8,14 @@ public static partial class SelectResultsExtensions {
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
         this Task<IEnumerable<TSource>> @this,
         Func<TSource, Result<TResult>> function,
-        int numOfTry = 1) =>TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
         .OnSuccess(items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
                     .OnFail(result => result.Detail.AddDetail(new {thisObj = list, targetItem = item}));
-                if (!result.IsSuccess) 
+                if (!result.IsSuccess)
                     return Result<List<TResult>>.Fail(result.Detail);
 
                 selectedResult.Add(result.Value!);
@@ -34,7 +34,7 @@ public static partial class SelectResultsExtensions {
         foreach (var item in thisList) {
             var result = await item.Try(function, numOfTry)
                 .OnFail(result => result.Detail.AddDetail(new {thisObj = thisList, targetItem = item}));
-            if (!result.IsSuccess) 
+            if (!result.IsSuccess)
                 return Result<List<TResult>>.Fail(result.Detail);
 
             selectedResult.Add(result.Value!);
@@ -46,14 +46,14 @@ public static partial class SelectResultsExtensions {
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
         this Task<IEnumerable<TSource>> @this,
         Func<TSource, Task<Result<TResult>>> function,
-        int numOfTry = 1) =>TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
         .OnSuccess(async items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
                     .OnFail(result => result.Detail.AddDetail(new {thisObj = list, targetItem = item}));
-                if (!result.IsSuccess) 
+                if (!result.IsSuccess)
                     return Result<List<TResult>>.Fail(result.Detail);
 
                 selectedResult.Add(result.Value!);
@@ -65,14 +65,14 @@ public static partial class SelectResultsExtensions {
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
         this Task<IEnumerable<TSource>> @this,
         Func<TSource, TResult> function,
-        int numOfTry = 1) =>TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
         .OnSuccess(items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
                     .OnFail(result => result.Detail.AddDetail(new {thisObj = list, targetItem = item}));
-                if (!result.IsSuccess) 
+                if (!result.IsSuccess)
                     return Result<List<TResult>>.Fail(result.Detail);
 
                 selectedResult.Add(result.Value!);
@@ -91,7 +91,7 @@ public static partial class SelectResultsExtensions {
         foreach (var item in thisList) {
             var result = await item.Try(function, numOfTry)
                 .OnFail(result => result.Detail.AddDetail(new {thisObj = thisList, targetItem = item}));
-            if (!result.IsSuccess) 
+            if (!result.IsSuccess)
                 return Result<List<TResult>>.Fail(result.Detail);
 
             selectedResult.Add(result.Value!);
@@ -103,14 +103,14 @@ public static partial class SelectResultsExtensions {
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
         this Task<IEnumerable<TSource>> @this,
         Func<TSource, Task<TResult>> function,
-        int numOfTry = 1) =>TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
         .OnSuccess(async items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
                     .OnFail(result => result.Detail.AddDetail(new {thisObj = list, targetItem = item}));
-                if (!result.IsSuccess) 
+                if (!result.IsSuccess)
                     return Result<List<TResult>>.Fail(result.Detail);
 
                 selectedResult.Add(result.Value!);
