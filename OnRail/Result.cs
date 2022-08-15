@@ -1,3 +1,5 @@
+using OnRail.Extensions.OnSuccess;
+using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 
 namespace OnRail;
@@ -38,4 +40,8 @@ public sealed class Result<T> : ResultBase {
     public static Result<T> Fail(ResultDetail? detail = null) {
         return new Result<T>(detail);
     }
+
+    public static Result<T> Fail(Func<ResultDetail> errorDetailFunc, int numOfTry = 1) =>
+        TryExtensions.Try(errorDetailFunc, numOfTry)
+            .OnSuccess(errorDetail => new Result<T>(errorDetail));
 }
