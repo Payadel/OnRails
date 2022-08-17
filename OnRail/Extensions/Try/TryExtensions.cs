@@ -1,3 +1,5 @@
+using System.Reflection;
+using OnRail.Extensions.OnFail;
 using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.Try;
@@ -23,21 +25,7 @@ public static partial class TryExtensions {
     public static Result<TResult> Try<TSource, TResult>(
         this TSource @this,
         Func<TSource, TResult> function,
-        int numOfTry = 1) {
-        var errors = new List<Exception>(numOfTry);
-
-        for (var counter = 0; counter < numOfTry; counter++) {
-            try {
-                return Result<TResult>.Ok(function(@this))
-                    .AddNumOfTry(counter + 1, numOfTry);
-            }
-            catch (Exception e) {
-                errors.Add(e);
-            }
-        }
-
-        return Result<TResult>.Fail(GenerateExceptionError(errors, numOfTry));
-    }
+        int numOfTry = 1) => Try(() => function(@this), numOfTry);
 
     public static Result Try(
         Func<Result> function, int numOfTry = 1) {
@@ -107,8 +95,8 @@ public static partial class TryExtensions {
 
     public static Result Try<T>(
         this T @this,
-        Action<T> action, int numOfTry = 1) =>
-        Try(() => action(@this), numOfTry);
+        Action<T> action, int numOfTry = 1
+    ) => Try(() => action(@this), numOfTry);
 
     //TODO: Test
     public static Task<Result<TResult>> Try<TSource, TResult>(

@@ -4,6 +4,7 @@ using OnRail.ResultDetails.Errors;
 namespace OnRail.Extensions.Try;
 
 public static partial class TryExtensions {
+    //TODO: https://github.com/Payadel/OnRail/issues/16
     private static ExceptionError GenerateExceptionError(IReadOnlyCollection<Exception> exceptions, int numOfTry) {
         var lastItem = exceptions.Last();
         var failResult = new ExceptionError(lastItem, message: lastItem.Message, moreDetails: new {numOfTry});
@@ -13,6 +14,8 @@ public static partial class TryExtensions {
 
         return failResult;
     }
+
+    //TODO: https://github.com/Payadel/OnRail/issues/17
 
     private static Result AddNumOfTry(this Result result,
         int numOfTry, int maxTryRequested) {
