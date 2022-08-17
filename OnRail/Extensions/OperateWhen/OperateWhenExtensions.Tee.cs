@@ -1,12 +1,10 @@
-using OnRail.Extensions.Map;
-using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Tee;
-using OnRail.Extensions.Try;
 
 namespace OnRail.Extensions.OperateWhen;
 
+//TODO: Test
+
 public static partial class OperateWhenExtensions {
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         bool predicate,
@@ -14,69 +12,87 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1) =>
         @this.Tee(() => OperateWhen(predicate, function, numOfTry));
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         Result predicate,
         Func<Result> function,
         int numOfTry = 1) => @this.TeeOperateWhen(predicate.IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         bool predicate,
         Action action,
-        int numOfTry = 1) => predicate ? @this.Tee(action, numOfTry) : @this;
+        int numOfTry = 1) => @this.Tee(() => OperateWhen(predicate, action, numOfTry));
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         Func<T, bool> predicateFun,
         Action action,
         int numOfTry = 1) =>
-        @this.Try(predicateFun, numOfTry)
-            .OnSuccess(predicate => OperateWhen(predicate, action, numOfTry))
-            .Map<Result, T>(@this);
+        @this.Tee(() => OperateWhen(() => predicateFun(@this), action, numOfTry));
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         bool predicate,
         Action<T> action,
-        int numOfTry = 1) => predicate ? @this.Tee(action, numOfTry) : @this;
+        int numOfTry = 1
+    ) => @this.Tee(() => @this.OperateWhen(predicate, action, numOfTry));
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
         Action<T> action,
-        int numOfTry = 1) => @this.TeeOperateWhen(predicate, () => action(@this), numOfTry);
+        int numOfTry = 1) => @this.Tee(() => @this.OperateWhen(predicate, action, numOfTry));
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         Result predicate,
         Action action,
         int numOfTry = 1) => @this.TeeOperateWhen(predicate.IsSuccess, action, numOfTry);
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         Func<T, Result> predicate,
         Action action,
         int numOfTry = 1) => @this.TeeOperateWhen(t => predicate(t).IsSuccess, action, numOfTry);
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         Result predicate,
         Action<T> action,
         int numOfTry = 1) => @this.TeeOperateWhen(predicate.IsSuccess, action, numOfTry);
 
-    //TODO: Test
     public static T TeeOperateWhen<T>(
         this T @this,
         Func<T, Result> predicate,
         Action<T> action,
         int numOfTry = 1) => @this.TeeOperateWhen(t => predicate(t).IsSuccess, action, numOfTry);
+
+    public static Result<T> TeeOperateWhen<T>(
+        this Result<T> @this,
+        bool predicate,
+        Action operation,
+        int numOfTry = 1
+    ) => @this.OperateWhen(predicate, () => @this.Tee(operation, numOfTry));
+
+    public static Result TeeOperateWhen(
+        this Result _,
+        bool predicate,
+        Action operation,
+        int numOfTry = 1
+    ) => OperateWhen(predicate, () => TeeExtensions.Tee(operation, numOfTry));
+
+    public static Result<T> TeeOperateWhen<T>(
+        this Result<T> @this,
+        Func<Result> predicate,
+        Action operation,
+        int numOfTry = 1
+    ) => @this.OperateWhen(predicate().IsSuccess, () => @this.Tee(operation, numOfTry));
+
+    public static Result<T> TeeOperateWhen<T>(
+        this T @this,
+        bool predicate,
+        Func<T, Result> function,
+        int numOfTry = 1
+    ) => @this.OperateWhen(predicate, () => @this.Tee(function, numOfTry));
 }
