@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using OnRail.Extensions;
+using OnRail.Extensions.String;
 using OnRail.ResultDetails.Errors;
 
 namespace OnRailTest.Extensions;

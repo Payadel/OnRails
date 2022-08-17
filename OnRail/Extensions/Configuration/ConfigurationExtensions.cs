@@ -4,7 +4,7 @@ using OnRail.Extensions.Map;
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 
-namespace OnRail.Extensions;
+namespace OnRail.Extensions.Configuration;
 
 public static class ConfigurationExtensions {
     public static Result<T> GetConfig<T>(this IConfiguration @this, int numOfTry = 1) =>

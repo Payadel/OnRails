@@ -1,4 +1,4 @@
-using OnRail.Extensions;
+using OnRail.Extensions.Bind;
 
 namespace OnRailTest.Extensions;
 

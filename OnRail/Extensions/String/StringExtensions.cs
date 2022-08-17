@@ -3,7 +3,7 @@ using OnRail.Extensions.Fail;
 using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
 
-namespace OnRail.Extensions;
+namespace OnRail.Extensions.String;
 
 //TODO: Test
 
