@@ -4,6 +4,8 @@ using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.OperateWhen;
 
+//TODO: Test
+
 public static partial class OperateWhenExtensions {
     public static Result OperateWhen(
         bool predicate,
@@ -11,7 +13,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => predicate ? TryExtensions.Try(function, numOfTry) : Result.Ok();
 
-    //TODO: Test
     public static Result OperateWhen(
         bool predicate,
         ErrorDetail errorDetail
@@ -31,7 +32,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => OperateWhen(predicate, function, numOfTry));
 
-    //TODO: Test
     public static Result OperateWhen(
         Func<bool> predicateFun,
         Result result,
@@ -39,7 +39,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => OperateWhen(predicate, result));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -82,7 +81,6 @@ public static partial class OperateWhenExtensions {
     ) => @this.Try(predicateFunc, numOfTry)
         .OnSuccess(async predicate => predicate ? await @this.Try(operation, numOfTry) : @this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -92,7 +90,6 @@ public static partial class OperateWhenExtensions {
         ? result
         : Result<T>.Ok(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -102,7 +99,6 @@ public static partial class OperateWhenExtensions {
         ? TryExtensions.Try(function, numOfTry)
         : Result<T>.Ok(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -121,7 +117,6 @@ public static partial class OperateWhenExtensions {
     ) => predicate
         .OnSuccess(operation, numOfTry);
 
-    //TODO: Test (OnSuccess must support try)
     public static Result<T> OperateWhen<T>(
         this Result<T> @this,
         Result predicate,
@@ -158,7 +153,6 @@ public static partial class OperateWhenExtensions {
         return @this;
     }
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this Result<T> @this,
         Func<Result> predicate,
@@ -166,7 +160,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate().IsSuccess, operation, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this Result<T> @this,
         Func<Result> predicate,
@@ -174,7 +167,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate().IsSuccess, operation, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -183,7 +175,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -192,7 +183,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, result, numOfTry));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -201,7 +191,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, function));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -210,7 +199,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, function));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -225,7 +213,6 @@ public static partial class OperateWhenExtensions {
         return Result<T>.Ok(@this);
     }
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -234,7 +221,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, function));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicateFun,
@@ -242,7 +228,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(() => predicateFun(@this), function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicateFun,
@@ -250,7 +235,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(() => predicateFun(@this), result, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -259,7 +243,6 @@ public static partial class OperateWhenExtensions {
         ? Result<T>.Fail(errorDetail)
         : Result<T>.Ok(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFunc,
@@ -268,7 +251,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFunc, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, errorDetailFunc, numOfTry));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFunc,
@@ -277,7 +259,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFunc, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, errorDetail));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
@@ -285,7 +266,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate(@this), function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -295,7 +275,6 @@ public static partial class OperateWhenExtensions {
         ? TryExtensions.Try(() => function(@this), numOfTry)
         : Result<T>.Ok(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -304,7 +283,6 @@ public static partial class OperateWhenExtensions {
     ) => TryExtensions.Try(predicateFun, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, function));
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -319,7 +297,6 @@ public static partial class OperateWhenExtensions {
         return Result<T>.Ok(@this);
     }
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicate,
@@ -327,7 +304,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(() => predicate(@this), function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicateFunc,
@@ -336,28 +312,24 @@ public static partial class OperateWhenExtensions {
     ) => @this.Try(predicateFunc, numOfTry)
         .OnSuccess(predicate => @this.OperateWhen(predicate, function));
 
-    //TODO: Test
     public static Result OperateWhen(
         Func<Result> predicate,
         Func<Result> function,
         int numOfTry = 1
     ) => OperateWhen(predicate().IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static Result OperateWhen(
         Func<Result> predicate,
         Action action,
         int numOfTry = 1
     ) => OperateWhen(predicate().IsSuccess, action, numOfTry);
 
-    //TODO: Test
     public static Result OperateWhen(
         Result predicate,
         Func<Result> function,
         int numOfTry = 1
     ) => OperateWhen(predicate.IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<Result> predicate,
@@ -365,7 +337,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate().IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, Result> predicate,
@@ -373,7 +344,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate(@this).IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<Result> predicate,
@@ -381,7 +351,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate().IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Result predicate,
@@ -389,7 +358,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate.IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, Result> predicate,
@@ -397,7 +365,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate(@this).IsSuccess, function, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -410,7 +377,7 @@ public static partial class OperateWhenExtensions {
             .OnSuccess(() => @this);
     }
 
-    //TODO: Test - What happen OnFail?
+//TODO: What happen OnFail?
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -420,7 +387,6 @@ public static partial class OperateWhenExtensions {
             .OnSuccess(predicate => OperateWhen(predicate, action, numOfTry))
             .OnSuccess(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicateFun,
@@ -430,7 +396,6 @@ public static partial class OperateWhenExtensions {
             .OnSuccess(predicate => OperateWhen(predicate, action, numOfTry))
             .OnSuccess(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicateFun,
@@ -440,7 +405,6 @@ public static partial class OperateWhenExtensions {
             .OnSuccess(predicate => @this.OperateWhen(predicate, errorDetail, numOfTry))
             .OnSuccess(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -450,7 +414,6 @@ public static partial class OperateWhenExtensions {
             .OnSuccess(Result<T>.Fail)
         : Result<T>.Ok(@this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         bool predicate,
@@ -459,7 +422,6 @@ public static partial class OperateWhenExtensions {
         OperateWhen(predicate, () => action(@this), numOfTry)
             .OnSuccess(() => @this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<bool> predicateFun,
@@ -468,7 +430,6 @@ public static partial class OperateWhenExtensions {
         OperateWhen(predicateFun, () => action(@this), numOfTry)
             .OnSuccess(() => @this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, bool> predicateFun,
@@ -477,7 +438,6 @@ public static partial class OperateWhenExtensions {
         OperateWhen(() => predicateFun(@this), () => action(@this), numOfTry)
             .OnSuccess(() => @this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Result predicate,
@@ -485,7 +445,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate.IsSuccess, action, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, Result> predicateFun,
@@ -494,7 +453,6 @@ public static partial class OperateWhenExtensions {
     ) => OperateWhen(() => predicateFun(@this), action, numOfTry)
         .OnSuccess(() => @this);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Result predicate,
@@ -502,7 +460,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => @this.OperateWhen(predicate.IsSuccess, action, numOfTry);
 
-    //TODO: Test
     public static Result<T> OperateWhen<T>(
         this T @this,
         Func<T, Result> predicate,

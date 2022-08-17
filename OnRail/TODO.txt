@@ -1,8 +1,0 @@
-//TODO:
-Add XML to methods
-Test
-Document
-Use partial class instead of region
-Generate all possibilities and sort methods
-TeeOnFail
-TeeOnFail Async

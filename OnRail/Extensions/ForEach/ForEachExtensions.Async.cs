@@ -1,4 +1,5 @@
 using OnRail.Extensions.Map;
+using OnRail.Extensions.OnFail;
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 
@@ -8,9 +9,11 @@ public static partial class ForEachExtensions {
     public static async Task<Result> ForEachUntilIsSuccess<T>(
         this IEnumerable<T> @this,
         Func<T, Task<Result>> function,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         foreach (var item in @this) {
-            var result = await item.Try(function, numOfTry);
+            var result = await item.Try(function, numOfTry)
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return result;
         }
@@ -21,9 +24,11 @@ public static partial class ForEachExtensions {
     public static async Task<Result> ForEachUntilIsSuccess<T>(
         this IEnumerable<Result<T>> @this,
         Func<T, Task<Result>> function,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         foreach (var item in @this) {
-            var result = await item.OnSuccess(value => function(value));
+            var result = await item.OnSuccess(function, numOfTry)
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return result;
         }
@@ -34,11 +39,13 @@ public static partial class ForEachExtensions {
     public static Task<Result> ForEachUntilIsSuccess<T>(
         this Task<IEnumerable<T>> @this,
         Func<T, Task<Result>> function,
-        int numOfTry = 1) =>
+        int numOfTry = 1
+    ) =>
         TryExtensions.Try(@this, numOfTry)
             .OnSuccess(async items => {
                 foreach (var item in items) {
-                    var result = await function(item);
+                    var result = await item.Try(function, numOfTry)
+                        .OnFail(new {item});
                     if (!result.IsSuccess)
                         return result;
                 }
@@ -49,11 +56,13 @@ public static partial class ForEachExtensions {
     public static Task<Result> ForEachUntilIsSuccess<T>(
         this Task<IEnumerable<Result<T>>> @this,
         Func<T, Task<Result>> function,
-        int numOfTry = 1) =>
+        int numOfTry = 1
+    ) =>
         TryExtensions.Try(@this)
             .OnSuccess(async items => {
                 foreach (var item in items) {
-                    var result = await item.OnSuccess(function, numOfTry);
+                    var result = await item.OnSuccess(function, numOfTry)
+                        .OnFail(new {item});
                     if (!result.IsSuccess)
                         return result;
                 }
@@ -64,9 +73,11 @@ public static partial class ForEachExtensions {
     public static async Task<Result> ForEachUntilIsSuccess<TSource, TResult>(
         this IEnumerable<TSource> @this,
         Func<TSource, Task<Result<TResult>>> function,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         foreach (var item in @this) {
-            var result = await item.Try(function, numOfTry);
+            var result = await item.Try(function, numOfTry)
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return Result.Fail(result.Detail);
         }
@@ -77,9 +88,11 @@ public static partial class ForEachExtensions {
     public static async Task<Result> ForEachUntilIsSuccess<TSource, TResult>(
         this IEnumerable<Result<TSource>> @this,
         Func<TSource, Task<Result<TResult>>> function,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         foreach (var item in @this) {
-            var result = await item.OnSuccess(function, numOfTry);
+            var result = await item.OnSuccess(function, numOfTry)
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return result.Map();
         }
@@ -90,11 +103,13 @@ public static partial class ForEachExtensions {
     public static Task<Result> ForEachUntilIsSuccess<TSource, TResult>(
         this Task<IEnumerable<TSource>> @this,
         Func<TSource, Task<Result<TResult>>> function,
-        int numOfTry = 1) =>
+        int numOfTry = 1
+    ) =>
         TryExtensions.Try(() => @this)
             .OnSuccess(async items => {
                 foreach (var item in items) {
-                    var result = await item.Try(function, numOfTry);
+                    var result = await item.Try(function, numOfTry)
+                        .OnFail(new {item});
                     if (!result.IsSuccess)
                         return Result.Fail(result.Detail);
                 }
@@ -105,11 +120,13 @@ public static partial class ForEachExtensions {
     public static Task<Result> ForEachUntilIsSuccess<TSource, TResult>(
         this Task<IEnumerable<Result<TSource>>> @this,
         Func<TSource, Task<Result<TResult>>> function,
-        int numOfTry = 1) =>
+        int numOfTry = 1
+    ) =>
         TryExtensions.Try(() => @this)
             .OnSuccess(async items => {
                 foreach (var item in items) {
-                    var result = await item.OnSuccess(function, numOfTry);
+                    var result = await item.OnSuccess(function, numOfTry)
+                        .OnFail(new {item});
                     if (!result.IsSuccess)
                         return result.Map();
                 }
@@ -120,10 +137,12 @@ public static partial class ForEachExtensions {
     public static async Task<Result> ForEachUntilIsSuccess<T>(
         this IEnumerable<T> @this,
         Func<T, Task> action,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         var list = @this.ToList();
         foreach (var item in list) {
-            var result = await item.Try(action, numOfTry);
+            var result = await item.Try(action, numOfTry)
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return Result.Fail(result.Detail);
         }
@@ -134,10 +153,12 @@ public static partial class ForEachExtensions {
     public static async Task<Result> ForEachUntilIsSuccess<T>(
         this IEnumerable<Result<T>> @this,
         Func<T, Task> action,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         var list = @this.ToList();
         foreach (var item in list) {
-            var result = await item.OnSuccess(action, numOfTry);
+            var result = await item.OnSuccess(action, numOfTry)
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return result;
         }
@@ -148,11 +169,13 @@ public static partial class ForEachExtensions {
     public static Task<Result> ForEachUntilIsSuccess<T>(
         this Task<IEnumerable<T>> @this,
         Func<T, Task> action,
-        int numOfTry = 1) => TryExtensions.Try(() => @this)
+        int numOfTry = 1
+    ) => TryExtensions.Try(() => @this)
         .OnSuccess(async items => {
             var list = items.ToList();
             foreach (var item in list) {
-                var result = await item.Try(action, numOfTry);
+                var result = await item.Try(action, numOfTry)
+                    .OnFail(new {item});
                 if (!result.IsSuccess)
                     return Result.Fail(result.Detail);
             }
@@ -167,7 +190,8 @@ public static partial class ForEachExtensions {
         .OnSuccess(async items => {
             var list = items.ToList();
             foreach (var item in list) {
-                var result = await item.OnSuccess(action, numOfTry);
+                var result = await item.OnSuccess(action, numOfTry)
+                    .OnFail(new {item});
                 if (!result.IsSuccess)
                     return result;
             }

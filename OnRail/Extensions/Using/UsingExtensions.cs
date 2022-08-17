@@ -3,8 +3,6 @@ using OnRail.Extensions.Try;
 namespace OnRail.Extensions.Using;
 
 public static partial class UsingExtensions {
-    #region Using
-
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
         Func<TSource, TResult> function,
@@ -76,6 +74,4 @@ public static partial class UsingExtensions {
             return TryExtensions.Try(action, numOfTry);
         }
     }
-
-    #endregion
 }

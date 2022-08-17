@@ -58,7 +58,7 @@ public static partial class FailExtensions {
         Func<T, ErrorDetail> errorDetail,
         int numOfTry = 1
     ) => @this.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.FailWhen(predicate, errorDetail));
+        .OnSuccess(predicate => @this.FailWhen(predicate, errorDetail, numOfTry), numOfTry: 1);
 
     public static Result<T> FailWhen<T>(
         this T @this,
@@ -66,7 +66,7 @@ public static partial class FailExtensions {
         ErrorDetail errorDetail,
         int numOfTry = 1
     ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.FailWhen(predicate, errorDetail));
+        .OnSuccess(predicate => @this.FailWhen(predicate, errorDetail), numOfTry: 1);
 
     public static Result<T> FailWhen<T>(
         this T @this,
@@ -74,7 +74,7 @@ public static partial class FailExtensions {
         Func<T, ErrorDetail> errorDetail,
         int numOfTry = 1
     ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.FailWhen(predicate, errorDetail));
+        .OnSuccess(predicate => @this.FailWhen(predicate, errorDetail), numOfTry: 1);
 
     public static Result<T> FailWhen<T>(
         this T @this,
@@ -97,8 +97,9 @@ public static partial class FailExtensions {
     public static Result<T> FailWhen<T>(
         this T @this,
         Func<Result> predicate,
-        Func<T, ErrorDetail> errorDetail
-    ) => @this.FailWhen(predicate().IsSuccess, errorDetail);
+        Func<T, ErrorDetail> errorDetail,
+        int numOfTry = 1
+    ) => @this.FailWhen(predicate().IsSuccess, errorDetail, numOfTry);
 
     public static Result<T> FailWhen<T>(
         this T @this,
@@ -110,5 +111,5 @@ public static partial class FailExtensions {
         this T @this,
         Func<T, Result> predicate,
         Func<T, ErrorDetail> errorDetail
-    ) => @this.FailWhen(predicate(@this), errorDetail);
+    ) => @this.FailWhen(predicate(@this).IsSuccess, errorDetail);
 }

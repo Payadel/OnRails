@@ -27,11 +27,11 @@ public static partial class FailExtensions {
         return failResult;
     }
 
-    public static Result<T> Fail<T>(this T @this,
-        ErrorDetail errorDetail) => Result<T>.Fail(errorDetail);
+    public static Result<T> Fail<T>(this T _, ErrorDetail errorDetail)
+        => Result<T>.Fail(errorDetail);
 
     public static Result<T> Fail<T>(this T @this,
         Func<T, ErrorDetail> errorDetailFunc,
         int numOfTry = 1) => @this.Try(errorDetailFunc, numOfTry)
-        .OnSuccess(errorDetail => @this.Fail(errorDetail));
+        .OnSuccess(errorDetail => @this.Fail(errorDetail), numOfTry: 1);
 }
