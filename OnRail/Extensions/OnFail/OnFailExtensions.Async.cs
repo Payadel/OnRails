@@ -1,7 +1,4 @@
-using OnRail.Extensions.Fail;
-using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
-using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.OnFail;
 
@@ -10,227 +7,190 @@ namespace OnRail.Extensions.OnFail;
 public static partial class OnFailExtensions {
     public static async Task<Result<TSource>> OnFail<TSource>(
         this Task<Result<TSource>> @this,
-        object moreDetail,
+        Func<Task<Result<TSource>>> onFailFunc,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(@this, numOfTry);
         if (!result.IsSuccess)
-            result.Detail.AddDetail(moreDetail);
-        return result;
-    }
-
-    public static async Task<Result> OnFail(
-        this Task<Result> @this,
-        object moreDetail,
-        int numOfTry = 1) {
-        var result = await TryExtensions.Try(@this, numOfTry);
-        if (!result.IsSuccess)
-            result.Detail.AddDetail(moreDetail);
-        return result;
-    }
-
-    public static async Task<Result<TSource>> OnFail<TSource>(
-        this Task<Result<TSource>> @this,
-        Func<Task<Result<TSource>>> onFailTask,
-        int numOfTry = 1) {
-        var result = await TryExtensions.Try(@this, numOfTry);
-        if (!result.IsSuccess)
-            return await TryExtensions.Try(onFailTask, numOfTry);
+            return await TryExtensions.Try(onFailFunc, numOfTry);
 
         return result;
     }
 
     public static async Task<Result<TSource>> OnFail<TSource>(
         this Task<Result<TSource>> @this,
-        Func<Result<TSource>, Result<TSource>> onFailTask,
+        Func<Result<TSource>, Result<TSource>> onFailFunc,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(@this, numOfTry);
         return !result.IsSuccess
-            ? result.Try(onFailTask, numOfTry)
+            ? result.Try(onFailFunc, numOfTry)
             : result;
     }
 
     public static async Task<Result<TSource>> OnFail<TSource>(
         this Task<Result<TSource>> @this,
-        Func<Result<TSource>> onFailTask,
+        Func<Result<TSource>> onFailFunc,
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(@this, numOfTry);
         return !result.IsSuccess
-            ? TryExtensions.Try(onFailTask, numOfTry)
+            ? TryExtensions.Try(onFailFunc, numOfTry)
             : result;
     }
 
     public static async Task<Result> OnFail(
         this Task<Result> @this,
-        Func<Task<Result>> onFailTask,
+        Func<Task<Result>> onFailFunc,
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(@this, numOfTry);
         return !result.IsSuccess
-            ? await TryExtensions.Try(onFailTask, numOfTry)
+            ? await TryExtensions.Try(onFailFunc, numOfTry)
             : result;
     }
 
     public static async Task<Result> OnFail(
         this Task<Result> @this,
-        Func<Result, Task<Result>> onFailTask,
+        Func<Result, Task<Result>> onFailFunc,
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(@this, numOfTry);
         return !result.IsSuccess
-            ? await @this.Try(onFailTask, numOfTry)
+            ? await @this.Try(onFailFunc, numOfTry)
             : result;
     }
 
     public static async Task<Result> OnFail(
         this Task<Result> @this,
-        Func<Result, Result> onFailTask,
+        Func<Result, Result> onFailFunc,
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(@this, numOfTry);
         return !result.IsSuccess
-            ? result.Try(onFailTask, numOfTry)
+            ? result.Try(onFailFunc, numOfTry)
             : result;
     }
 
     public static async Task<Result> OnFail(
         this Task<Result> @this,
-        Func<Result> onFailTask,
+        Func<Result> onFailFunc,
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(@this, numOfTry);
         return !result.IsSuccess
-            ? TryExtensions.Try(onFailTask, numOfTry)
+            ? TryExtensions.Try(onFailFunc, numOfTry)
             : result;
     }
 
     public static async Task<Result> OnFail(
         this Task<Result> @this,
-        Action onFailTask,
+        Action onFailAction,
+        int numOfTry = 1
+    ) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? result
+            : TryExtensions.Try(onFailAction, numOfTry);
+    }
+
+    public static async Task<Result> OnFail(
+        this Task<Result> @this,
+        Task task,
+        int numOfTry = 1
+    ) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        return result.IsSuccess
+            ? result
+            : await TryExtensions.Try(task, numOfTry);
+    }
+
+    //TODO: https://github.com/Payadel/OnRail/issues/9
+    public static async Task<Result<T>> OnFail<T>(
+        this Task<Result<T>> @this,
+        Action onFailAction,
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(@this, numOfTry);
         if (!result.IsSuccess)
-            TryExtensions.Try(onFailTask, numOfTry);
+            TryExtensions.Try(onFailAction, numOfTry);
+
+        return result;
+    }
+
+    //TODO: https://github.com/Payadel/OnRail/issues/9
+    public static async Task<Result<T>> OnFail<T>(
+        this Task<Result<T>> @this,
+        Func<Task> onFailFunc,
+        int numOfTry = 1
+    ) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        if (!result.IsSuccess)
+            await TryExtensions.Try(onFailFunc, numOfTry);
+
+        return result;
+    }
+
+    //TODO: https://github.com/Payadel/OnRail/issues/9
+    public static async Task<Result<T>> OnFail<T>(
+        this Task<Result<T>> @this,
+        Func<Result<T>, Task<Result<T>>> onFailFunc,
+        int numOfTry = 1
+    ) {
+        var result = await TryExtensions.Try(@this, numOfTry);
+        if (!result.IsSuccess)
+            await @this.Try(onFailFunc, numOfTry);
 
         return result;
     }
 
     public static async Task<Result<T>> OnFail<T>(
-        this Task<Result<T>> @this,
-        Action onFailTask,
+        this Result<T> @this,
+        Func<Result<T>, Task<Result<T>>> onFailFunc,
         int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(@this, numOfTry);
-        if (!result.IsSuccess)
-            TryExtensions.Try(onFailTask, numOfTry);
-
-        return result;
-    }
+    ) => @this.IsSuccess
+        ? @this
+        : await @this.Try(onFailFunc, numOfTry);
 
     public static async Task<Result<T>> OnFail<T>(
-        this Task<Result<T>> @this,
-        Func<Result<T>, Task<Result<T>>> onFailTask,
+        this Result<T> @this,
+        Func<Task<Result<T>>> onFailFunc,
+        int numOfTry = 1) =>
+        @this.IsSuccess ? @this : await TryExtensions.Try(onFailFunc, numOfTry);
+
+    public static async Task<Result> OnFail(
+        this Result @this,
+        Func<Result, Task<Result>> onFailFunc,
         int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(@this, numOfTry);
-        if (!result.IsSuccess)
-            await @this.Try(onFailTask, numOfTry);
-
-        return result;
-    }
-
-    public static async Task<Result<T>> OnFail<T>(
-        this Task<Result<T>> @this,
-        ErrorDetail errorDetail,
-        int numOfTry = 1) {
-        var result = await TryExtensions.Try(@this, numOfTry);
-        return result.IsSuccess ? result : result.Fail(errorDetail);
-    }
-
-    public static async Task<Result<T>> OnFail<T>(
-        this Result<T> @this,
-        Func<Task<ErrorDetail>> errorDetailFunc,
-        int numOfTry = 1) {
-        if (@this.IsSuccess)
-            return @this;
-
-        return await TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(Result<T>.Fail);
-    }
-
-    public static async Task<Result> OnFail(
-        this Task<Result> @this,
-        ErrorDetail errorDetail,
-        int numOfTry = 1) {
-        var result = await TryExtensions.Try(@this, numOfTry);
-        return result.IsSuccess ? result : result.Fail(errorDetail);
-    }
-
-    public static async Task<Result> OnFail(
-        this Task<Result> @this,
-        Func<ErrorDetail> errorDetailFunc,
-        int numOfTry = 1) {
-        var t = await TryExtensions.Try(@this, numOfTry);
-        if (t.IsSuccess)
-            return t;
-
-        return TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(Result.Fail);
-    }
+    ) => @this.IsSuccess
+        ? @this
+        : await @this.Try(onFailFunc, numOfTry);
 
     public static async Task<Result> OnFail(
         this Result @this,
-        Func<Task<ErrorDetail>> errorDetailFunc,
-        int numOfTry = 1) {
-        if (@this.IsSuccess)
-            return @this;
+        Func<Task<Result>> onFailFunc,
+        int numOfTry = 1
+    ) => @this.IsSuccess
+        ? @this
+        : await TryExtensions.Try(onFailFunc, numOfTry);
 
-        return await TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(Result.Fail);
-    }
-
-    public static async Task<Result<T>> OnFail<T>(
-        this Result<T> @this,
-        Func<Result<T>, Task<Result<T>>> fail,
-        int numOfTry = 1) =>
-        @this.IsSuccess ? @this : await @this.Try(fail, numOfTry);
-
-    public static async Task<Result<T>> OnFail<T>(
-        this Result<T> @this,
-        Func<Task<Result<T>>> fail,
-        int numOfTry = 1) =>
-        @this.IsSuccess ? @this : await TryExtensions.Try(fail, numOfTry);
-
-    public static async Task<Result> OnFail(
-        this Result @this,
-        Func<Result, Task<Result>> fail,
-        int numOfTry = 1) =>
-        @this.IsSuccess ? @this : await @this.Try(fail, numOfTry);
-
-    public static async Task<Result> OnFail(
-        this Result @this,
-        Func<Task<Result>> fail,
-        int numOfTry = 1) =>
-        @this.IsSuccess ? @this : await TryExtensions.Try(fail, numOfTry);
-
+    //TODO: https://github.com/Payadel/OnRail/issues/9
     public static async Task<Result> OnFail(
         this Task<Result> @this,
-        Action<Result> fail,
+        Action<Result> onFailAction,
         int numOfTry = 1) {
         var methodResult = await @this;
         if (!methodResult.IsSuccess)
-            await @this.Try(fail, numOfTry);
+            await @this.Try(onFailAction, numOfTry);
         return methodResult;
     }
 
+    //TODO: https://github.com/Payadel/OnRail/issues/9
     public static async Task<Result<T>> OnFail<T>(
         this Task<Result<T>> @this,
-        Action<Result<T>> fail,
+        Action<Result<T>> onFailAction,
         int numOfTry = 1) {
         var methodResult = await @this;
         if (!methodResult.IsSuccess)
-            await @this.Try(fail, numOfTry);
+            await @this.Try(onFailAction, numOfTry);
         return methodResult;
     }
 }

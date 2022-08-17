@@ -27,23 +27,23 @@ public static partial class OnFailExtensions {
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> @this, bool predicate, T result) =>
-        @this.OnFailOperateWhen(predicate, () => Result<T>.Ok(result));
+        @this.OnFailOperateWhen(predicate, Result<T>.Ok(result));
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> @this, bool predicate, Func<T> result) =>
-        @this.OnFailOperateWhen(predicate, () => Result<T>.Ok(result()));
+        @this.OnFailOperateWhen(predicate, Result<T>.Ok(result()));
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> @this, Result predicate, T result) =>
-        @this.OnFailOperateWhen(predicate.IsSuccess, () => Result<T>.Ok(result));
+        @this.OnFailOperateWhen(predicate.IsSuccess, Result<T>.Ok(result));
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> @this, Result predicate, Func<T> result) =>
-        @this.OnFailOperateWhen(predicate.IsSuccess, () => Result<T>.Ok(result()));
+        @this.OnFailOperateWhen(predicate.IsSuccess, Result<T>.Ok(result()));
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> @this, Func<bool> predicate, T result) =>
-        @this.OnFailOperateWhen(predicate, () => Result<T>.Ok(result));
+        @this.OnFailOperateWhen(predicate, Result<T>.Ok(result));
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> @this, Func<Result> predicate, T result) =>
