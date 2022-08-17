@@ -140,6 +140,16 @@ public static partial class OperateWhenExtensions {
         ? await @this.Try<T, T>(function, numOfTry)
         : Result<T>.Ok(@this);
 
+    public static Task<Result<T>> OperateWhen<T>(
+        this T @this,
+        Func<T, bool> predicate,
+        Func<T, Task<T>> operation,
+        int numOfTry = 1
+    ) => @this.Try(predicate, numOfTry)
+        .OnSuccess(async condition => condition
+            ? await @this.Try<T>(operation, numOfTry)
+            : Result<T>.Ok(@this));
+
     //TODO: Test
     public static Task<Result<T>> OperateWhen<T>(
         this T @this,

@@ -8,194 +8,224 @@ public static partial class OnSuccessExtensions {
     public static Result OnSuccessOperateWhen(
         this Result @this,
         Func<bool> predicateFun,
-        Func<Result> operation
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, operation));
+        Func<Result> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, function, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
-        Func<Result<T>> operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, operation));
+        Func<Result<T>> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, function, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
-        Action action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
+        Action action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
-        Action<T> action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
+        Action<T> action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        Func<T, bool> predicate,
-        Func<Result<T>> operation
-    ) => @this.OnSuccess(value => @this.OperateWhen(predicate(value), operation));
+        Func<T, bool> predicateFunc,
+        Func<Result<T>> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFunc, function, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<T, bool> predicateFun,
-        Action action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
+        Action action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<T, bool> predicateFun,
-        Action<T> action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action));
+        Action<T> action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFun,
-        Func<T, Result<T>> operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, operation));
+        Func<T, Result<T>> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, function, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        Func<T, bool> predicate,
-        Func<T, Result<T>> operation
-    ) => @this.OnSuccess(value => @this.OperateWhen(
-        predicate(value), () => operation(value)));
+        Func<T, bool> predicateFunc,
+        Func<T, Result<T>> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicateFunc, function, numOfTry));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
         Func<bool> predicateFun,
-        Action action
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, action));
+        Action action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, action, numOfTry));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
-        bool predicate,
-        Func<Result> operation
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, operation));
+        bool condition,
+        Func<Result> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(condition, function, numOfTry));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
-        bool predicate,
-        Action action
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, action));
+        bool condition,
+        Action action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(condition, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        bool predicate,
-        Func<Result<T>> operation
-    ) => @this.OnSuccess(() => @this.OperateWhen(predicate, operation));
+        bool condition,
+        Func<Result<T>> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => @this.OperateWhen(condition, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        bool predicate,
-        Action action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate, action));
+        bool condition,
+        Action action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(condition, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        bool predicate,
-        Action<T> action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate, action));
+        bool condition,
+        Action<T> action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(condition, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        bool predicate,
-        Func<T, Result<T>> operation
-    ) => @this.OnSuccess(value => @this.OperateWhen(predicate, () => operation(value)));
+        bool condition,
+        Func<T, Result<T>> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(condition, operation, numOfTry));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
-        Func<Result> predicateFun,
-        Func<Result> operation
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, operation));
+        Func<Result> predicate,
+        Func<Result> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, function, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        Func<Result> predicateFun,
-        Func<Result<T>> operation
-    ) => @this.OnSuccess(() => @this.OperateWhen(predicateFun, operation));
+        Func<Result> predicate,
+        Func<Result<T>> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => @this.OperateWhen(predicate, function, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        Func<Result> predicateFun,
-        Action action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun(), action));
+        Func<Result> predicate,
+        Action action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate().IsSuccess, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        Func<Result> predicateFun,
-        Action<T> action
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun(), action));
+        Func<Result> predicate,
+        Action<T> action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate().IsSuccess, action, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<T, Result> predicate,
-        Func<Result<T>> operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation));
+        Func<Result<T>> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<T, Result> predicate,
-        Action operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation));
+        Action operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<T, Result> predicate,
-        Action<T> operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation));
+        Action<T> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
-        Func<Result> predicateFun,
-        Func<T, Result<T>> operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicateFun, operation));
+        Func<Result> predicate,
+        Func<T, Result<T>> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Func<T, Result> predicate,
-        Func<T, Result<T>> operation
-    ) => @this.OnSuccess(value => @this.OperateWhen(
-        predicate(value), () => operation(value)));
+        Func<T, Result<T>> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
-        Func<Result> predicateFun,
-        Action action
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicateFun, action));
-
-    public static Result OnSuccessOperateWhen(
-        this Result @this,
-        Result predicate,
-        Func<Result> operation
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, operation));
+        Func<Result> predicate,
+        Action action,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, action, numOfTry));
 
     public static Result OnSuccessOperateWhen(
         this Result @this,
         Result predicate,
-        Action operation
-    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate.IsSuccess, operation));
+        Func<Result> function,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate, function, numOfTry));
+
+    public static Result OnSuccessOperateWhen(
+        this Result @this,
+        Result predicate,
+        Action operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate.IsSuccess, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Result predicate,
-        Func<Result<T>> operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate.IsSuccess, operation));
+        Func<Result<T>> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate.IsSuccess, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Result predicate,
-        Action operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation));
+        Action operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Result predicate,
-        Action<T> operation
-    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation));
+        Action<T> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> @this,
         Result predicate,
-        Func<T, Result<T>> operation
-    ) => @this.OnSuccess(value => @this.OperateWhen(predicate, () => operation(value)));
+        Func<T, Result<T>> operation,
+        int numOfTry = 1
+    ) => @this.OnSuccess(value => value.OperateWhen(predicate, operation, numOfTry));
 }

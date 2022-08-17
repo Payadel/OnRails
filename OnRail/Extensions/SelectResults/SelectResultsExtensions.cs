@@ -13,7 +13,7 @@ public static partial class SelectResultsExtensions {
         var selectedResult = new List<TResult>(thisList.Count);
         foreach (var item in thisList) {
             var result = item.Try(function, numOfTry)
-                .OnFail(result => result.Detail.AddDetail(new {thisObj = thisList, targetItem = item}));
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return Result<List<TResult>>.Fail(result.Detail);
 
@@ -32,7 +32,7 @@ public static partial class SelectResultsExtensions {
         var selectedResult = new List<TResult>(thisList.Count);
         foreach (var item in thisList) {
             var result = item.Try(function, numOfTry)
-                .OnFail(result => result.Detail.AddDetail(new {thisObj = thisList, targetItem = item}));
+                .OnFail(new {item});
             if (!result.IsSuccess)
                 return Result<List<TResult>>.Fail(result.Detail);
 

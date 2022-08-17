@@ -79,7 +79,7 @@ public static partial class OnFailExtensions {
         this Result @this,
         bool predicate,
         Result result
-    ) => @this.OnFail(() => predicate ? result : @this);
+    ) => @this.OnFail(() => OperateWhenExtensions.OperateWhen(predicate, result));
 
     public static Result OnFailOperateWhen(
         this Result @this,
@@ -103,13 +103,14 @@ public static partial class OnFailExtensions {
         this Result<T> @this,
         bool predicate,
         Result<T> result
-    ) => @this.OnFail(() => predicate ? result : @this);
+    ) => @this.OnFail(() => @this.OperateWhen(predicate, result));
 
     public static Result<T> OnFailOperateWhen<T>(
         this Result<T> @this,
         Func<bool> predicateFunc,
-        Result<T> result
-    ) => @this.OnFail(() => predicateFunc() ? result : @this);
+        Result<T> result,
+        int numOfTry = 1
+    ) => @this.OnFail(() => @this.OperateWhen(predicateFunc, result, numOfTry));
 
     public static Result<T> OnFailOperateWhen<T>(
         this Result<T> @this,

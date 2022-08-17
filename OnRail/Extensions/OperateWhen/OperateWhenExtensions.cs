@@ -295,6 +295,16 @@ public static partial class OperateWhenExtensions {
 
     public static Result<T> OperateWhen<T>(
         this T @this,
+        Func<T, bool> predicate,
+        Func<T, T> operation,
+        int numOfTry = 1
+    ) => @this.Try(predicate, numOfTry)
+        .OnSuccess(condition => condition
+            ? @this.Try(operation, numOfTry)
+            : Result<T>.Ok(@this));
+
+    public static Result<T> OperateWhen<T>(
+        this T @this,
         Func<bool> predicateFun,
         Func<T, Result<T>> function,
         int numOfTry = 1

@@ -30,16 +30,6 @@ public static partial class OnFailExtensions {
         int numOfTry = 1
     ) => @this.OnFail(result => result.Tee(onFail, numOfTry));
 
-    public static Result<TSource> TeeOnFail<TSource, TResult>(
-        this Result<TSource> @this, Action onFail,
-        int numOfTry = 1
-    ) => @this.OnFail(result => result.Tee(onFail, numOfTry));
-
-    public static Result<TSource> TeeOnFail<TSource, TResult>(
-        this Result<TSource> @this, Action<Result<TSource>> onFail,
-        int numOfTry = 1
-    ) => @this.OnFail(result => result.Tee(onFail, numOfTry));
-
     public static Result<TSource> TeeOnFail<TSource>(
         this Result<TSource> @this,
         Func<Result> onFail,
