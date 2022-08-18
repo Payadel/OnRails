@@ -5,38 +5,38 @@ namespace OnRail.Extensions.TeeOnSuccess;
 
 public static partial class TeeOnSuccessExtensions {
     public static Result<T> TeeOnSuccess<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Action<T> action,
         int numOfTry = 1
-    ) => @this.OnSuccess(() => @this.Value!.Tee(action, numOfTry));
+    ) => source.OnSuccess(() => source.Value!.Tee(action, numOfTry));
 
     public static Result<T> TeeOnSuccess<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Action action,
-        int numOfTry = 1) => @this
-        .OnSuccess(() => @this.Tee(action, numOfTry));
+        int numOfTry = 1
+    ) => source.OnSuccess(() => source.Tee(action, numOfTry));
 
     public static Result TeeOnSuccess(
-        this Result @this,
+        this Result source,
         Action action,
-        int numOfTry = 1) =>
-        @this.OnSuccess(() => @this.Tee(action, numOfTry));
+        int numOfTry = 1
+    ) => source.OnSuccess(() => source.Tee(action, numOfTry));
 
     public static Result<TSource> TeeOnSuccess<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, TResult> function,
         int numOfTry = 1
-    ) => @this.OnSuccess(() => @this.Value!.Tee(function, numOfTry));
+    ) => source.OnSuccess(() => source.Value!.Tee(function, numOfTry));
 
     public static Result<TSource> TeeOnSuccess<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TResult> function,
         int numOfTry = 1
-    ) => @this.OnSuccess(() => @this.Tee(function, numOfTry));
+    ) => source.OnSuccess(() => source.Tee(function, numOfTry));
 
     public static Result TeeOnSuccess<TResult>(
-        this Result @this,
+        this Result source,
         Func<TResult> function,
-        int numOfTry = 1) =>
-        @this.OnSuccess(() => @this.Tee(function, numOfTry));
+        int numOfTry = 1
+    ) => source.OnSuccess(() => source.Tee(function, numOfTry));
 }

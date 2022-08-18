@@ -17,16 +17,20 @@ public static partial class TryExtensions {
 
     //TODO: https://github.com/Payadel/OnRail/issues/17
 
-    private static Result AddNumOfTry(this Result result,
-        int numOfTry, int maxTryRequested) {
-        result.Detail.AddNumOfTry(numOfTry, maxTryRequested);
-        return result;
+    private static Result AddNumOfTry(this Result source,
+        int numOfTry,
+        int maxTryRequested
+    ) {
+        source.Detail.AddNumOfTry(numOfTry, maxTryRequested);
+        return source;
     }
 
-    private static Result<T> AddNumOfTry<T>(this Result<T> result,
-        int numOfTry, int maxTryRequested) {
-        result.Detail.AddNumOfTry(numOfTry, maxTryRequested);
-        return result;
+    private static Result<T> AddNumOfTry<T>(this Result<T> source,
+        int numOfTry,
+        int maxTryRequested
+    ) {
+        source.Detail.AddNumOfTry(numOfTry, maxTryRequested);
+        return source;
     }
 
     private static void AddNumOfTry(this ResultDetail detail,

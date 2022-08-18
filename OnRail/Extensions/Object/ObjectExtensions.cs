@@ -11,14 +11,14 @@ namespace OnRail.Extensions.Object;
 
 public static class ObjectExtensions {
     public static bool IsNullOrEmpty(
-        this IEnumerable? @this) =>
-        @this is null || !@this.GetEnumerator().MoveNext();
+        this IEnumerable? source) =>
+        source is null || !source.GetEnumerator().MoveNext();
 
     public static Result<TResult> As<TResult>(
-        this object @this,
+        this object source,
         ErrorDetail? errorDetail = null
-    ) => TryExtensions.Try(() => Convert.ChangeType(@this, typeof(TResult)))
+    ) => TryExtensions.Try(() => Convert.ChangeType(source, typeof(TResult)))
         .OnSuccess(obj => obj.MustNotNull<TResult>())
         .OnFail(() => Result<TResult>.Fail(errorDetail ?? new ErrorDetail(
-            message: $"({@this} - Type of ({@this.GetType()})) is not {typeof(TResult)}")));
+            message: $"({source} - Type of ({source.GetType()})) is not {typeof(TResult)}")));
 }

@@ -25,8 +25,8 @@ public static partial class ThrowExceptionExtensions {
 
     #region ThrowException
 
-    public static void ThrowException(this ResultDetail @this) =>
-        throw GenerateException(@this);
+    public static void ThrowException(this ResultDetail source) =>
+        throw GenerateException(source);
 
     public static void ThrowException<T>(
         this T _,

@@ -7,22 +7,24 @@ using OnRail.Extensions.Try;
 namespace OnRail.Extensions.Configuration;
 
 public static class ConfigurationExtensions {
-    public static Result<T> GetConfig<T>(this IConfiguration @this, int numOfTry = 1) =>
-        TryExtensions.Try(() => @this.GetSection(typeof(T).Name)
+    public static Result<T> GetConfig<T>(this IConfiguration source, int numOfTry = 1) =>
+        TryExtensions.Try(() => source.GetSection(typeof(T).Name)
             .Get<T>(), numOfTry);
 
     public static Result<IConfiguration> AddConfig<T>(
-        this IConfiguration @this,
+        this IConfiguration source,
         IServiceCollection services,
-        int numOfTry = 1) where T : class =>
-        TryExtensions.Try(() => @this
+        int numOfTry = 1
+    ) where T : class =>
+        TryExtensions.Try(() => source
             .GetConfig<T>()
             .OnSuccess(services.AddSingleton)
-            .Map(@this), numOfTry);
+            .Map(source), numOfTry);
 
     public static Result<IConfiguration> AddConfig<T>(
-        this Result<IConfiguration> @this,
+        this Result<IConfiguration> source,
         IServiceCollection services,
-        int numOfTry = 1) where T : class
-        => @this.OnSuccess(configuration => configuration.AddConfig<T>(services), numOfTry);
+        int numOfTry = 1
+    ) where T : class
+        => source.OnSuccess(configuration => configuration.AddConfig<T>(services), numOfTry);
 }

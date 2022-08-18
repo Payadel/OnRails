@@ -7,55 +7,56 @@ namespace OnRail.Extensions.OnFail;
 
 public static partial class OnFailExtensions {
     public static Result<T> OnFail<T>(
-        this Result<T> @this,
-        ErrorDetail errorDetail) =>
-        @this.IsSuccess ? @this : @this.Fail(errorDetail);
+        this Result<T> source,
+        ErrorDetail errorDetail
+    ) => source.IsSuccess ? source : source.Fail(errorDetail);
 
     public static Result<T> OnFail<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Func<ErrorDetail> errorDetailFunc,
         int numOfTry = 1
-    ) => @this.IsSuccess
-        ? @this
+    ) => source.IsSuccess
+        ? source
         : TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(@this.Fail, numOfTry: 1);
+            .OnSuccess(source.Fail, numOfTry: 1);
 
     public static Result<T> OnFail<T>(
-        this Result<T> @this,
+        this Result<T> source,
         object moreDetail
     ) {
-        if (!@this.IsSuccess)
-            @this.Detail.AddDetail(moreDetail);
-        return @this;
+        if (!source.IsSuccess)
+            source.Detail.AddDetail(moreDetail);
+        return source;
     }
 
     public static Result OnFail(
-        this Result @this,
-        ErrorDetail errorDetail) =>
-        @this.IsSuccess ? @this : @this.Fail(errorDetail);
+        this Result source,
+        ErrorDetail errorDetail
+    ) => source.IsSuccess ? source : source.Fail(errorDetail);
 
     public static Result OnFail(
-        this Result @this,
+        this Result source,
         Func<ErrorDetail> errorDetailFunc,
         int numOfTry = 1
-    ) => @this.IsSuccess
-        ? @this
+    ) => source.IsSuccess
+        ? source
         : TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(@this.Fail, numOfTry: 1);
+            .OnSuccess(source.Fail, numOfTry: 1);
 
     public static Result OnFail(
-        this Result @this,
+        this Result source,
         object moreDetail) {
-        if (!@this.IsSuccess)
-            @this.Detail.AddDetail(moreDetail);
-        return @this;
+        if (!source.IsSuccess)
+            source.Detail.AddDetail(moreDetail);
+        return source;
     }
 
     public static Result<T> OnFail<T>(
-        this Result<T> @this,
-        Func<ResultDetail, ErrorDetail> moreDetail,
-        int numOfTry = 1) => @this.IsSuccess
-        ? @this
-        : TryExtensions.Try(() => moreDetail(@this.Detail), numOfTry)
-            .OnSuccess(@this.Fail);
+        this Result<T> source,
+        Func<ResultDetail, ErrorDetail> moreDetailFunc,
+        int numOfTry = 1
+    ) => source.IsSuccess
+        ? source
+        : TryExtensions.Try(() => moreDetailFunc(source.Detail), numOfTry)
+            .OnSuccess(source.Fail);
 }

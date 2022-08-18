@@ -9,9 +9,9 @@ namespace OnRail.Extensions.String;
 
 public static class StringExtensions {
     public static Result<string> MustMatchRegex(
-        this string @this,
-        Regex rgx,
+        this string source,
+        Regex regex,
         ErrorDetail? errorDetail = null) =>
-        @this.FailWhen(!rgx.IsMatch(@this),
-            errorDetail ?? new ArgumentError(message: $"({@this}) is not match with {rgx}"));
+        source.FailWhen(!regex.IsMatch(source),
+            errorDetail ?? new ArgumentError(message: $"({source}) is not match with {regex}"));
 }

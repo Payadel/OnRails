@@ -7,87 +7,87 @@ namespace OnRail.Extensions.Map;
 
 public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TSource, TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TSource, TResult> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(function, numOfTry);
 
     public static Task<Result> Map<TSource>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Action<TSource> onSuccessAction,
         Func<ResultDetail, Result> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map<TSource>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Action onSuccessAction,
         Func<ResultDetail, Result> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map<TSource>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Action<TSource> onSuccessFunction,
         Func<Result> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<TResult> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<Task<TResult>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
@@ -97,17 +97,17 @@ public static partial class MapExtensions {
     ) => TryExtensions.Try(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<Result<TResult>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
@@ -116,74 +116,75 @@ public static partial class MapExtensions {
         int numOfTry = 1
     ) => TryExtensions.Try(function, numOfTry);
 
+    //TODO: onFailFunction
     public static Task<Result> Map(
-        this Task @this,
+        this Task source,
         Action onSuccessAction,
         Func<ResultDetail, Result> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(() => TryExtensions.Try(onSuccessAction, numOfTry));
 
     public static Task<Result> Map(
-        this Task @this,
+        this Task source,
         Action onSuccessAction,
         Func<Result> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TSource, Result<TResult>> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<Result<TResult>> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TSource, Result<TResult>> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map<TSource>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<Result> onSuccessFunction,
         Func<ResultDetail, Result> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<Result<TResult>> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task @this,
+        this Task source,
         Func<Result<TResult>> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
@@ -194,125 +195,125 @@ public static partial class MapExtensions {
     ) => TryExtensions.Try(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this TSource @this,
+        this TSource source,
         Func<TSource, Task<TResult>> function,
         int numOfTry = 1
-    ) => @this.Try(function, numOfTry);
+    ) => source.Try(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TSource, Task<TResult>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(result => result.Try(function, numOfTry));
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this TSource @this,
+        this TSource source,
         Func<TSource, Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => @this.Try(function, numOfTry);
+    ) => source.Try(function, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TSource, Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(result => result.Try(function, numOfTry));
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<TSource> @this,
+        this Task<TSource> source,
         Func<TSource, Result<TResult>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this, numOfTry)
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(result => result.Try(function, numOfTry));
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<Result<TSource>> @this,
+        this Task<Result<TSource>> source,
         Func<TSource, TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<Result<TSource>> @this,
+        this Task<Result<TSource>> source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
-        this Task<Result<TSource>> @this,
+        this Task<Result<TSource>> source,
         Func<TSource, TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map<TSource>(
-        this Task<Result<TSource>> @this,
+        this Task<Result<TSource>> source,
         Action<TSource> onSuccessFunction,
         Func<ResultDetail, Result> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Task<Result> Map<TSource>(
-        this Task<Result<TSource>> @this,
+        this Task<Result<TSource>> source,
         Action onSuccessAction,
         Func<ResultDetail, Result> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Task<Result> Map<TSource>(
-        this Task<Result<TSource>> @this,
+        this Task<Result<TSource>> source,
         Action<TSource> onSuccessAction,
         Func<Result> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task<Result> @this,
+        this Task<Result> source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TResult>(
-        this Task<Result> @this,
+        this Task<Result> source,
         Func<TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map(
-        this Task<Result> @this,
+        this Task<Result> source,
         Action onSuccessAction,
         Func<ResultDetail, Result> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map(
-        this Task<Result> @this,
+        this Task<Result> source,
         Action onSuccessAction,
         Func<Result> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 }

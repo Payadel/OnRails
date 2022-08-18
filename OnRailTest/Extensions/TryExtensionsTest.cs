@@ -313,128 +313,128 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_SuccessActionWithInputAndCorrectValue_ReturnTaskResult() {
-        var @this = Task.FromResult(SuccessStr);
-        var result = await @this.Try(SuccessfulActionWithInput, DefaultNumOfTry);
+        var source = Task.FromResult(SuccessStr);
+        var result = await source.Try(SuccessfulActionWithInput, DefaultNumOfTry);
 
         EnsureIsSuccess(result);
     }
 
     [Fact]
     public async Task TryAsync_FailValueCorrectActionWithInput_ReturnExceptionError() {
-        var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.Try(SuccessfulActionWithInput, DefaultNumOfTry);
+        var source = Task.Run(FailFunctionReturnString);
+        var result = await source.Try(SuccessfulActionWithInput, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailActionWithInputCorrectValue_ReturnExceptionError() {
-        var @this = Task.Run(SuccessfulFunctionReturnString);
-        var result = await @this.Try(FailActionWithInput, DefaultNumOfTry);
+        var source = Task.Run(SuccessfulFunctionReturnString);
+        var result = await source.Try(FailActionWithInput, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_SuccessActionAndCorrectTaskValue_ReturnTaskResult() {
-        var @this = Task.FromResult(SuccessStr);
-        var result = await @this.Try(SuccessfulAction, DefaultNumOfTry);
+        var source = Task.FromResult(SuccessStr);
+        var result = await source.Try(SuccessfulAction, DefaultNumOfTry);
 
         EnsureIsSuccess(result);
     }
 
     [Fact]
     public async Task TryAsync_FailTaskValueCorrectAction_ReturnExceptionError() {
-        var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.Try(SuccessfulAction, DefaultNumOfTry);
+        var source = Task.Run(FailFunctionReturnString);
+        var result = await source.Try(SuccessfulAction, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailActionCorrectTaskValue_ReturnExceptionError() {
-        var @this = Task.Run(SuccessfulFunctionReturnString);
-        var result = await @this.Try(FailAction, DefaultNumOfTry);
+        var source = Task.Run(SuccessfulFunctionReturnString);
+        var result = await source.Try(FailAction, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_SuccessActionAndCorrectTask_ReturnTaskResult() {
-        var @this = Task.Run(() => { });
-        var result = await @this.Try(SuccessfulAction, DefaultNumOfTry);
+        var source = Task.Run(() => { });
+        var result = await source.Try(SuccessfulAction, DefaultNumOfTry);
 
         EnsureIsSuccess(result);
     }
 
     [Fact]
     public async Task TryAsync_FailTaskCorrectAction_ReturnExceptionError() {
-        var @this = Task.Run(FailAction);
-        var result = await @this.Try(SuccessfulAction, DefaultNumOfTry);
+        var source = Task.Run(FailAction);
+        var result = await source.Try(SuccessfulAction, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailActionCorrectTask_ReturnExceptionError() {
-        var @this = Task.Run(() => { });
-        var result = await @this.Try(FailAction, DefaultNumOfTry);
+        var source = Task.Run(() => { });
+        var result = await source.Try(FailAction, DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_SuccessFunctionAndCorrectTask_ReturnTaskResult() {
-        var @this = Task.Run(() => { });
-        var result = await @this.Try(SuccessfulFunctionReturnResult, DefaultNumOfTry);
+        var source = Task.Run(() => { });
+        var result = await source.Try(SuccessfulFunctionReturnResult, DefaultNumOfTry);
 
         EnsureIsSuccess(result);
     }
 
     [Fact]
     public async Task TryAsync_FailTaskCorrectFunction_ReturnErrorDetail() {
-        var @this = Task.Run(FailAction);
-        var result = await @this.Try(SuccessfulFunctionReturnResult, DefaultNumOfTry);
+        var source = Task.Run(FailAction);
+        var result = await source.Try(SuccessfulFunctionReturnResult, DefaultNumOfTry);
 
         Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailFunctionCorrectTask_ReturnErrorDetail() {
-        var @this = Task.Run(() => { });
-        var result = await @this.Try(FailFunctionReturnResult, DefaultNumOfTry);
+        var source = Task.Run(() => { });
+        var result = await source.Try(FailFunctionReturnResult, DefaultNumOfTry);
 
         Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_SuccessFunctionWithResultAndCorrectTask_ReturnTaskResult() {
-        var @this = Task.Run(() => { });
-        var result = await @this.Try(() => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
+        var source = Task.Run(() => { });
+        var result = await source.Try(() => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
         EnsureIsSuccess(result);
     }
 
     [Fact]
     public async Task TryAsync_FailTaskCorrectFunctionWithResult_ReturnErrorDetail() {
-        var @this = Task.Run(FailAction);
-        var result = await @this.Try(() => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
+        var source = Task.Run(FailAction);
+        var result = await source.Try(() => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
         Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailFunctionWithResultCorrectTask_ReturnErrorDetail() {
-        var @this = Task.Run(() => { });
-        var result = await @this.Try(() => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
+        var source = Task.Run(() => { });
+        var result = await source.Try(() => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
         Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_SuccessFunctionWithInputAndCorrectTaskWithValue_ReturnTaskResult() {
-        var @this = Task.FromResult(SuccessStr);
-        var result = await @this.Try(input => Task.FromResult(SuccessfulFunctionReturnInput(input)),
+        var source = Task.FromResult(SuccessStr);
+        var result = await source.Try<string>(input => Task.FromResult(SuccessfulFunctionReturnInput(input)),
             DefaultNumOfTry);
 
         EnsureIsSuccess(result);
@@ -442,8 +442,8 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailTaskWithValueAndCorrectFunctionWithInput_ReturnExceptionError() {
-        var @this = Task.Run(FailFunctionReturnString);
-        var result = await @this.Try(input => Task.FromResult(SuccessfulFunctionReturnInput(input)),
+        var source = Task.Run(FailFunctionReturnString);
+        var result = await source.Try<string>(input => Task.FromResult(SuccessfulFunctionReturnInput(input)),
             DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
@@ -451,8 +451,9 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_FailFunctionWithInputCorrectTaskWithValue_ReturnExceptionError() {
-        var @this = Task.FromResult(SuccessStr);
-        var result = await @this.Try(input => Task.FromResult(FailFunctionReturnInput(input)), DefaultNumOfTry);
+        var source = Task.FromResult(SuccessStr);
+        var result =
+            await source.Try<string>(input => Task.FromResult(FailFunctionReturnInput(input)), DefaultNumOfTry);
 
         Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
     }
@@ -473,26 +474,26 @@ public class TryExtensionsTest {
 
     [Fact]
     public async Task TryAsync_SuccessFunctionWithInputTaskResultAndCorrectTaskValue_ReturnTaskResult() {
-        var @this = Task.FromResult(SuccessStr);
+        var source = Task.FromResult(SuccessStr);
         var result =
-            await @this.Try<string>(_ => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
+            await source.Try<string>(_ => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
         EnsureIsSuccess(result);
     }
 
     [Fact]
     public async Task TryAsync_FailTaskValueCorrectFunctionWithInputTaskResul_ReturnErrorDetail() {
-        var @this = Task.Run(FailFunctionReturnString);
+        var source = Task.Run(FailFunctionReturnString);
         var result =
-            await @this.Try<string>(_ => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
+            await source.Try<string>(_ => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
         Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
     }
 
     [Fact]
     public async Task TryAsync_FailFunctionWithInputTaskResulCorrectTaskValue_ReturnErrorDetail() {
-        var @this = Task.FromResult(SuccessStr);
-        var result = await @this.Try<string>(_ => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
+        var source = Task.FromResult(SuccessStr);
+        var result = await source.Try<string>(_ => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
         Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
     }

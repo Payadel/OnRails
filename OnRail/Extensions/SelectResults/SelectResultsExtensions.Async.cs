@@ -6,9 +6,10 @@ namespace OnRail.Extensions.SelectResults;
 
 public static partial class SelectResultsExtensions {
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
-        this Task<IEnumerable<TSource>> @this,
+        this Task<IEnumerable<TSource>> source,
         Func<TSource, Result<TResult>> function,
-        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
@@ -25,10 +26,10 @@ public static partial class SelectResultsExtensions {
         }, numOfTry: 1);
 
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
-        this IEnumerable<TSource> @this,
+        this IEnumerable<TSource> source,
         Func<TSource, Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this.ToList, numOfTry)
+    ) => TryExtensions.Try(source.ToList, numOfTry)
         .OnSuccess(async list => {
             var selectedResult = new List<TResult>(list.Count);
 
@@ -45,9 +46,10 @@ public static partial class SelectResultsExtensions {
         });
 
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
-        this Task<IEnumerable<TSource>> @this,
+        this Task<IEnumerable<TSource>> source,
         Func<TSource, Task<Result<TResult>>> function,
-        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(async items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
@@ -64,9 +66,10 @@ public static partial class SelectResultsExtensions {
         });
 
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
-        this Task<IEnumerable<TSource>> @this,
+        this Task<IEnumerable<TSource>> source,
         Func<TSource, TResult> function,
-        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
@@ -83,9 +86,10 @@ public static partial class SelectResultsExtensions {
         });
 
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
-        this IEnumerable<TSource> @this,
+        this IEnumerable<TSource> source,
         Func<TSource, Task<TResult>> function,
-        int numOfTry = 1) => TryExtensions.Try(@this.ToList, numOfTry)
+        int numOfTry = 1
+    ) => TryExtensions.Try(source.ToList, numOfTry)
         .OnSuccess(async list => {
             var selectedResult = new List<TResult>(list.Count);
 
@@ -102,9 +106,10 @@ public static partial class SelectResultsExtensions {
         });
 
     public static Task<Result<List<TResult>>> SelectResultsAsync<TSource, TResult>(
-        this Task<IEnumerable<TSource>> @this,
+        this Task<IEnumerable<TSource>> source,
         Func<TSource, Task<TResult>> function,
-        int numOfTry = 1) => TryExtensions.Try(@this, numOfTry)
+        int numOfTry = 1
+    ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(async items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);

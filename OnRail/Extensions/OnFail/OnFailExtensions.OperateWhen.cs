@@ -6,115 +6,115 @@ namespace OnRail.Extensions.OnFail;
 
 public static partial class OnFailExtensions {
     public static Result OnFailOperateWhen(
-        this Result @this,
-        Func<bool> predicateFunc,
+        this Result source,
+        Func<bool> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => OperateWhenExtensions.OperateWhen(predicateFunc, function, numOfTry));
+    ) => source.OnFail(() => OperateWhenExtensions.OperateWhen(predicate, function, numOfTry));
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        bool predicate,
+        this Result source,
+        bool condition,
         Func<Result> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => OperateWhenExtensions.OperateWhen(predicate, function, numOfTry));
+    ) => source.OnFail(() => OperateWhenExtensions.OperateWhen(condition, function, numOfTry));
 
     public static Result<T> OnFailOperateWhen<T>(
-        this Result<T> @this,
-        Func<bool> predicateFunc,
+        this Result<T> source,
+        Func<bool> predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicateFunc, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(predicate, function, numOfTry));
 
     public static Result<T> OnFailOperateWhen<T>(
-        this Result<T> @this,
-        bool predicate,
+        this Result<T> source,
+        bool condition,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicate, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(condition, function, numOfTry));
 
     public static Result<T> OnFailOperateWhen<T>(
-        this Result<T> @this,
-        Func<bool> predicateFunc,
+        this Result<T> source,
+        Func<bool> predicate,
         Func<Result<T>, Result<T>> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicateFunc, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(predicate, function, numOfTry));
 
     public static Result<T> OnFailOperateWhen<T>(
-        this Result<T> @this,
-        bool predicate,
+        this Result<T> source,
+        bool condition,
         Func<Result<T>, Result<T>> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicate, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(condition, function, numOfTry));
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        Func<Result, bool> predicateFunc,
+        this Result source,
+        Func<Result, bool> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicateFunc, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(predicate, function, numOfTry));
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        Func<bool> predicateFunc,
+        this Result source,
+        Func<bool> predicate,
         Func<Result, Result> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicateFunc, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(predicate, function, numOfTry));
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        bool predicate,
+        this Result source,
+        bool condition,
         Func<Result, Result> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicate, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(condition, function, numOfTry));
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        Func<Result, bool> predicateFunc,
+        this Result source,
+        Func<Result, bool> predicate,
         Func<Result, Result> function,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicateFunc, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(predicate, function, numOfTry));
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        bool predicate,
+        this Result source,
+        bool condition,
         Result result
-    ) => @this.OnFail(() => OperateWhenExtensions.OperateWhen(predicate, result));
+    ) => source.OnFail(() => OperateWhenExtensions.OperateWhen(condition, result));
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        Func<Result> predicateFunc,
+        this Result source,
+        Func<Result> predicate,
         Result result
-    ) => @this.OnFailOperateWhen(predicateFunc().IsSuccess, result);
+    ) => source.OnFailOperateWhen(predicate().IsSuccess, result);
 
     public static Result OnFailOperateWhen(
-        this Result @this,
-        Func<Result> predicateFunc,
-        Func<Result> result
-    ) => @this.OnFailOperateWhen(predicateFunc().IsSuccess, result);
+        this Result source,
+        Func<Result> predicate,
+        Func<Result> function
+    ) => source.OnFailOperateWhen(predicate().IsSuccess, function);
 
     public static Result OnFailOperateWhen(
-        this Result @this,
+        this Result source,
         Func<Result, Result> predicate,
         Result result
-    ) => @this.OnFailOperateWhen(predicate(@this).IsSuccess, result);
+    ) => source.OnFailOperateWhen(predicate(source).IsSuccess, result);
 
     public static Result<T> OnFailOperateWhen<T>(
-        this Result<T> @this,
-        bool predicate,
+        this Result<T> source,
+        bool condition,
         Result<T> result
-    ) => @this.OnFail(() => @this.OperateWhen(predicate, result));
+    ) => source.OnFail(() => source.OperateWhen(condition, result));
 
     public static Result<T> OnFailOperateWhen<T>(
-        this Result<T> @this,
-        Func<bool> predicateFunc,
+        this Result<T> source,
+        Func<bool> predicate,
         Result<T> result,
         int numOfTry = 1
-    ) => @this.OnFail(() => @this.OperateWhen(predicateFunc, result, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(predicate, result, numOfTry));
 
     public static Result<T> OnFailOperateWhen<T>(
-        this Result<T> @this,
-        Func<Result> predicateFunc,
+        this Result<T> source,
+        Func<Result> predicate,
         Result<T> result
-    ) => @this.OnFailOperateWhen(predicateFunc().IsSuccess, result);
+    ) => source.OnFailOperateWhen(predicate().IsSuccess, result);
 }

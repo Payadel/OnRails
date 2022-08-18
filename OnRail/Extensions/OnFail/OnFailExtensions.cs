@@ -6,46 +6,46 @@ namespace OnRail.Extensions.OnFail;
 
 public static partial class OnFailExtensions {
     public static Result<T> OnFail<T>(
-        this Result<T> @this,
-        Func<Result<T>, Result<T>> onFailFunc,
+        this Result<T> source,
+        Func<Result<T>, Result<T>> function,
         int numOfTry = 1
-    ) => @this.IsSuccess
-        ? @this
-        : @this.Try(onFailFunc, numOfTry);
+    ) => source.IsSuccess
+        ? source
+        : source.Try(function, numOfTry);
 
     public static Result<T> OnFail<T>(
-        this Result<T> @this,
-        Func<Result<T>> onFailFunc,
-        int numOfTry = 1) => @this.IsSuccess
-        ? @this
-        : TryExtensions.Try(onFailFunc, numOfTry);
+        this Result<T> source,
+        Func<Result<T>> function,
+        int numOfTry = 1) => source.IsSuccess
+        ? source
+        : TryExtensions.Try(function, numOfTry);
 
     public static Result OnFail(
-        this Result @this,
-        Func<Result, Result> onFailFunc,
-        int numOfTry = 1) => @this.IsSuccess
-        ? @this
-        : @this.Try(onFailFunc, numOfTry);
+        this Result source,
+        Func<Result, Result> function,
+        int numOfTry = 1) => source.IsSuccess
+        ? source
+        : source.Try(function, numOfTry);
 
     public static Result OnFail(
-        this Result @this,
-        Func<Result> onFailFunc,
-        int numOfTry = 1) => @this.IsSuccess
-        ? @this
-        : TryExtensions.Try(onFailFunc, numOfTry);
+        this Result source,
+        Func<Result> function,
+        int numOfTry = 1) => source.IsSuccess
+        ? source
+        : TryExtensions.Try(function, numOfTry);
 
     public static Result OnFail(
-        this Result @this,
-        Action onFailFunc,
+        this Result source,
+        Action action,
         int numOfTry = 1
-    ) => @this.IsSuccess
-        ? @this
-        : TryExtensions.Try(onFailFunc, numOfTry);
+    ) => source.IsSuccess
+        ? source
+        : TryExtensions.Try(action, numOfTry);
 
     public static Result OnFail(
-        this Result @this,
-        Action<Result> onFailAction,
-        int numOfTry = 1) => @this.IsSuccess
-        ? @this
-        : @this.Try(onFailAction, numOfTry);
+        this Result source,
+        Action<Result> action,
+        int numOfTry = 1) => source.IsSuccess
+        ? source
+        : source.Try(action, numOfTry);
 }

@@ -4,7 +4,9 @@ namespace OnRail.Extensions.Try;
 
 public static partial class TryExtensions {
     public static Result<T> Try<T>(
-        Func<T> function, int numOfTry = 1) {
+        Func<T> function,
+        int numOfTry = 1
+    ) {
         var errors = new List<Exception>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
@@ -21,12 +23,15 @@ public static partial class TryExtensions {
     }
 
     public static Result<TResult> Try<TSource, TResult>(
-        this TSource @this,
+        this TSource source,
         Func<TSource, TResult> function,
-        int numOfTry = 1) => Try(() => function(@this), numOfTry);
+        int numOfTry = 1
+    ) => Try(() => function(source), numOfTry);
 
     public static Result Try(
-        Func<Result> function, int numOfTry = 1) {
+        Func<Result> function,
+        int numOfTry = 1
+    ) {
         var errors = new List<object>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
@@ -51,7 +56,9 @@ public static partial class TryExtensions {
     }
 
     public static Result<T> Try<T>(
-        Func<Result<T>> function, int numOfTry = 1) {
+        Func<Result<T>> function,
+        int numOfTry = 1
+    ) {
         var errors = new List<object>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
@@ -75,7 +82,9 @@ public static partial class TryExtensions {
         return Result<T>.Fail(errorDetail);
     }
 
-    public static Result Try(Action action, int numOfTry = 1) {
+    public static Result Try(Action action,
+        int numOfTry = 1
+    ) {
         var errors = new List<Exception>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
@@ -92,25 +101,28 @@ public static partial class TryExtensions {
     }
 
     public static Result Try<T>(
-        this T @this,
-        Action<T> action, int numOfTry = 1
-    ) => Try(() => action(@this), numOfTry);
+        this T source,
+        Action<T> action,
+        int numOfTry = 1
+    ) => Try(() => action(source), numOfTry);
 
     //TODO: Test
     public static Task<Result<TResult>> Try<TSource, TResult>(
-        this TSource @this,
-        Func<TSource, Task<Result<TResult>>> fun,
-        int numOfTry = 1) => Try(() => fun(@this), numOfTry);
+        this TSource source,
+        Func<TSource, Task<Result<TResult>>> function,
+        int numOfTry = 1
+    ) => Try(() => function(source), numOfTry);
 
     //TODO: Test
     public static Result<TResult> Try<TSource, TResult>(
-        this TSource @this,
-        Func<TSource, Result<TResult>> func,
-        int numOfTry = 1) => Try(() => func(@this), numOfTry);
+        this TSource source,
+        Func<TSource, Result<TResult>> function,
+        int numOfTry = 1) => Try(() => function(source), numOfTry);
 
     //TODO: Test
     public static Result Try<TSource>(
-        this TSource @this,
-        Func<TSource, Result> func,
-        int numOfTry = 1) => Try(() => func(@this), numOfTry);
+        this TSource source,
+        Func<TSource, Result> function,
+        int numOfTry = 1
+    ) => Try(() => function(source), numOfTry);
 }

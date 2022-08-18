@@ -4,46 +4,52 @@ namespace OnRail.Extensions.Tee;
 
 public static partial class TeeExtensions {
     public static T Tee<T>(
-        this T @this,
+        this T source,
         Action<T> action,
-        int numOfTry = 1) {
-        @this.Try(action, numOfTry);
-        return @this;
+        int numOfTry = 1
+    ) {
+        source.Try(action, numOfTry);
+        return source;
     }
 
     public static T Tee<T>(
-        this T @this,
+        this T source,
         Action action,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         TryExtensions.Try(action, numOfTry);
-        return @this;
+        return source;
     }
 
     public static void Tee(
         Action action,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         TryExtensions.Try(action, numOfTry);
     }
 
     public static TSource Tee<TSource, TResult>(
-        this TSource @this,
+        this TSource source,
         Func<TSource, TResult> function,
-        int numOfTry = 1) {
-        @this.Try(function, numOfTry);
-        return @this;
+        int numOfTry = 1
+    ) {
+        source.Try(function, numOfTry);
+        return source;
     }
 
     public static TSource Tee<TSource, TResult>(
-        this TSource @this,
+        this TSource source,
         Func<TResult> function,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         TryExtensions.Try(function, numOfTry);
-        return @this;
+        return source;
     }
 
     public static void Tee<TResult>(
         Func<TResult> function,
-        int numOfTry = 1) {
+        int numOfTry = 1
+    ) {
         TryExtensions.Try(function, numOfTry);
     }
 }

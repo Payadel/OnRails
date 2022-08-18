@@ -26,215 +26,215 @@ public static partial class MapExtensions {
     ) => TryExtensions.Try(function, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this TSource @this,
+        this TSource source,
         Func<TSource, TResult> function,
-        int numOfTry = 1) => @this.Try(function, numOfTry);
+        int numOfTry = 1) => source.Try(function, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this TSource @this,
+        this TSource source,
         Func<TSource, Result<TResult>> function,
-        int numOfTry = 1) => @this.Try(function, numOfTry);
+        int numOfTry = 1) => source.Try(function, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, Result<TResult>> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<Result<TResult>> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, Result<TResult>> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<Result<TResult>> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, Result<TResult>> onSuccessFunction,
         Func<ResultDetail, ErrorDetail> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, TResult> onSuccessFunction,
         Func<ResultDetail, ErrorDetail> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<Result<TResult>> onSuccessFunction,
         Func<ResultDetail, ErrorDetail> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, ErrorDetail> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, Result<TResult>> onSuccessFunction,
         ErrorDetail errorDetail,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => result.Fail(errorDetail), numOfTry: 1);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TSource, TResult> onSuccessFunction,
         ErrorDetail errorDetail,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => result.Fail(errorDetail), numOfTry: 1);
 
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TResult> onSuccessFunction,
         Func<Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<Result<TResult>> onSuccessFunction,
         ErrorDetail errorDetail,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => result.Fail(errorDetail), numOfTry: 1);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
+        this Result<TSource> source,
         Func<TResult> onSuccessFunction,
         ErrorDetail errorDetail,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => result.Fail(errorDetail), numOfTry: 1);
 
     public static Result<TResult> Map<TResult>(
-        this Result @this,
+        this Result source,
         Func<Result<TResult>> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Result<TResult> Map<TResult>(
-        this Result @this,
+        this Result source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, Result<TResult>> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(result => onFailFunction(result.Detail), numOfTry);
 
     public static Result<TResult> Map<TResult>(
-        this Result @this,
+        this Result source,
         Func<Result<TResult>> onSuccessFunction,
         Func<ResultDetail, ErrorDetail> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TResult>(
-        this Result @this,
+        this Result source,
         Func<TResult> onSuccessFunction,
         Func<ResultDetail, ErrorDetail> onFailFunction,
         int numOfTry = 1
-    ) => @this
+    ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
-        this Result<TSource> @this,
-        TResult value) => @this.OnSuccess(value);
+        this Result<TSource> source,
+        TResult value) => source.OnSuccess(value);
 
     public static Result<T> Map<T>(
-        this Result @this,
+        this Result source,
         T value
-    ) => @this.OnSuccess(value);
+    ) => source.OnSuccess(value);
 
     public static Result Map<TSource>(
-        this Result<TSource> @this) =>
-        @this.IsSuccess ? Result.Ok() : Result.Fail(@this.Detail);
+        this Result<TSource> source) =>
+        source.IsSuccess ? Result.Ok() : Result.Fail(source.Detail);
 
     #endregion
 
     #region MapToTask
 
-    public static Task<T> MapToTask<T>(this T @this) => Task.FromResult(@this);
+    public static Task<T> MapToTask<T>(this T source) => Task.FromResult(source);
 
     #endregion
 }

@@ -13,48 +13,49 @@ namespace OnRail.Extensions.Must;
 
 public static class MustExtensions {
     public static Result<T> Must<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         ResultDetail errorDetail
-    ) => @this.OperateWhen(!predicate, Result<T>.Fail(errorDetail));
+    ) => source.OperateWhen(!condition, Result<T>.Fail(errorDetail));
 
     public static Result<T> Must<T>(
-        this T @this,
-        Func<bool> predicateFunc,
+        this T source,
+        Func<bool> predicate,
         ResultDetail errorDetail,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(!predicate, Result<T>.Fail(errorDetail)));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetail)));
 
     public static Result<T> Must<T>(
-        this T @this,
-        bool predicate,
-        Func<ResultDetail> errorDetail
-    ) => @this.OperateWhen(!predicate, Result<T>.Fail(errorDetail));
+        this T source,
+        bool condition,
+        Func<ResultDetail> errorDetailFunc
+    ) => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc));
 
     public static Result<T> Must<T>(
-        this T @this,
-        Func<bool> predicateFunc,
-        Func<ResultDetail> errorDetail,
+        this T source,
+        Func<bool> predicate,
+        Func<ResultDetail> errorDetailFunc,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(!predicate, Result<T>.Fail(errorDetail)));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc)));
 
     public static Result MustNotNullOrEmpty(
-        this IEnumerable? @this,
-        ErrorDetail? errorDetail = null) {
+        this IEnumerable? source,
+        ErrorDetail? errorDetail = null
+    ) {
         var error = errorDetail ?? new ErrorDetail(
             title: "IsNullOrEmptyError",
             message: "object is not null or empty.");
-        return @this.IsNullOrEmpty()
+        return source.IsNullOrEmpty()
             ? Result.Fail(error)
             : Result.Ok();
     }
 
     public static Result<T> MustNotNull<T>(
-        this object? @this,
+        this object? source,
         ErrorDetail? errorDetail = null) =>
-        @this.FailWhen(@this is null, errorDetail ?? new ErrorDetail(
+        source.FailWhen(source is null, errorDetail ?? new ErrorDetail(
                 title: "NullError", message: "Object is null."))
-            .Map((T) @this!);
+            .Map((T) source!);
 }

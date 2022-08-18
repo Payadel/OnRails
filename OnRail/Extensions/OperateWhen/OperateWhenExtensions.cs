@@ -8,325 +8,325 @@ namespace OnRail.Extensions.OperateWhen;
 
 public static partial class OperateWhenExtensions {
     public static Result OperateWhen(
-        bool predicate,
+        bool condition,
         Func<Result> function,
         int numOfTry = 1
-    ) => predicate ? TryExtensions.Try(function, numOfTry) : Result.Ok();
+    ) => condition ? TryExtensions.Try(function, numOfTry) : Result.Ok();
 
     public static Result OperateWhen(
-        bool predicate,
+        bool condition,
         ErrorDetail errorDetail
-    ) => predicate
+    ) => condition
         ? Result.Fail(errorDetail)
         : Result.Ok();
 
     public static Result OperateWhen(
-        bool predicate,
+        bool condition,
         Result result
-    ) => predicate ? result : Result.Ok();
+    ) => condition ? result : Result.Ok();
 
     public static Result OperateWhen(
-        Func<bool> predicateFun,
+        Func<bool> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => OperateWhen(predicate, function, numOfTry));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => OperateWhen(condition, function, numOfTry));
 
     public static Result OperateWhen(
-        Func<bool> predicateFun,
+        Func<bool> predicate,
         Result result,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => OperateWhen(predicate, result));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => OperateWhen(condition, result));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Result<T> result
-    ) => predicate ? result : Result<T>.Ok(@this);
+    ) => condition ? result : Result<T>.Ok(source);
 
     public static Result OperateWhen(
-        bool predicate,
+        bool condition,
         Action action,
         int numOfTry = 1) {
-        return predicate
+        return condition
             ? TryExtensions.Try(action, numOfTry)
             : Result.Ok();
     }
 
     public static Result OperateWhen(
-        Func<bool> predicateFun,
+        Func<bool> predicate,
         Action action,
-        int numOfTry = 1) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => OperateWhen(predicate, action, numOfTry));
+        int numOfTry = 1) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => OperateWhen(condition, action, numOfTry));
 
     //TODO: complete tests for numOfTry
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => predicate
+    ) => condition
         ? TryExtensions.Try(function, numOfTry)
-        : Result<T>.Ok(@this);
+        : Result<T>.Ok(source);
 
     //TODO: ctest
     public static async Task<Result<T>> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         bool condition,
         Func<Result<T>, Task<Result<T>>> operation,
         int numOfTry = 1
     ) => condition
-        ? await @this.Try(operation, numOfTry)
-        : @this;
+        ? await source.Try(operation, numOfTry)
+        : source;
 
     //TODO: test
     public static Task<Result<T>> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Func<Result<T>, bool> predicateFunc,
         Func<Result<T>, Task<Result<T>>> operation,
         int numOfTry = 1
-    ) => @this.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, operation, numOfTry));
+    ) => source.Try(predicateFunc, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, operation, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Func<T> function,
         int numOfTry = 1
-    ) => predicate
+    ) => condition
         ? TryExtensions.Try(function, numOfTry)
-        : Result<T>.Ok(@this);
+        : Result<T>.Ok(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Func<T, T> function,
         int numOfTry = 1
-    ) => predicate
-        ? @this.Try(function, numOfTry)
-        : Result<T>.Ok(@this);
+    ) => condition
+        ? source.Try(function, numOfTry)
+        : Result<T>.Ok(source);
 
     //TODO: Add numOfTry + Test
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Result predicate,
         Func<Result<T>> operation,
         int numOfTry = 1
     ) => predicate.OnSuccess(operation, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Result predicate,
         Action operation,
         int numOfTry = 1
     ) => predicate.OnSuccess(() => {
         operation();
-        return @this;
+        return source;
     });
 
     //TODO: complete tests for numOfTry
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
-        bool predicate,
+        this Result<T> source,
+        bool condition,
         Func<Result<T>> operation,
         int numOfTry = 1
-    ) => predicate
+    ) => condition
         ? TryExtensions.Try(operation, numOfTry)
-        : @this;
+        : source;
 
     //The difference between this method and TeeOnFail is that in this method the success/failure of the action is considered, but not in TeeOnFail.
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
-        bool predicate,
+        this Result<T> source,
+        bool condition,
         Action operation,
         int numOfTry = 1
-    ) => predicate
+    ) => condition
         ? TryExtensions.Try(operation, numOfTry)
-            .OnSuccess(() => @this)
-        : @this;
+            .OnSuccess(() => source)
+        : source;
 
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Func<Result> predicate,
         Func<Result<T>> operation,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate().IsSuccess, operation, numOfTry);
+    ) => source.OperateWhen(predicate().IsSuccess, operation, numOfTry);
 
     public static Result OperateWhen(
-        this Result @this,
-        bool predicate,
+        this Result source,
+        bool condition,
         Action operation,
         int numOfTry = 1
-    ) => predicate
+    ) => condition
         ? TryExtensions.Try(operation, numOfTry)
-        : @this;
+        : source;
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Result<T> result,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, result));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, result));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Func<T> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Func<T, T> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function));
 
     //The difference between this method and TeeOnFail is that in this method the success/failure of the action is considered, but not in TeeOnFail.
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Func<Result> function,
         int numOfTry = 1
-    ) => predicate
+    ) => condition
         ? TryExtensions.Try(function, numOfTry)
-            .OnSuccess(@this)
-        : Result<T>.Ok(@this);
+            .OnSuccess(source)
+        : Result<T>.Ok(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicateFun,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => @this.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
+    ) => source.Try(predicateFun, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicateFun,
         Result<T> result,
         int numOfTry = 1
-    ) => @this.OperateWhen(() => predicateFun(@this), result, numOfTry);
+    ) => source.OperateWhen(() => predicateFun(source), result, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         ErrorDetail errorDetail
-    ) => predicate
+    ) => condition
         ? Result<T>.Fail(errorDetail)
-        : Result<T>.Ok(@this);
+        : Result<T>.Ok(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<bool> predicateFunc,
         Func<T, ErrorDetail> errorDetailFunc,
         int numOfTry = 1
     ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, errorDetailFunc, numOfTry));
+        .OnSuccess(condition => source.OperateWhen(condition, errorDetailFunc, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<bool> predicateFunc,
         ErrorDetail errorDetail,
         int numOfTry = 1
     ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, errorDetail));
+        .OnSuccess(condition => source.OperateWhen(condition, errorDetail));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(() => predicate(@this), function, numOfTry);
+    ) => source.OperateWhen(() => predicate(source), function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
-        bool predicate,
+        this Result<T> source,
+        bool condition,
         Func<T> function,
         int numOfTry = 1
-    ) => predicate
+    ) => condition
         ? TryExtensions.Try(function, numOfTry)
-        : @this;
+        : source;
 
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Func<Result<T>, Result> predicateFunc,
         Func<T> function,
         int numOfTry = 1
-    ) => predicateFunc(@this).IsSuccess
+    ) => predicateFunc(source).IsSuccess
         ? TryExtensions.Try(function, numOfTry)
-        : @this;
+        : source;
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => predicate
-        ? @this.Try(function, numOfTry)
-        : Result<T>.Ok(@this);
+    ) => condition
+        ? source.Try(function, numOfTry)
+        : Result<T>.Ok(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicate,
         Func<T, T> operation,
         int numOfTry = 1
-    ) => @this.Try(predicate, numOfTry)
-        .OnSuccess(condition => @this.OperateWhen(condition, operation, numOfTry));
+    ) => source.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, operation, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicateFun, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function));
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function));
 
     //The difference between this method and TeeOnFail is that in this method the success/failure of the action is considered, but not in TeeOnFail.
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Func<T, Result> function,
         int numOfTry = 1
-    ) => predicate
-        ? @this.Try(function, numOfTry)
-            .OnSuccess(@this)
-        : Result<T>.Ok(@this);
+    ) => condition
+        ? source.Try(function, numOfTry)
+            .OnSuccess(source)
+        : Result<T>.Ok(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(() => predicate(@this), function, numOfTry);
+    ) => source.OperateWhen(() => predicate(source), function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicateFunc,
         Func<T, Result> function,
         int numOfTry = 1
-    ) => @this.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
+    ) => source.Try(predicateFunc, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function, numOfTry));
 
     public static Result OperateWhen(
         Func<Result> predicate,
@@ -347,166 +347,166 @@ public static partial class OperateWhenExtensions {
     ) => OperateWhen(predicate.IsSuccess, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<Result> predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate().IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate().IsSuccess, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Func<bool> predicateFunc,
         Func<T> function,
         int numOfTry = 1
     ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
+        .OnSuccess(condition => source.OperateWhen(condition, function, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Func<Result<T>, bool> predicateFunc,
         Func<T> function,
         int numOfTry = 1
-    ) => @this.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, function, numOfTry));
+    ) => source.Try(predicateFunc, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, function, numOfTry));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, Result> predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate(@this).IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate(source).IsSuccess, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
+        this Result<T> source,
         Func<bool> predicateFunc,
         Result<T> result,
         int numOfTry = 1
     ) => TryExtensions.Try(predicateFunc, numOfTry)
-        .OnSuccess(predicate => @this.OperateWhen(predicate, result));
+        .OnSuccess(condition => source.OperateWhen(condition, result));
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<Result> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate().IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate().IsSuccess, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Result predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate.IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate.IsSuccess, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, Result> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate(@this).IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate(source).IsSuccess, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Action action,
-        int numOfTry = 1) => OperateWhen(predicate, action, numOfTry)
-        .OnSuccess(@this);
+        int numOfTry = 1) => OperateWhen(condition, action, numOfTry)
+        .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Action action,
         int numOfTry = 1) =>
-        TryExtensions.Try(predicateFun, numOfTry)
-            .OnSuccess(predicate => OperateWhen(predicate, action, numOfTry))
-            .OnSuccess(@this);
+        TryExtensions.Try(predicate, numOfTry)
+            .OnSuccess(condition => OperateWhen(condition, action, numOfTry))
+            .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicateFun,
         Action action,
         int numOfTry = 1) =>
-        TryExtensions.Try(() => predicateFun(@this), numOfTry)
-            .OnSuccess(predicate => OperateWhen(predicate, action, numOfTry))
-            .OnSuccess(@this);
+        TryExtensions.Try(() => predicateFun(source), numOfTry)
+            .OnSuccess(condition => OperateWhen(condition, action, numOfTry))
+            .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicateFun,
         Func<T, ErrorDetail> errorDetail,
         int numOfTry = 1) =>
-        TryExtensions.Try(() => predicateFun(@this), numOfTry)
-            .OnSuccess(predicate => @this.OperateWhen(predicate, errorDetail, numOfTry))
-            .OnSuccess(@this);
+        TryExtensions.Try(() => predicateFun(source), numOfTry)
+            .OnSuccess(condition => source.OperateWhen(condition, errorDetail, numOfTry))
+            .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Func<T, ErrorDetail> errorDetailFunc,
-        int numOfTry = 1) => predicate
-        ? @this.Try(errorDetailFunc, numOfTry)
+        int numOfTry = 1) => condition
+        ? source.Try(errorDetailFunc, numOfTry)
             .OnSuccess(Result<T>.Fail)
-        : Result<T>.Ok(@this);
+        : Result<T>.Ok(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        bool predicate,
+        this T source,
+        bool condition,
         Action<T> action,
         int numOfTry = 1) =>
-        OperateWhen(predicate, () => action(@this), numOfTry)
-            .OnSuccess(@this);
+        OperateWhen(condition, () => action(source), numOfTry)
+            .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
-        Func<bool> predicateFun,
+        this T source,
+        Func<bool> predicate,
         Action<T> action,
         int numOfTry = 1) =>
-        OperateWhen(predicateFun, () => action(@this), numOfTry)
-            .OnSuccess(@this);
+        OperateWhen(predicate, () => action(source), numOfTry)
+            .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, bool> predicateFun,
         Action<T> action,
         int numOfTry = 1) =>
-        OperateWhen(() => predicateFun(@this), () => action(@this), numOfTry)
-            .OnSuccess(@this);
+        OperateWhen(() => predicateFun(source), () => action(source), numOfTry)
+            .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Result predicate,
         Action action,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate.IsSuccess, action, numOfTry);
+    ) => source.OperateWhen(predicate.IsSuccess, action, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, Result> predicateFun,
         Action action,
         int numOfTry = 1
-    ) => OperateWhen(() => predicateFun(@this), action, numOfTry)
-        .OnSuccess(@this);
+    ) => OperateWhen(() => predicateFun(source), action, numOfTry)
+        .OnSuccess(source);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Result predicate,
         Action<T> action,
         int numOfTry = 1
-    ) => @this.OperateWhen(predicate.IsSuccess, action, numOfTry);
+    ) => source.OperateWhen(predicate.IsSuccess, action, numOfTry);
 
     public static Result<T> OperateWhen<T>(
-        this T @this,
+        this T source,
         Func<T, Result> predicate,
         Action<T> action,
         int numOfTry = 1
-    ) => OperateWhen(() => predicate(@this), () => action(@this), numOfTry)
-        .OnSuccess(@this);
+    ) => OperateWhen(() => predicate(source), () => action(source), numOfTry)
+        .OnSuccess(source);
 
     //TODO: Test
     public static Result<T> OperateWhen<T>(
-        this Result<T> @this,
-        bool predicate,
-        Result<T> result) => predicate
+        this Result<T> source,
+        bool condition,
+        Result<T> result) => condition
         ? result
-        : @this;
+        : source;
 }

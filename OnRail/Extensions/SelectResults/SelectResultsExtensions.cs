@@ -6,10 +6,10 @@ namespace OnRail.Extensions.SelectResults;
 
 public static partial class SelectResultsExtensions {
     public static Result<List<TResult>> SelectResults<TSource, TResult>(
-        this IEnumerable<TSource> @this,
+        this IEnumerable<TSource> source,
         Func<TSource, Result<TResult>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this.ToList, numOfTry)
+    ) => TryExtensions.Try(source.ToList, numOfTry)
         .OnSuccess(list => {
             var selectedResult = new List<TResult>(list.Count);
 
@@ -26,10 +26,10 @@ public static partial class SelectResultsExtensions {
         });
 
     public static Result<List<TResult>> SelectResults<TSource, TResult>(
-        this IEnumerable<TSource> @this,
+        this IEnumerable<TSource> source,
         Func<TSource, TResult> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(@this.ToList, numOfTry)
+    ) => TryExtensions.Try(source.ToList, numOfTry)
         .OnSuccess(list => {
             var selectedResult = new List<TResult>(list.Count);
 
