@@ -316,4 +316,9 @@ public static partial class MapExtensions {
     ) => source
         .OnSuccess(onSuccessAction, numOfTry)
         .OnFail(onFailFunction, numOfTry);
+
+    public static Task<Result> Map<TSource>(
+        this Task<Result<TSource>> source
+    ) => TryExtensions.Try(source)
+        .OnSuccess(Result.Ok);
 }
