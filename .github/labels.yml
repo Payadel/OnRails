@@ -1,14 +1,14 @@
 ---
 # Semantic Versioning 2.0.0
-- name: "major"
+- name: "version-major"
   color: b60205
   description: "Incompatible API changes or breaks backward compatibility for users"
 
-- name: "minor"
+- name: "version-minor"
   color: 0e8a16
   description: "Add functionality in a backwards compatible manner"
 
-- name: "patch"
+- name: "version-patch"
   color: C2E0C6
   description: "Backwards compatible bug fixes"
 
@@ -30,44 +30,44 @@
   description: "Nice addition, maybe... someday..."
 
 # Scope
-- name: "documentation"
+- name: "scope-documentation"
   color: 0052cc
   description: "Improvements or additions to documentation"
 
-- name: "enhancement"
+- name: "scope-enhancement"
   color: a2eeef
   description: "Enhancement of the code, Refactor, not introducing new features."
 
-- name: "bug"
+- name: "scope-bug"
   color: d73a4a
   description: "Something isn't working"
 
-- name: "performance"
+- name: "scope-performance"
   color: 5E4BDC
   description: "Improving performance of the project, not introducing new features."
 
-- name: "new-feature"
+- name: "scope-new-feature"
   color: 07A297
   description: "New features or options."
 
-- name: "security"
+- name: "scope-security"
   color: ee0701
   description: "Addressing a vulnerability or security risk in this project."
 
 # Status
-- name: "duplicate"
+- name: "status-duplicate"
   color: cfd3d7
   description: "This issue or pull request already exists"
 
-- name: "in-progress"
+- name: "status-in-progress"
   color: fbca04
   description: "Issue is currently being worked on by a developer."
 
-- name: "stale"
+- name: "status-stale"
   color: cfd3d7
   description: "No activity for quite some time."
 
-- name: "incomplete"
+- name: "status-incomplete"
   color: B5EEB0
   description: "Missing information."
 
@@ -75,7 +75,7 @@
   color: F25D8F
   description: "This is off-topic, spam, or otherwise doesn't apply to this project."
 
-- name: "wontfix"
+- name: "status-wontfix"
   color: ffffff
   description: "This will not be worked on"
 
