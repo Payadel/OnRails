@@ -71,7 +71,7 @@
   color: B5EEB0
   description: "Missing information."
 
-- name: "invalid"
+- name: "status-invalid"
   color: F25D8F
   description: "This is off-topic, spam, or otherwise doesn't apply to this project."
 
