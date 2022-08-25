@@ -1,20 +1,34 @@
----
-name: CodeQL
+name: "CodeQL"
 
 on:
   push:
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
   schedule:
-    - cron: "* * 1 * *"
+    - cron: '40 14 * * 6'
 
 jobs:
   codeql:
     name: 🏭 Scanning
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]
+
     steps:
-      - name: ⤵️ Check out code from GitHub
+      - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: 🏗 Initialize CodeQL
         uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
       - name: 🚀 Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
