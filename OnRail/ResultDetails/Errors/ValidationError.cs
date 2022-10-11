@@ -8,9 +8,16 @@ public class ValidationError : ErrorDetail {
         Exception? exception = null, object? moreDetails = null)
         : base(title, message, statusCode, exception, moreDetails) { }
 
-    public List<KeyValuePair<string, string>> Errors { get; set; } = new();
+    public List<KeyValuePair<string, string>>? Errors { get; set; }
 
     public void AddError(string parameterName, string description) {
+        Errors ??= new List<KeyValuePair<string, string>>();
         Errors.Add(new KeyValuePair<string, string>(parameterName, description));
     }
+
+    public override object GetViewModel() => new {
+        Title,
+        Message,
+        Errors
+    };
 }

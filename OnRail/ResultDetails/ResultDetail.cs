@@ -50,4 +50,9 @@ public class ResultDetail {
 
         return result;
     }
+
+    public virtual object GetViewModel() => new {
+        Title,
+        Message,
+    };
 }
