@@ -1,6 +1,34 @@
 All notable changes to this project will be documented in this file. We follow
 the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
+## 2.0.0 - YYYY-MM-DD
+
+### Added
+
+- 
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 1.4.0 - YYYY-MM-DD
+
+### Added
+
+- `public static Task<Result> Map<TSource>(this Task<Result<TSource>> source)`
+- `ActionResultExtensions`
+- `GetStatusCodeOrDefault` to `ResultBase`
+- `GetViewModel` to `ResultDetail`
+- `ValidationError`
+
 ## 1.3.0 - 2022-08-18
 
 ### Fixed
