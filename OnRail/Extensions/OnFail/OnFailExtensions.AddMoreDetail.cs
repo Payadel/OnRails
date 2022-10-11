@@ -1,5 +1,4 @@
 using OnRail.Extensions.Fail;
-using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 
@@ -17,15 +16,20 @@ public static partial class OnFailExtensions {
         int numOfTry = 1
     ) => source.IsSuccess
         ? source
-        : TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(source.Fail, numOfTry: 1);
+        : TryExtensions.Try(() => {
+            var errorDetail = errorDetailFunc();
+            return source.Fail(errorDetail);
+        }, numOfTry);
 
     public static Result<T> OnFail<T>(
         this Result<T> source,
         object moreDetail
     ) {
-        if (!source.IsSuccess)
+        if (!source.IsSuccess) {
+            source.Detail ??= new ErrorDetail();
             source.Detail.AddDetail(moreDetail);
+        }
+
         return source;
     }
 
@@ -40,23 +44,27 @@ public static partial class OnFailExtensions {
         int numOfTry = 1
     ) => source.IsSuccess
         ? source
-        : TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(source.Fail, numOfTry: 1);
+        : TryExtensions.Try(() => {
+            var errorDetail = errorDetailFunc();
+            return source.Fail(errorDetail);
+        }, numOfTry);
 
     public static Result OnFail(
         this Result source,
         object moreDetail) {
-        if (!source.IsSuccess)
+        if (!source.IsSuccess) {
+            source.Detail ??= new ErrorDetail();
             source.Detail.AddDetail(moreDetail);
+        }
+
         return source;
     }
 
     public static Result<T> OnFail<T>(
         this Result<T> source,
-        Func<ResultDetail, ErrorDetail> moreDetailFunc,
+        Func<ResultDetail?, ErrorDetail> moreDetailFunc,
         int numOfTry = 1
     ) => source.IsSuccess
         ? source
-        : TryExtensions.Try(() => moreDetailFunc(source.Detail), numOfTry)
-            .OnSuccess(source.Fail);
+        : TryExtensions.Try(() => source.Fail(moreDetailFunc(source.Detail)), numOfTry);
 }

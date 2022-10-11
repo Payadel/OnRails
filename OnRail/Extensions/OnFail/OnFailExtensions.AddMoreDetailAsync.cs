@@ -12,8 +12,11 @@ public static partial class OnFailExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        if (!result.IsSuccess)
+        if (!result.IsSuccess) {
+            result.Detail ??= new ErrorDetail();
             result.Detail.AddDetail(moreDetail);
+        }
+
         return result;
     }
 
@@ -23,8 +26,11 @@ public static partial class OnFailExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        if (!result.IsSuccess)
+        if (!result.IsSuccess) {
+            result.Detail ??= new ErrorDetail();
             result.Detail.AddDetail(moreDetail);
+        }
+
         return result;
     }
 
@@ -66,6 +72,7 @@ public static partial class OnFailExtensions {
         return TryExtensions.Try(errorDetailFunc, numOfTry)
             .OnSuccess(Result.Fail);
     }
+
 
     public static async Task<Result> OnFail(
         this Result source,

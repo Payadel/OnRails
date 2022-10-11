@@ -46,7 +46,8 @@ public static partial class TryExtensions {
                         .AddNumOfTry(counter + 1, numOfTry);
                 }
 
-                errors.Add(result.Detail);
+                if (result.Detail is not null)
+                    errors.Add(result.Detail);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -79,7 +80,8 @@ public static partial class TryExtensions {
                         .AddNumOfTry(counter + 1, numOfTry);
                 }
 
-                errors.Add(result.Detail);
+                if (result.Detail is not null)
+                    errors.Add(result.Detail);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -126,7 +128,8 @@ public static partial class TryExtensions {
                         .AddNumOfTry(counter + 1, numOfTry);
                 }
 
-                errors.Add(result.Detail);
+                if (result.Detail is not null)
+                    errors.Add(result.Detail);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -198,7 +201,8 @@ public static partial class TryExtensions {
                         .AddNumOfTry(counter + 1, numOfTry);
                 }
 
-                errors.Add(result.Detail);
+                if (result.Detail is not null)
+                    errors.Add(result.Detail);
             }
             catch (Exception e) {
                 errors.Add(e);
@@ -227,7 +231,8 @@ public static partial class TryExtensions {
                         .AddNumOfTry(counter + 1, numOfTry);
                 }
 
-                errors.Add(result.Detail);
+                if (result.Detail is not null)
+                    errors.Add(result.Detail);
             }
             catch (Exception e) {
                 errors.Add(e);

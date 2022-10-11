@@ -6,39 +6,44 @@ namespace OnRail.Extensions.OperateWhen;
 //TODO: Test
 
 public static partial class OperateWhenExtensions {
-    public static async Task<Result> OperateWhen(
+    public static Task<Result> OperateWhen(
         bool condition,
         Func<Task> function,
         int numOfTry = 1
-    ) {
+    ) => TryExtensions.Try(async () => {
         if (condition)
-            return await TryExtensions.Try(function, numOfTry);
-        return Result.Ok();
-    }
+            await function();
+    }, numOfTry);
 
     public static Task<Result> OperateWhen(
         Func<bool> predicate,
         Func<Task> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicate)
-        .OnSuccess(condition => OperateWhen(condition, function, numOfTry));
+    ) => TryExtensions.Try(async () => {
+        var condition = predicate();
+        if (condition)
+            await function();
+    }, numOfTry);
 
-    public static async Task<Result> OperateWhen(
+    //TODO: Only try on exceptions
+    public static Task<Result> OperateWhen(
         bool condition,
         Func<Task<Result>> function,
         int numOfTry = 1
-    ) {
+    ) => TryExtensions.Try(async () => {
         if (condition)
-            return await TryExtensions.Try(function, numOfTry);
-        return Result.Ok();
-    }
+            await function();
+    }, numOfTry);
 
+    //TODO: Only try on exceptions
     public static Task<Result> OperateWhen(
         Func<bool> predicate,
         Func<Task<Result>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(predicate)
-        .OnSuccess(condition => OperateWhen(condition, function, numOfTry));
+    ) => TryExtensions.Try(() => {
+        var condition = predicate();
+        return OperateWhen(condition, function, numOfTry);
+    });
 
     public static Task<Result<T>> OperateWhen<T>(
         this Task<T> source,
@@ -47,9 +52,7 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => TryExtensions.Try(async () => {
         var t = await source;
-        return condition
-            ? await function()
-            : t;
+        return condition ? await function() : t;
     }, numOfTry);
 
     public static Task<Result<T>> OperateWhen<T>(
@@ -59,9 +62,7 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => TryExtensions.Try(async () => {
         var t = await source;
-        return condition
-            ? Result<T>.Ok(await function())
-            : t;
+        return condition ? Result<T>.Ok(await function()) : t;
     }, numOfTry);
 
     public static Task<Result<T>> OperateWhen<T>(

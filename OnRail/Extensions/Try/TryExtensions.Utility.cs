@@ -21,6 +21,7 @@ public static partial class TryExtensions {
         int numOfTry,
         int maxTryRequested
     ) {
+        source.Detail ??= new ResultDetail(nameof(ResultDetail));
         source.Detail.AddNumOfTry(numOfTry, maxTryRequested);
         return source;
     }
@@ -29,6 +30,7 @@ public static partial class TryExtensions {
         int numOfTry,
         int maxTryRequested
     ) {
+        source.Detail ??= new ResultDetail(nameof(ResultDetail));
         source.Detail.AddNumOfTry(numOfTry, maxTryRequested);
         return source;
     }

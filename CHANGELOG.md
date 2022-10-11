@@ -29,6 +29,10 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 - `GetViewModel` to `ResultDetail`
 - `ValidationError`
 
+### Fixed
+
+- DRY in using `Try` methods (#7)
+
 ## 1.3.0 - 2022-08-18
 
 ### Fixed

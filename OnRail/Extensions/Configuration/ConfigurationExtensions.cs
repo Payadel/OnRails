@@ -17,14 +17,15 @@ public static class ConfigurationExtensions {
         int numOfTry = 1
     ) where T : class =>
         TryExtensions.Try(() => source
-            .GetConfig<T>()
-            .OnSuccess(services.AddSingleton)
-            .Map(source), numOfTry);
+                .GetConfig<T>()
+                .OnSuccess(services.AddSingleton)
+                .Map(source),
+            numOfTry);
 
     public static Result<IConfiguration> AddConfig<T>(
         this Result<IConfiguration> source,
         IServiceCollection services,
         int numOfTry = 1
-    ) where T : class
-        => source.OnSuccess(configuration => configuration.AddConfig<T>(services), numOfTry);
+    ) where T : class => source.OnSuccess(
+        configuration => configuration.AddConfig<T>(services), numOfTry);
 }

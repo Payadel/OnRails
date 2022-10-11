@@ -8,8 +8,8 @@ public abstract class ResultBase {
         Detail = detail;
     }
 
-    public bool IsSuccess { get; }
-    public ResultDetail? Detail { get; }
+    public bool IsSuccess { get; set; }
+    public ResultDetail? Detail { get; set; }
 
     public int GetStatusCodeOrDefault(int defaultCode) {
         if (Detail?.StatusCode is null) return defaultCode;
