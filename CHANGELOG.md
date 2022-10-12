@@ -5,7 +5,7 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
 ### Added
 
-- 
+-
 
 ### Deprecated
 
@@ -19,7 +19,7 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
 - Nothing.
 
-## 1.4.0 - YYYY-MM-DD
+## 1.4.0 - 2022-10-12
 
 ### Added
 
@@ -31,7 +31,7 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
 ### Fixed
 
-- DRY in using `Try` methods (#7)
+- Remove DRY in using `Try` methods (#7)
 
 ## 1.3.0 - 2022-08-18
 
