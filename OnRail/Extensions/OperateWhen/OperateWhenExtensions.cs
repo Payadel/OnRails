@@ -107,9 +107,67 @@ public static partial class OperateWhenExtensions {
         ? source.Try(function, numOfTry)
         : Result<T>.Ok(source);
 
+    public static Result OperateWhen(
+        this Result source,
+        bool condition,
+        Func<Result> operation,
+        int numOfTry = 1
+    ) => condition
+        ? TryExtensions.Try(operation, numOfTry)
+        : source;
+
+    public static Result OperateWhen(
+        this Result source,
+        bool condition,
+        Func<Result, Result> operation,
+        int numOfTry = 1
+    ) => condition
+        ? source.Try(operation, numOfTry)
+        : source;
+
+    public static Result OperateWhen(
+        this Result source,
+        Func<bool> predicate,
+        Func<Result> operation,
+        int numOfTry = 1
+    ) => TryExtensions.Try(() => {
+        var condition = predicate();
+        return condition ? operation() : source;
+    }, numOfTry);
+
+    public static Result OperateWhen(
+        this Result source,
+        Func<Result, bool> predicate,
+        Func<Result> operation,
+        int numOfTry = 1
+    ) => TryExtensions.Try(() => {
+        var condition = predicate(source);
+        return condition ? operation() : source;
+    }, numOfTry);
+
+    public static Result OperateWhen(
+        this Result source,
+        Func<bool> predicate,
+        Func<Result, Result> operation,
+        int numOfTry = 1
+    ) => TryExtensions.Try(() => {
+        var condition = predicate();
+        return condition ? operation(source) : source;
+    }, numOfTry);
+
+    public static Result OperateWhen(
+        this Result source,
+        Func<Result, bool> predicate,
+        Func<Result, Result> operation,
+        int numOfTry = 1
+    ) => TryExtensions.Try(() => {
+        var condition = predicate(source);
+        return condition ? operation(source) : source;
+    }, numOfTry);
+
     //TODO: Add numOfTry + Test
     public static Result<T> OperateWhen<T>(
-        this Result<T> source,
+        this Result<T> _,
         Result predicate,
         Func<Result<T>> operation,
         int numOfTry = 1
@@ -123,7 +181,7 @@ public static partial class OperateWhenExtensions {
     ) => predicate.OnSuccess(() => {
         operation();
         return source;
-    });
+    }, numOfTry);
 
     //TODO: complete tests for numOfTry
     public static Result<T> OperateWhen<T>(
