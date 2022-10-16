@@ -1,9 +1,8 @@
-using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Tee;
 
-namespace OnRail.Extensions.TeeOnSuccess;
+namespace OnRail.Extensions.OnSuccess;
 
-public static partial class TeeOnSuccessExtensions {
+public static partial class OnSuccessExtensions {
     public static Result<T> TeeOnSuccess<T>(
         this Result<T> source,
         Action<T> action,
