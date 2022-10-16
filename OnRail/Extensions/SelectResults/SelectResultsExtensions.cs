@@ -1,6 +1,7 @@
-using OnRail.Extensions.OnFail;
+using OnRail.Extensions.AddMoreDetails;
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
+using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.SelectResults;
 
@@ -15,9 +16,9 @@ public static partial class SelectResultsExtensions {
 
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
-                    return Result<List<TResult>>.Fail(result.Detail);
+                    return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);
             }
@@ -35,9 +36,9 @@ public static partial class SelectResultsExtensions {
 
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
-                    return Result<List<TResult>>.Fail(result.Detail);
+                    return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);
             }
