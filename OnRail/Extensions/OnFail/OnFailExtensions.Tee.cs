@@ -6,51 +6,51 @@ namespace OnRail.Extensions.OnFail;
 //TODO: Test
 
 public static partial class OnFailExtensions {
-    public static Result<TSource> TeeOnFail<TSource>(
+    public static Result<TSource> OnFailTee<TSource>(
         this Result<TSource> source, Action action, int numOfTry = 1) =>
         source.OnFail(action, numOfTry);
 
-    public static Result<TSource> TeeOnFail<TSource>(
+    public static Result<TSource> OnFailTee<TSource>(
         this Result<TSource> source, Action<Result<TSource>> action, int numOfTry = 1) =>
         source.OnFail(result => result.Tee(action, numOfTry));
 
-    public static Result<TSource> TeeOnFail<TSource>(
+    public static Result<TSource> OnFailTee<TSource>(
         this Result<TSource> source,
         Func<Task<Result>> function,
         int numOfTry = 1
     ) => source.OnFail(() => TeeExtensions.Tee(function, numOfTry));
 
-    public static Result<TSource> TeeOnFail<TSource, TResult>(
+    public static Result<TSource> OnFailTee<TSource, TResult>(
         this Result<TSource> source,
         Func<Result<TSource>, Result<TResult>> function,
         int numOfTry = 1
     ) => source.OnFail(result => result.Tee(function, numOfTry));
 
-    public static Result<TSource> TeeOnFail<TSource, TResult>(
+    public static Result<TSource> OnFailTee<TSource, TResult>(
         this Result<TSource> source,
         Func<Result<TResult>> function,
         int numOfTry = 1
     ) => source.OnFail(result => result.Tee(function, numOfTry));
 
-    public static Result<TSource> TeeOnFail<TSource>(
+    public static Result<TSource> OnFailTee<TSource>(
         this Result<TSource> source,
         Func<Result> function,
         int numOfTry = 1
     ) => source.OnFail(result => result.Tee(function, numOfTry));
 
-    public static Result<T> TeeOnFail<T>(
+    public static Result<T> OnFailTee<T>(
         this Result<T> source,
         Func<Task> function,
         int numOfTry = 1
     ) => source.OnFail(result => result.Tee(function, numOfTry));
 
-    public static Result<T> TeeOnFail<T>(
+    public static Result<T> OnFailTee<T>(
         this Result<T> source,
         Func<Result<T>, Task> function,
         int numOfTry = 1
     ) => source.OnFail(result => result.Tee(function, numOfTry));
 
-    public static Result TeeOnFail(
+    public static Result OnFailTee(
         this Result source,
         Action action,
         int numOfTry = 1
@@ -58,14 +58,14 @@ public static partial class OnFailExtensions {
         ? source
         : TryExtensions.Try(action, numOfTry);
 
-    public static Result TeeOnFail(
+    public static Result OnFailTee(
         this Result source,
         Action<Result> action,
         int numOfTry = 1) => source.IsSuccess
         ? source
         : source.Try(action, numOfTry);
 
-    public static async Task<Result> TeeOnFail(
+    public static async Task<Result> OnFailTee(
         this Task<Result> source,
         Action action,
         int numOfTry = 1
@@ -76,7 +76,7 @@ public static partial class OnFailExtensions {
             : TryExtensions.Try(action, numOfTry);
     }
 
-    public static async Task<Result> TeeOnFail(
+    public static async Task<Result> OnFailTee(
         this Task<Result> source,
         Task task,
         int numOfTry = 1
@@ -87,7 +87,7 @@ public static partial class OnFailExtensions {
             : await TryExtensions.Try(task, numOfTry);
     }
 
-    public static async Task<Result> TeeOnFail(
+    public static async Task<Result> OnFailTee(
         this Task<Result> source,
         Action<Result> action,
         int numOfTry = 1
