@@ -1,5 +1,6 @@
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
+using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.Bind;
 
@@ -27,7 +28,7 @@ public static class BindExtensions {
         foreach (var task in items) {
             var taskResult = await TryExtensions.Try(task, numOfTry);
             if (!taskResult.IsSuccess)
-                return Result<List<T>>.Fail(taskResult.Detail);
+                return Result<List<T>>.Fail(taskResult.Detail as ErrorDetail);
         }
 
         return Result<List<T>>.Ok(result);

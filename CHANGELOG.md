@@ -5,33 +5,19 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
 ### Added
 
-- Nothing.
+- Make `ErrorDetail` nullable in method parameters
 
-### Deprecated
+### Updated
 
-- Nothing.
+- Uses `Func<Result, Result>` or `Func<Result<T>, Result<T>>` instead of `Func<ResultDetail, Result>` in method parameters
+- Forces `SuccessDetail` for Ok results and `ErrorDetail` for Fail results.
+- Renames `SelectResultsAsync` to `SelectResults`
 
-### Removed
+### Moved
 
-- Nothing.
+- `OnFailExtensions.AddMoreDetail` to `OnFailAddMoreDetails` and `OnFail`
 
-### Fixed
-
-- Nothing.
-
-## 1.5.0 - 2022-10-16
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
+## 1.4.1 - 2022-10-16
 
 ### Fixed
 

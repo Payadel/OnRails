@@ -1,7 +1,6 @@
 using OnRail.Extensions.OnFail;
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
-using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.Map;
 
@@ -9,7 +8,7 @@ public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TSource, TResult>(
         this Task<TSource> source,
         Func<TResult> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
@@ -31,10 +30,10 @@ public static partial class MapExtensions {
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(function, numOfTry);
 
-    public static Task<Result> Map<TSource>(
-        this Task<TSource> source,
-        Action<TSource> onSuccessAction,
-        Func<ResultDetail, Result> onFailFunction,
+    public static Task<Result> Map<T>(
+        this Task<T> source,
+        Action<T> onSuccessAction,
+        Func<Result, Result> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessAction, numOfTry)
@@ -43,7 +42,7 @@ public static partial class MapExtensions {
     public static Task<Result> Map<TSource>(
         this Task<TSource> source,
         Action onSuccessAction,
-        Func<ResultDetail, Result> onFailFunction,
+        Func<Result, Result> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessAction, numOfTry)
@@ -61,7 +60,7 @@ public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TResult>(
         this Task source,
         Func<TResult> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
@@ -120,10 +119,11 @@ public static partial class MapExtensions {
     public static Task<Result> Map(
         this Task source,
         Action onSuccessAction,
-        Func<ResultDetail, Result> onFailFunction,
+        Func<Result, Result> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
-        .OnSuccess(() => TryExtensions.Try(onSuccessAction, numOfTry));
+        .OnSuccess(onSuccessAction)
+        .OnFail(onFailFunction);
 
     public static Task<Result> Map(
         this Task source,
@@ -137,7 +137,7 @@ public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TSource, TResult>(
         this Task<TSource> source,
         Func<TSource, Result<TResult>> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
@@ -146,7 +146,7 @@ public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TSource, TResult>(
         this Task<TSource> source,
         Func<Result<TResult>> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
@@ -164,7 +164,7 @@ public static partial class MapExtensions {
     public static Task<Result> Map<TSource>(
         this Task<TSource> source,
         Func<Result> onSuccessFunction,
-        Func<ResultDetail, Result> onFailFunction,
+        Func<Result, Result> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
@@ -173,7 +173,7 @@ public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TResult>(
         this Task source,
         Func<Result<TResult>> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => TryExtensions.Try(source, numOfTry)
         .OnSuccess(onSuccessFunction, numOfTry)
@@ -230,20 +230,20 @@ public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TSource, TResult>(
         this Task<Result<TSource>> source,
         Func<TSource, TResult> onSuccessFunction,
-        Func<ResultDetail?, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
-        .OnFail(result => onFailFunction(result.Detail), numOfTry);
+        .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
         this Task<Result<TSource>> source,
         Func<TResult> onSuccessFunction,
-        Func<ResultDetail?, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
-        .OnFail(result => onFailFunction(result.Detail), numOfTry);
+        .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result<TResult>> Map<TSource, TResult>(
         this Task<Result<TSource>> source,
@@ -257,20 +257,20 @@ public static partial class MapExtensions {
     public static Task<Result> Map<TSource>(
         this Task<Result<TSource>> source,
         Action<TSource> onSuccessFunction,
-        Func<ResultDetail?, Result> onFailFunction,
+        Func<Result, Result> onFailFunction,
         int numOfTry = 1
     ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
-        .OnFail(result => onFailFunction(result.Detail), numOfTry);
+        .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map<TSource>(
         this Task<Result<TSource>> source,
         Action onSuccessAction,
-        Func<ResultDetail?, Result> onFailFunction,
+        Func<Result, Result> onFailFunction,
         int numOfTry = 1
     ) => source
         .OnSuccess(onSuccessAction, numOfTry)
-        .OnFail(result => onFailFunction(result.Detail), numOfTry);
+        .OnFail(onFailFunction, numOfTry);
 
     public static Task<Result> Map<TSource>(
         this Task<Result<TSource>> source,
@@ -284,7 +284,7 @@ public static partial class MapExtensions {
     public static Task<Result<TResult>> Map<TResult>(
         this Task<Result> source,
         Func<TResult> onSuccessFunction,
-        Func<ResultDetail, Result<TResult>> onFailFunction,
+        Func<Result<TResult>, Result<TResult>> onFailFunction,
         int numOfTry = 1
     ) => source
         .OnSuccess(onSuccessFunction, numOfTry)
@@ -302,7 +302,7 @@ public static partial class MapExtensions {
     public static Task<Result> Map(
         this Task<Result> source,
         Action onSuccessAction,
-        Func<ResultDetail, Result> onFailFunction,
+        Func<Result, Result> onFailFunction,
         int numOfTry = 1
     ) => source
         .OnSuccess(onSuccessAction, numOfTry)

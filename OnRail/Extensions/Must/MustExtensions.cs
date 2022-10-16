@@ -15,13 +15,13 @@ public static class MustExtensions {
     public static Result<T> Must<T>(
         this T source,
         bool condition,
-        ResultDetail errorDetail
+        ErrorDetail? errorDetail
     ) => source.OperateWhen(!condition, Result<T>.Fail(errorDetail));
 
     public static Result<T> Must<T>(
         this T source,
         Func<bool> predicate,
-        ResultDetail errorDetail,
+        ErrorDetail? errorDetail,
         int numOfTry = 1
     ) => TryExtensions.Try(predicate, numOfTry)
         .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetail)));
@@ -29,13 +29,13 @@ public static class MustExtensions {
     public static Result<T> Must<T>(
         this T source,
         bool condition,
-        Func<ResultDetail> errorDetailFunc
+        Func<ErrorDetail?> errorDetailFunc
     ) => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc));
 
     public static Result<T> Must<T>(
         this T source,
         Func<bool> predicate,
-        Func<ResultDetail> errorDetailFunc,
+        Func<ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
     ) => TryExtensions.Try(predicate, numOfTry)
         .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc)));

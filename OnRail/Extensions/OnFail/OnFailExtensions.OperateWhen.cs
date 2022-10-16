@@ -24,7 +24,7 @@ public static partial class OnFailExtensions {
         Func<bool> predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => source.OnFail(() => source.OperateWhen(predicate, function, numOfTry));
+    ) => source.OnFail(() => source.OperateWhen(predicate, function), numOfTry);
 
     public static Result<T> OnFailOperateWhen<T>(
         this Result<T> source,
