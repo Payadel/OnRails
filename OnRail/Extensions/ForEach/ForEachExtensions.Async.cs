@@ -1,5 +1,5 @@
-using OnRail.Extensions.AddMoreDetails;
 using OnRail.Extensions.Map;
+using OnRail.Extensions.OnFail;
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 using OnRail.ResultDetails;

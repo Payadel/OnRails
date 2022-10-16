@@ -1,9 +1,9 @@
 using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 
-namespace OnRail.Extensions.AddMoreDetails;
+namespace OnRail.Extensions.OnFail;
 
-public static partial class AddMoreDetails {
+public static partial class OnFail {
     public static async Task<Result<T>> OnFailAddMoreDetails<T>(
         this Task<Result<T>> source,
         object moreDetail,

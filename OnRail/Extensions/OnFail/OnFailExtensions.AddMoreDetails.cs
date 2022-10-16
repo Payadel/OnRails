@@ -1,8 +1,8 @@
 using OnRail.ResultDetails;
 
-namespace OnRail.Extensions.AddMoreDetails;
+namespace OnRail.Extensions.OnFail;
 
-public static partial class AddMoreDetails {
+public static partial class OnFail {
     public static Result<T> OnFailAddMoreDetails<T>(
         this Result<T> source,
         object moreDetail
