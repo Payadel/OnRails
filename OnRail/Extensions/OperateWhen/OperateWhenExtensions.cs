@@ -135,6 +135,31 @@ public static partial class OperateWhenExtensions {
         ? TryExtensions.Try(operation, numOfTry)
         : source;
 
+    public static Result<T> OperateWhen<T>(
+        this Result<T> source,
+        bool condition,
+        Func<Result<T>, Result<T>> operation,
+        int numOfTry = 1
+    ) => condition
+        ? source.Try(operation, numOfTry)
+        : source;
+
+    public static Result<T> OperateWhen<T>(
+        this Result<T> source,
+        Func<bool> predicate,
+        Func<Result<T>, Result<T>> operation,
+        int numOfTry = 1
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, operation, numOfTry));
+
+    public static Result<T> OperateWhen<T>(
+        this Result<T> source,
+        Func<bool> predicate,
+        Func<Result<T>> operation,
+        int numOfTry = 1
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.OperateWhen(condition, operation, numOfTry));
+
     //The difference between this method and TeeOnFail is that in this method the success/failure of the action is considered, but not in TeeOnFail.
     public static Result<T> OperateWhen<T>(
         this Result<T> source,
