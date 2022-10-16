@@ -1,10 +1,9 @@
 ﻿namespace OnRail.ResultDetails.Errors;
 
 public class ExceptionError : InternalError {
-    public ExceptionError(Exception exception, string? title = null,
+    public ExceptionError(Exception exception, string title = nameof(ExceptionError),
         string? message = null, object? moreDetails = null) :
-        base(title ?? nameof(ExceptionError),
-            message ?? "An exception has occurred.", exception: exception, moreDetails: moreDetails) {
+        base(title, message ?? "An exception has occurred.", exception: exception, moreDetails: moreDetails) {
         MainException = exception;
     }
 

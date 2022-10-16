@@ -3,9 +3,9 @@ using System.Diagnostics;
 namespace OnRail.ResultDetails;
 
 public class ErrorDetail : ResultDetail {
-    public ErrorDetail(string? title = null, string? message = null, int? statusCode = null,
+    public ErrorDetail(string title = nameof(ErrorDetail), string? message = null, int? statusCode = null,
         Exception? exception = null, object? moreDetails = null) : base(
-        title ?? "Error", message, statusCode, moreDetails) {
+        title, message, statusCode, moreDetails) {
         if (exception != null)
             Exception = new ExceptionData(exception);
     }

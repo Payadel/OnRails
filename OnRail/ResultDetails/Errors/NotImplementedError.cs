@@ -1,8 +1,7 @@
 ﻿namespace OnRail.ResultDetails.Errors;
 
 public class NotImplementedError : ErrorDetail {
-    public NotImplementedError(string? title = null, string? message = null,
+    public NotImplementedError(string title = nameof(NotImplementedError), string? message = null,
         Exception? exception = null, object? moreDetails = null) :
-        base(title ?? nameof(NotImplementedError),
-            message, 501, exception, moreDetails) { }
+        base(title, message, 501, exception, moreDetails) { }
 }

@@ -5,7 +5,7 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
 ### Added
 
--
+- Nothing.
 
 ### Deprecated
 
@@ -18,6 +18,24 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 ### Fixed
 
 - Nothing.
+
+## 1.5.0 - 2022-10-16
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Minor updates in ResultDetails (Adds default title to constructor parameter)
 
 ## 1.4.0 - 2022-10-12
 
