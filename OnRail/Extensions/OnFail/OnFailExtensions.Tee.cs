@@ -8,17 +8,11 @@ namespace OnRail.Extensions.OnFail;
 public static partial class OnFailExtensions {
     public static Result<TSource> OnFailTee<TSource>(
         this Result<TSource> source, Action action, int numOfTry = 1) =>
-        source.OnFail(action, numOfTry);
+        source.OnFail(result => result.Tee(action, numOfTry));
 
     public static Result<TSource> OnFailTee<TSource>(
         this Result<TSource> source, Action<Result<TSource>> action, int numOfTry = 1) =>
         source.OnFail(result => result.Tee(action, numOfTry));
-
-    public static Result<TSource> OnFailTee<TSource>(
-        this Result<TSource> source,
-        Func<Task<Result>> function,
-        int numOfTry = 1
-    ) => source.OnFail(() => TeeExtensions.Tee(function, numOfTry));
 
     public static Result<TSource> OnFailTee<TSource, TResult>(
         this Result<TSource> source,

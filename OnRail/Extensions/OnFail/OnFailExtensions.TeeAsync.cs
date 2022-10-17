@@ -9,13 +9,13 @@ public static partial class OnFailExtensions {
         this Task<Result<TSource>> source,
         Func<Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => source.OnFail(() => TeeExtensions.Tee(function, numOfTry));
+    ) => source.OnFail(result => result.Tee(function, numOfTry));
 
     public static Task<Result<TSource>> OnFailTee<TSource>(
         this Task<Result<TSource>> source,
         Action action,
         int numOfTry = 1
-    ) => source.OnFail(() => TeeExtensions.Tee(action, numOfTry));
+    ) => source.OnFail(result => result.Tee(action, numOfTry));
 
     public static Task<Result<TSource>> OnFailTee<TSource>(
         this Task<Result<TSource>> source,
@@ -27,7 +27,7 @@ public static partial class OnFailExtensions {
         this Task<Result<TSource>> source,
         Func<Task<Result>> function,
         int numOfTry = 1
-    ) => source.OnFail(() => TeeExtensions.Tee(function, numOfTry));
+    ) => source.OnFail(result => result.Tee(function, numOfTry));
 
     public static Task<Result<TSource>> OnFailTee<TSource, TResult>(
         this Task<Result<TSource>> source,
@@ -45,19 +45,19 @@ public static partial class OnFailExtensions {
         this Task<Result<TSource>> source,
         Func<Result<TResult>> function,
         int numOfTry = 1
-    ) => source.OnFail(() => TeeExtensions.Tee(function, numOfTry));
+    ) => source.OnFail(result => result.Tee(function, numOfTry));
 
     public static Task<Result<TSource>> OnFailTee<TSource>(
         this Task<Result<TSource>> source,
         Func<Result> function,
         int numOfTry = 1
-    ) => source.OnFail(() => TeeExtensions.Tee(function, numOfTry));
+    ) => source.OnFail(result => result.Tee(function, numOfTry));
 
     public static Task<Result<T>> OnFailTee<T>(
         this Task<Result<T>> source,
         Func<Task> function,
         int numOfTry = 1
-    ) => source.OnFail(() => TeeExtensions.Tee(function, numOfTry));
+    ) => source.OnFail(result => result.Tee(function, numOfTry));
 
     public static Task<Result<T>> OnFailTee<T>(
         this Task<Result<T>> source,
