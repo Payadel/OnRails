@@ -3,7 +3,7 @@ using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.OnFail;
 
-public static partial class OnFail {
+public static partial class OnFailExtensions {
     public static async Task<Result<T>> OnFailAddMoreDetails<T>(
         this Task<Result<T>> source,
         object moreDetail,

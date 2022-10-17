@@ -2,7 +2,7 @@ using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.OnFail;
 
-public static partial class OnFail {
+public static partial class OnFailExtensions {
     public static Result<T> OnFailAddMoreDetails<T>(
         this Result<T> source,
         object moreDetail

@@ -25,6 +25,7 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 - `OnFail` methods that have the same behavior as `TeeOnFail` are removed or moved.
 - The `OnFail` methods that changed the `ErrorDetail` were moved to `OnSuccessExtensions.NewDetail`
 - `TeeOnSuccessExtensions` Moved to `OnSuccessExtensions`
+- `ThrowExceptionOnFail` methods to `OnFailExtensions` as `OnFailThrowException`
 
 ## 1.4.1 - 2022-10-17
 
