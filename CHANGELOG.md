@@ -27,6 +27,10 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 - `TeeOnSuccessExtensions` Moved to `OnSuccessExtensions`
 - `ThrowExceptionOnFail` methods to `OnFailExtensions` as `OnFailThrowException`
 
+### Deprecate
+
+- ArgumentError
+
 ## 1.4.1 - 2022-10-17
 
 ### Fixed
