@@ -1,24 +1,32 @@
 All notable changes to this project will be documented in this file. We follow
 the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
-## 2.0.0 - YYYY-MM-DD
+## 2.0.0 - 2022-10-17
 
 ### Added
 
 - Make `ErrorDetail` nullable in method parameters
 - `OperateWhen` overloads
+- `OnSuccessExtensions.NewDetail` and `OnSuccessExtensions.NewDetailAsync`
+- `OperateWhen` overloads
 
 ### Updated
 
-- Uses `Func<Result, Result>` or `Func<Result<T>, Result<T>>` instead of `Func<ResultDetail, Result>` in method parameters
+- Uses `Func<Result, Result>` or `Func<Result<T>, Result<T>>` instead of `Func<ResultDetail, Result>` in method
+  parameters
 - Forces `SuccessDetail` for Ok results and `ErrorDetail` for Fail results.
 - Renames `SelectResultsAsync` to `SelectResults`
+- Renames `TeeOnSuccess` to `OnSuccessTee`
+- Renames `TeeOnFail` to `OnFailTee`
 
 ### Moved
 
 - `OnFailExtensions.AddMoreDetail` to `OnFailAddMoreDetails` and `OnFail`
+- `OnFail` methods that have the same behavior as `TeeOnFail` are removed or moved.
+- The `OnFail` methods that changed the `ErrorDetail` were moved to `OnSuccessExtensions.NewDetail`
+- `TeeOnSuccessExtensions` Moved to `OnSuccessExtensions`
 
-## 1.4.1 - 2022-10-16
+## 1.4.1 - 2022-10-17
 
 ### Fixed
 
