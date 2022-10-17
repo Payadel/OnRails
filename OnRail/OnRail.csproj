@@ -3,7 +3,7 @@
     <PropertyGroup>
         <PackageId>OnRail</PackageId>
         <Description>Simple and powerful Railway Oriented library for C#</Description>
-        <Version>1.4.0</Version>
+        <Version>1.4.1</Version>
         <PackageTags>Functional; Railway;</PackageTags>
         <Authors>Payadel Team</Authors>
         <RepositoryUrl>https://github.com/Payadel/OnRail</RepositoryUrl>

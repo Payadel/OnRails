@@ -1,37 +1,7 @@
 All notable changes to this project will be documented in this file. We follow
 the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
-## 2.0.0 - YYYY-MM-DD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.5.0 - 2022-10-16
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
+## 1.4.1 - 2022-10-17
 
 ### Fixed
 
