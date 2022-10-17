@@ -1,6 +1,5 @@
 using OnRail.ResultDetails;
 using OnRail.Extensions.Fail;
-using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 
 namespace OnRail.Extensions.OnFail;
