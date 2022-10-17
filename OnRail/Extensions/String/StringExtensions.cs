@@ -13,5 +13,6 @@ public static class StringExtensions {
         Regex regex,
         ErrorDetail? errorDetail = null) =>
         source.FailWhen(!regex.IsMatch(source),
-            errorDetail ?? new ArgumentError(message: $"({source}) is not match with {regex}"));
+            errorDetail ??
+            new ValidationError().AddError(nameof(source), $"({source}) is not match with {regex}"));
 }

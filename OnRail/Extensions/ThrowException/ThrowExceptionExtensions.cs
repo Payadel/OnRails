@@ -4,7 +4,7 @@ using OnRail.ResultDetails.Errors;
 
 namespace OnRail.Extensions.ThrowException;
 
-public static partial class ThrowExceptionExtensions {
+public static class ThrowExceptionExtensions {
     private static Exception GenerateException(ResultDetail resultDetail) {
         Exception? innerException;
         switch (resultDetail) {
