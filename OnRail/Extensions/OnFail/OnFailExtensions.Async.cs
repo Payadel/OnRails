@@ -83,55 +83,6 @@ public static partial class OnFailExtensions {
             : result;
     }
 
-    public static async Task<Result> OnFail(
-        this Task<Result> source,
-        Action action,
-        int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
-            ? result
-            : TryExtensions.Try(action, numOfTry);
-    }
-
-    public static async Task<Result> OnFail(
-        this Task<Result> source,
-        Task task,
-        int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
-            ? result
-            : await TryExtensions.Try(task, numOfTry);
-    }
-
-    //TODO: https://github.com/Payadel/OnRail/issues/9
-    public static async Task<Result<T>> OnFail<T>(
-        this Task<Result<T>> source,
-        Action action,
-        int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(source, numOfTry);
-        if (!result.IsSuccess)
-            TryExtensions.Try(action, numOfTry);
-
-        return result;
-    }
-
-    //TODO: https://github.com/Payadel/OnRail/issues/9
-    public static async Task<Result<T>> OnFail<T>(
-        this Task<Result<T>> source,
-        Func<Task> function,
-        int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(source, numOfTry);
-        if (!result.IsSuccess)
-            await TryExtensions.Try(function, numOfTry);
-
-        return result;
-    }
-
-    //TODO: https://github.com/Payadel/OnRail/issues/9
     public static async Task<Result<T>> OnFail<T>(
         this Task<Result<T>> source,
         Func<Result<T>, Task<Result<T>>> function,
@@ -173,28 +124,4 @@ public static partial class OnFailExtensions {
     ) => source.IsSuccess
         ? source
         : await TryExtensions.Try(function, numOfTry);
-
-    //TODO: https://github.com/Payadel/OnRail/issues/9
-    public static async Task<Result> OnFail(
-        this Task<Result> source,
-        Action<Result> action,
-        int numOfTry = 1
-    ) {
-        var methodResult = await source;
-        if (!methodResult.IsSuccess)
-            await source.Try(action, numOfTry);
-        return methodResult;
-    }
-
-    //TODO: https://github.com/Payadel/OnRail/issues/9
-    public static async Task<Result<T>> OnFail<T>(
-        this Task<Result<T>> source,
-        Action<Result<T>> action,
-        int numOfTry = 1
-    ) {
-        var methodResult = await source;
-        if (!methodResult.IsSuccess)
-            await source.Try(action, numOfTry);
-        return methodResult;
-    }
 }

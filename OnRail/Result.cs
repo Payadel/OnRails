@@ -1,4 +1,3 @@
-using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 
@@ -11,11 +10,11 @@ public sealed class Result : ResultBase {
         return new Result(true);
     }
 
-    public static Result Ok(ResultDetail detail) {
+    public static Result Ok(SuccessDetail detail) {
         return new Result(true, detail);
     }
 
-    public static Result Fail(ResultDetail? detail = null) {
+    public static Result Fail(ErrorDetail? detail = null) {
         return new Result(false, detail);
     }
 }
@@ -33,15 +32,14 @@ public sealed class Result<T> : ResultBase {
         return new Result<T>(item);
     }
 
-    public static Result<T> Ok(T item, ResultDetail detail) {
+    public static Result<T> Ok(T item, SuccessDetail detail) {
         return new Result<T>(item, detail);
     }
 
-    public static Result<T> Fail(ResultDetail? detail = null) {
+    public static Result<T> Fail(ErrorDetail? detail = null) {
         return new Result<T>(detail);
     }
 
-    public static Result<T> Fail(Func<ResultDetail> errorDetailFunc, int numOfTry = 1) =>
-        TryExtensions.Try(errorDetailFunc, numOfTry)
-            .OnSuccess(errorDetail => new Result<T>(errorDetail));
+    public static Result<T> Fail(Func<ErrorDetail?> errorDetailFunc, int numOfTry = 1) =>
+        TryExtensions.Try(() => new Result<T>(errorDetailFunc()), numOfTry);
 }

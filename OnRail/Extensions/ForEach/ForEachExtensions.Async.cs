@@ -2,6 +2,7 @@ using OnRail.Extensions.Map;
 using OnRail.Extensions.OnFail;
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
+using OnRail.ResultDetails;
 
 namespace OnRail.Extensions.ForEach;
 
@@ -13,7 +14,7 @@ public static partial class ForEachExtensions {
     ) {
         foreach (var item in source) {
             var result = await item.Try(function, numOfTry)
-                .OnFail(new {item});
+                .OnFailAddMoreDetails(new {item});
             if (!result.IsSuccess)
                 return result;
         }
@@ -28,7 +29,7 @@ public static partial class ForEachExtensions {
     ) {
         foreach (var item in source) {
             var result = await item.OnSuccess(function, numOfTry)
-                .OnFail(new {item});
+                .OnFailAddMoreDetails(new {item});
             if (!result.IsSuccess)
                 return result;
         }
@@ -44,7 +45,7 @@ public static partial class ForEachExtensions {
         .OnSuccess(async items => {
             foreach (var item in items) {
                 var result = await item.Try(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
                     return result;
             }
@@ -61,7 +62,7 @@ public static partial class ForEachExtensions {
             .OnSuccess(async items => {
                 foreach (var item in items) {
                     var result = await item.OnSuccess(function, numOfTry)
-                        .OnFail(new {item});
+                        .OnFailAddMoreDetails(new {item});
                     if (!result.IsSuccess)
                         return result;
                 }
@@ -76,9 +77,9 @@ public static partial class ForEachExtensions {
     ) {
         foreach (var item in source) {
             var result = await item.Try(function, numOfTry)
-                .OnFail(new {item});
+                .OnFailAddMoreDetails(new {item});
             if (!result.IsSuccess)
-                return Result.Fail(result.Detail);
+                return Result.Fail(result.Detail as ErrorDetail);
         }
 
         return Result.Ok();
@@ -91,7 +92,7 @@ public static partial class ForEachExtensions {
     ) {
         foreach (var item in source) {
             var result = await item.OnSuccess(function, numOfTry)
-                .OnFail(new {item});
+                .OnFailAddMoreDetails(new {item});
             if (!result.IsSuccess)
                 return result.Map();
         }
@@ -107,9 +108,9 @@ public static partial class ForEachExtensions {
         .OnSuccess(async items => {
             foreach (var item in items) {
                 var result = await item.Try(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
-                    return Result.Fail(result.Detail);
+                    return Result.Fail(result.Detail as ErrorDetail);
             }
 
             return Result.Ok();
@@ -123,7 +124,7 @@ public static partial class ForEachExtensions {
         .OnSuccess(async items => {
             foreach (var item in items) {
                 var result = await item.OnSuccess(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
                     return result.Map();
             }
@@ -139,9 +140,9 @@ public static partial class ForEachExtensions {
         .OnSuccess(async list => {
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
-                    return Result.Fail(result.Detail);
+                    return Result.Fail(result.Detail as ErrorDetail);
             }
 
             return Result.Ok();
@@ -155,7 +156,7 @@ public static partial class ForEachExtensions {
         .OnSuccess(async list => {
             foreach (var item in list) {
                 var result = await item.OnSuccess(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
                     return result;
             }
@@ -171,9 +172,9 @@ public static partial class ForEachExtensions {
         .OnSuccess(async items => {
             foreach (var item in items) {
                 var result = await item.Try(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
-                    return Result.Fail(result.Detail);
+                    return Result.Fail(result.Detail as ErrorDetail);
             }
 
             return Result.Ok();
@@ -188,7 +189,7 @@ public static partial class ForEachExtensions {
             var list = items.ToList();
             foreach (var item in list) {
                 var result = await item.OnSuccess(function, numOfTry)
-                    .OnFail(new {item});
+                    .OnFailAddMoreDetails(new {item});
                 if (!result.IsSuccess)
                     return result;
             }

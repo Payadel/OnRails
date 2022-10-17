@@ -33,19 +33,4 @@ public static partial class OnFailExtensions {
         int numOfTry = 1) => source.IsSuccess
         ? source
         : TryExtensions.Try(function, numOfTry);
-
-    public static Result OnFail(
-        this Result source,
-        Action action,
-        int numOfTry = 1
-    ) => source.IsSuccess
-        ? source
-        : TryExtensions.Try(action, numOfTry);
-
-    public static Result OnFail(
-        this Result source,
-        Action<Result> action,
-        int numOfTry = 1) => source.IsSuccess
-        ? source
-        : source.Try(action, numOfTry);
 }

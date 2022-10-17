@@ -1,50 +1,22 @@
-using OnRail.Extensions.Fail;
 using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
+using OnRail.Extensions.Fail;
 
 namespace OnRail.Extensions.OnFail;
 
 public static partial class OnFailExtensions {
-    public static async Task<Result<TSource>> OnFail<TSource>(
-        this Task<Result<TSource>> source,
-        object moreDetail,
-        int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(source, numOfTry);
-        if (!result.IsSuccess) {
-            result.Detail ??= new ErrorDetail();
-            result.Detail.AddDetail(moreDetail);
-        }
-
-        return result;
-    }
-
-    public static async Task<Result> OnFail(
-        this Task<Result> source,
-        object moreDetail,
-        int numOfTry = 1
-    ) {
-        var result = await TryExtensions.Try(source, numOfTry);
-        if (!result.IsSuccess) {
-            result.Detail ??= new ErrorDetail();
-            result.Detail.AddDetail(moreDetail);
-        }
-
-        return result;
-    }
-
     public static async Task<Result<T>> OnFail<T>(
         this Task<Result<T>> source,
-        ErrorDetail errorDetail,
+        ErrorDetail? newErrorDetail,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess ? result : result.Fail(errorDetail);
+        return result.IsSuccess ? result : result.Fail(newErrorDetail);
     }
 
     public static async Task<Result<T>> OnFail<T>(
         this Result<T> source,
-        Func<Task<ErrorDetail>> errorDetailFunc,
+        Func<Task<ErrorDetail?>> errorDetailFunc,
         int numOfTry = 1) {
         if (source.IsSuccess)
             return source;
@@ -55,15 +27,15 @@ public static partial class OnFailExtensions {
 
     public static async Task<Result> OnFail(
         this Task<Result> source,
-        ErrorDetail errorDetail,
+        ErrorDetail? newErrorDetail,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess ? result : result.Fail(errorDetail);
+        return result.IsSuccess ? result : Result.Fail(newErrorDetail);
     }
 
     public static async Task<Result> OnFail(
         this Task<Result> source,
-        Func<ErrorDetail> errorDetailFunc,
+        Func<ErrorDetail?> errorDetailFunc,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(source, numOfTry);
         if (result.IsSuccess)
@@ -73,10 +45,9 @@ public static partial class OnFailExtensions {
             .OnSuccess(Result.Fail);
     }
 
-
     public static async Task<Result> OnFail(
         this Result source,
-        Func<Task<ErrorDetail>> errorDetailFunc,
+        Func<Task<ErrorDetail?>> errorDetailFunc,
         int numOfTry = 1) {
         if (source.IsSuccess)
             return source;
