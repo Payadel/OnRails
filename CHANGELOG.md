@@ -1,7 +1,7 @@
 All notable changes to this project will be documented in this file. We follow
 the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
-## 2.0.0 - 2022-10-17
+## 2.0.0 - 2022-10-18
 
 ### Added
 
@@ -30,6 +30,10 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 ### Deprecate
 
 - ArgumentError
+
+### Fixes
+
+- `numOfTry` implement
 
 ## 1.4.1 - 2022-10-17
 

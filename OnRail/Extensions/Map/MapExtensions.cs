@@ -28,12 +28,14 @@ public static partial class MapExtensions {
     public static Result<TResult> Map<TSource, TResult>(
         this TSource source,
         Func<TSource, TResult> function,
-        int numOfTry = 1) => source.Try(function, numOfTry);
+        int numOfTry = 1
+    ) => source.Try(function, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
         this TSource source,
         Func<TSource, Result<TResult>> function,
-        int numOfTry = 1) => source.Try(function, numOfTry);
+        int numOfTry = 1
+    ) => source.Try(function, numOfTry);
 
     public static Result<TResult> Map<TSource, TResult>(
         this Result<TSource> source,

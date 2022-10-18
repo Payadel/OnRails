@@ -5,19 +5,17 @@ public static partial class OnFailExtensions {
         this Result source, bool condition) =>
         source.OnFailOperateWhen(condition, Result.Ok);
 
-    //TODO: NumOfTry
     public static Result OnFailSuccessWhen(
-        this Result source, Func<bool> predicate) =>
-        source.OnFailOperateWhen(predicate, Result.Ok);
+        this Result source, Func<bool> predicate, int numOfTry = 1) =>
+        source.OnFailOperateWhen(predicate, Result.Ok, numOfTry);
 
     public static Result OnFailSuccessWhen(
         this Result source, Result predicate) =>
         source.OnFailOperateWhen(predicate.IsSuccess, Result.Ok);
 
-    //TODO: NumOfTry
     public static Result OnFailSuccessWhen(
-        this Result source, Func<Result, bool> predicate) =>
-        source.OnFailOperateWhen(predicate, Result.Ok);
+        this Result source, Func<Result, bool> predicate, int numOfTry = 1) =>
+        source.OnFailOperateWhen(predicate, Result.Ok, numOfTry);
 
     public static Result OnFailSuccessWhen(
         this Result source, Func<Result> predicate) =>
@@ -31,19 +29,17 @@ public static partial class OnFailExtensions {
         this Result<T> source, bool condition, T result) =>
         source.OnFailOperateWhen(condition, Result<T>.Ok(result));
 
-    //TODO: NumOfTry
     public static Result<T> OnFailSuccessWhen<T>(
-        this Result<T> source, bool condition, Func<T> function) =>
-        source.OnFailOperateWhen(condition, () => Result<T>.Ok(function()));
+        this Result<T> source, bool condition, Func<T> function, int numOfTry = 1) =>
+        source.OnFailOperateWhen(condition, () => Result<T>.Ok(function()), numOfTry);
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> source, Result predicate, T result) =>
         source.OnFailOperateWhen(predicate.IsSuccess, Result<T>.Ok(result));
 
-    //TODO: NumOfTry
     public static Result<T> OnFailSuccessWhen<T>(
-        this Result<T> source, Result predicate, Func<T> function) =>
-        source.OnFailOperateWhen(predicate.IsSuccess, () => Result<T>.Ok(function()));
+        this Result<T> source, Result predicate, Func<T> function, int numOfTry = 1) =>
+        source.OnFailOperateWhen(predicate.IsSuccess, () => Result<T>.Ok(function()), numOfTry);
 
     public static Result<T> OnFailSuccessWhen<T>(
         this Result<T> source, Func<bool> predicate, T result) =>
@@ -57,13 +53,11 @@ public static partial class OnFailExtensions {
         this Result<T> source, Func<Result<T>, Result> predicate, T result) =>
         source.OnFailSuccessWhen(predicate(source).IsSuccess, result);
 
-    //TODO: NumOfTry
     public static Result<T> OnFailSuccessWhen<T>(
-        this Result<T> source, Func<Result> predicate, Func<T> function) =>
-        source.OnFailSuccessWhen(predicate().IsSuccess, function);
+        this Result<T> source, Func<Result> predicate, Func<T> function, int numOfTry = 1) =>
+        source.OnFailSuccessWhen(predicate().IsSuccess, function, numOfTry);
 
-    //TODO: NumOfTry
     public static Result<T> OnFailSuccessWhen<T>(
-        this Result<T> source, Func<Result<T>, Result> predicate, Func<T> function) =>
-        source.OnFailSuccessWhen(predicate(source).IsSuccess, function);
+        this Result<T> source, Func<Result<T>, Result> predicate, Func<T> function, int numOfTry = 1) =>
+        source.OnFailSuccessWhen(predicate(source).IsSuccess, function, numOfTry);
 }

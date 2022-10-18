@@ -16,21 +16,24 @@ public static partial class OnFailExtensions {
     public static Result<T> OnFail<T>(
         this Result<T> source,
         Func<Result<T>> function,
-        int numOfTry = 1) => source.IsSuccess
+        int numOfTry = 1
+    ) => source.IsSuccess
         ? source
         : TryExtensions.Try(function, numOfTry);
 
     public static Result OnFail(
         this Result source,
         Func<Result, Result> function,
-        int numOfTry = 1) => source.IsSuccess
+        int numOfTry = 1
+    ) => source.IsSuccess
         ? source
         : source.Try(function, numOfTry);
 
     public static Result OnFail(
         this Result source,
         Func<Result> function,
-        int numOfTry = 1) => source.IsSuccess
+        int numOfTry = 1
+    ) => source.IsSuccess
         ? source
         : TryExtensions.Try(function, numOfTry);
 }

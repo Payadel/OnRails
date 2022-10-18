@@ -8,8 +8,10 @@ namespace OnRail.Extensions.Configuration;
 
 public static class ConfigurationExtensions {
     public static Result<T> GetConfig<T>(this IConfiguration source, int numOfTry = 1) =>
-        TryExtensions.Try(() => source.GetSection(typeof(T).Name)
-            .Get<T>(), numOfTry);
+        TryExtensions.Try(() =>
+                source.GetSection(typeof(T).Name)
+                    .Get<T>(),
+            numOfTry);
 
     public static Result<IConfiguration> AddConfig<T>(
         this IConfiguration source,
@@ -26,6 +28,6 @@ public static class ConfigurationExtensions {
         this Result<IConfiguration> source,
         IServiceCollection services,
         int numOfTry = 1
-    ) where T : class => source.OnSuccess(
-        configuration => configuration.AddConfig<T>(services), numOfTry);
+    ) where T : class
+        => source.OnSuccess(configuration => configuration.AddConfig<T>(services), numOfTry);
 }

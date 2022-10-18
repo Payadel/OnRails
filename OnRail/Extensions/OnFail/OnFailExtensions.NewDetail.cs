@@ -1,5 +1,6 @@
 using OnRail.ResultDetails;
 using OnRail.Extensions.Fail;
+using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 
 namespace OnRail.Extensions.OnFail;
@@ -16,10 +17,8 @@ public static partial class OnFailExtensions {
         int numOfTry = 1
     ) => source.IsSuccess
         ? source
-        : TryExtensions.Try(() => {
-            var errorDetail = errorDetailFunc();
-            return source.Fail(errorDetail);
-        }, numOfTry);
+        : TryExtensions.Try(errorDetailFunc, numOfTry)
+            .OnSuccess(errorDetail => source.Fail(errorDetail));
 
     public static Result OnFail(
         this Result source,
@@ -32,19 +31,15 @@ public static partial class OnFailExtensions {
         int numOfTry = 1
     ) => source.IsSuccess
         ? source
-        : TryExtensions.Try(() => {
-            var errorDetail = errorDetailFunc();
-            return source.Fail(errorDetail);
-        }, numOfTry);
+        : TryExtensions.Try(errorDetailFunc, numOfTry)
+            .OnSuccess(errorDetail => source.Fail(errorDetail));
 
     public static Result<T> OnFail<T>(
         this Result<T> source,
-        Func<Result<T>, ErrorDetail?> moreDetailFunc,
+        Func<Result<T>, ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
     ) => source.IsSuccess
         ? source
-        : TryExtensions.Try(() => {
-            var errorDetail = moreDetailFunc(source);
-            return source.Fail(errorDetail);
-        }, numOfTry);
+        : source.Try(errorDetailFunc, numOfTry)
+            .OnSuccess(errorDetail => source.Fail(errorDetail));
 }

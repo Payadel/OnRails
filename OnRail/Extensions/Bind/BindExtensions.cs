@@ -39,22 +39,18 @@ public static class BindExtensions {
         this Task source,
         int numOfTry = 1,
         params Task[] tasks
-    ) => TryExtensions.Try(async () => {
-        await source;
-        return await tasks.Bind();
-    }, numOfTry);
+    ) => TryExtensions.Try(() => source, numOfTry)
+        .OnSuccess(() => tasks.Bind(numOfTry));
 
     //TODO: Test
     public static Task<Result<List<T>>> Bind<T>(
         this Task<T> source,
         int numOfTry = 1,
         params Task<T>[] tasks
-    ) => TryExtensions.Try(async () => {
-        var t = await source;
-        return await tasks.Bind()
+    ) => TryExtensions.Try(() => source, numOfTry)
+        .OnSuccess(t => tasks.Bind(numOfTry)
             .OnSuccess(taskResults => {
                 taskResults.Add(t);
                 return taskResults;
-            });
-    }, numOfTry);
+            }, numOfTry));
 }

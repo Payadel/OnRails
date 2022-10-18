@@ -1,3 +1,4 @@
+using OnRail.Extensions.OnSuccess;
 using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 
@@ -15,10 +16,8 @@ public static partial class FailExtensions {
         Func<bool> predicate,
         ErrorDetail? errorDetail,
         int numOfTry = 1
-    ) => TryExtensions.Try(() => {
-        var condition = predicate();
-        return FailWhen(condition, errorDetail);
-    }, numOfTry);
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => FailWhen(condition, errorDetail));
 
     public static Result FailWhen(
         Result predicate,
@@ -50,42 +49,32 @@ public static partial class FailExtensions {
         Func<T, bool> predicate,
         ErrorDetail? errorDetail,
         int numOfTry = 1
-    ) => TryExtensions.Try(() => {
-        var condition = predicate(source);
-        return source.FailWhen(condition, errorDetail);
-    }, numOfTry);
+    ) => source.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.FailWhen(condition, errorDetail));
 
     public static Result<T> FailWhen<T>(
         this T source,
         Func<T, bool> predicate,
         Func<T, ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
-    ) => TryExtensions.Try(() => {
-        var condition = predicate(source);
-        var errorDetail = errorDetailFunc(source);
-        return source.FailWhen(condition, errorDetail);
-    }, numOfTry);
+    ) => source.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.FailWhen(condition, errorDetailFunc));
 
     public static Result<T> FailWhen<T>(
         this T source,
         Func<bool> predicate,
         ErrorDetail? errorDetail,
         int numOfTry = 1
-    ) => TryExtensions.Try(() => {
-        var condition = predicate();
-        return source.FailWhen(condition, errorDetail);
-    }, numOfTry);
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.FailWhen(condition, errorDetail));
 
     public static Result<T> FailWhen<T>(
         this T source,
         Func<bool> predicate,
         Func<T, ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
-    ) => TryExtensions.Try(() => {
-        var condition = predicate();
-        var errorDetail = errorDetailFunc(source);
-        return source.FailWhen(condition, errorDetail);
-    }, numOfTry);
+    ) => TryExtensions.Try(predicate, numOfTry)
+        .OnSuccess(condition => source.FailWhen(condition, errorDetailFunc));
 
     public static Result<T> FailWhen<T>(
         this T source,
@@ -96,8 +85,9 @@ public static partial class FailExtensions {
     public static Result<T> FailWhen<T>(
         this T source,
         Result predicate,
-        Func<T, ErrorDetail?> errorDetailFunc
-    ) => source.FailWhen(predicate.IsSuccess, errorDetailFunc);
+        Func<T, ErrorDetail?> errorDetailFunc,
+        int numOfTry = 1
+    ) => source.FailWhen(predicate.IsSuccess, errorDetailFunc, numOfTry);
 
     public static Result<T> FailWhen<T>(
         this T source,
@@ -121,6 +111,7 @@ public static partial class FailExtensions {
     public static Result<T> FailWhen<T>(
         this T source,
         Func<T, Result> predicate,
-        Func<T, ErrorDetail?> errorDetailFunc
-    ) => source.FailWhen(predicate(source).IsSuccess, errorDetailFunc);
+        Func<T, ErrorDetail?> errorDetailFunc,
+        int numOfTry = 1
+    ) => source.FailWhen(predicate(source).IsSuccess, errorDetailFunc, numOfTry);
 }

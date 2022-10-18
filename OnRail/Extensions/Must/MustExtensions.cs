@@ -24,7 +24,7 @@ public static class MustExtensions {
         ErrorDetail? errorDetail,
         int numOfTry = 1
     ) => TryExtensions.Try(predicate, numOfTry)
-        .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetail)));
+        .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetail)), numOfTry: 1);
 
     public static Result<T> Must<T>(
         this T source,
@@ -38,7 +38,7 @@ public static class MustExtensions {
         Func<ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
     ) => TryExtensions.Try(predicate, numOfTry)
-        .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc)));
+        .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc)), numOfTry: 1);
 
     public static Result MustNotNullOrEmpty(
         this IEnumerable? source,
