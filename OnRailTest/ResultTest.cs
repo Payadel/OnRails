@@ -12,7 +12,7 @@ public class ResultTest {
 
     [Fact]
     public void Ok_WithDetail() {
-        var resultDetail = new ResultDetail("title");
+        var resultDetail = new SuccessDetail("title");
         var result = Result.Ok(resultDetail);
 
         Assert.True(result.IsSuccess);
@@ -39,7 +39,7 @@ public class ResultWithValue {
 
     [Fact]
     public void Ok_WithDetail() {
-        var resultDetail = new ResultDetail("title");
+        var resultDetail = new SuccessDetail("title");
         const string value = "value";
         var result = Result<string>.Ok(value, resultDetail);
 

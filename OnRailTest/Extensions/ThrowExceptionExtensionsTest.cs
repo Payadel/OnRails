@@ -1,4 +1,5 @@
 using OnRail;
+using OnRail.Extensions.OnFail;
 using OnRail.Extensions.ThrowException;
 using OnRail.ResultDetails.Errors;
 
@@ -30,34 +31,34 @@ public class ThrowExceptionExtensionsTest {
     }
 
     [Fact]
-    public void ThrowExceptionOnFail_SuccessfulConditionWithResult_ReturnResult() {
+    public void OnFailThrowException_SuccessfulConditionWithResult_ReturnResult() {
         var result = Result<string>.Ok("Ok")
-            .ThrowExceptionOnFail();
+            .OnFailThrowException();
 
         Assert.True(result.IsSuccess);
         Assert.Equal("Ok", result.Value);
     }
 
     [Fact]
-    public void ThrowExceptionOnFail_FailConditionWithResult_ReturnResult() {
+    public void OnFailThrowException_FailConditionWithResult_ReturnResult() {
         CheckThrowException(() => Result<string>.Fail(_error)
-            .ThrowExceptionOnFail());
+            .OnFailThrowException());
 
         CheckThrowException(() => Result<string>.Fail(_error));
     }
 
     [Fact]
-    public void ThrowExceptionOnFail_SuccessfulCondition_ReturnResult() {
+    public void OnFailThrowException_SuccessfulCondition_ReturnResult() {
         var result = Result.Ok()
-            .ThrowExceptionOnFail();
+            .OnFailThrowException();
 
         Assert.True(result.IsSuccess);
     }
 
     [Fact]
-    public void ThrowExceptionOnFail_FailConditionsWith_ReturnResult() {
+    public void OnFailThrowException_FailConditionsWith_ReturnResult() {
         CheckThrowException(() => Result.Fail(_error)
-            .ThrowExceptionOnFail());
+            .OnFailThrowException());
 
         CheckThrowException(() => Result.Fail(_error));
     }
