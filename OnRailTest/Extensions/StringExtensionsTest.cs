@@ -21,7 +21,7 @@ public static class StringExtensionsTest {
         var result = InvalidEmail.MustMatchRegex(EmailRegex);
 
         Assert.False(result.IsSuccess);
-        Assert.IsType<ArgumentError>(result.Detail);
+        Assert.IsType<ValidationError>(result.Detail);
     }
 
     [Fact]

@@ -28,7 +28,7 @@ public static class OperateExtensionsTest {
                 return Result.Ok();
             }, DefaultNumOfTry);
 
-        Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
+        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public static class OperateExtensionsTest {
                 return Result.Ok();
             }, DefaultNumOfTry);
 
-        Utility.EnsureIsErrorDetail(result, DefaultNumOfTry);
+        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public static class OperateExtensionsTest {
             },
             Result.Ok, DefaultNumOfTry);
 
-        Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
+        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     //
@@ -97,7 +97,7 @@ public static class OperateExtensionsTest {
     public static void OperateWhen_SuccessPredicateAndActionThrowException_FailedResult() {
         var result = OperateWhenExtensions.OperateWhen(true, ActionThrowException, DefaultNumOfTry);
 
-        Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
+        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public static class OperateExtensionsTest {
     public static void OperateWhen_SuccessPredicateFunctionAndActionThrowException_FailedResult() {
         var result = OperateWhenExtensions.OperateWhen(() => true, ActionThrowException, DefaultNumOfTry);
 
-        Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
+        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public static class OperateExtensionsTest {
             },
             () => { }, DefaultNumOfTry);
 
-        Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
+        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -245,7 +245,7 @@ public static class OperateExtensionsTest {
         var result = Result<string>.Ok("input")
             .OperateWhen(true, ActionThrowException, DefaultNumOfTry);
 
-        Utility.EnsureIsExceptionError(result, DefaultNumOfTry);
+        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
