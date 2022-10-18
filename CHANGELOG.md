@@ -35,6 +35,7 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
 - `numOfTry` implement
 - Bug fixed: `public static Task<Result<List<T>>> Bind<T> (this IEnumerable<Task<T>> tasks,int numOfTry = 1)`
+- `TryExtensions` error details [#16](https://github.com/Payadel/OnRail/issues/16)
 
 ### Removed
 

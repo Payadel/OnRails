@@ -1,5 +1,3 @@
-using OnRail.ResultDetails;
-
 namespace OnRail.Extensions.Try;
 
 public static partial class TryExtensions {
@@ -7,7 +5,7 @@ public static partial class TryExtensions {
         Func<T> function,
         int numOfTry = 1
     ) {
-        var errors = new List<Exception>(numOfTry);
+        var errors = new List<object>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -18,7 +16,8 @@ public static partial class TryExtensions {
             }
         }
 
-        return Result<T>.Fail(GenerateExceptionError(errors, numOfTry));
+        var errorDetail = TryHelper.GenerateError(errors, numOfTry);
+        return Result<T>.Fail(errorDetail);
     }
 
     public static Result<TResult> Try<TSource, TResult>(
@@ -49,8 +48,7 @@ public static partial class TryExtensions {
             }
         }
 
-        var errorDetail = new ErrorDetail(moreDetails: errors);
-        errorDetail.AddDetail(new {numOfTry});
+        var errorDetail = TryHelper.GenerateError(errors, numOfTry);
         return Result.Fail(errorDetail);
     }
 
@@ -76,15 +74,14 @@ public static partial class TryExtensions {
             }
         }
 
-        var errorDetail = new ErrorDetail(moreDetails: errors);
-        errorDetail.AddDetail(new {numOfTry});
+        var errorDetail = TryHelper.GenerateError(errors, numOfTry);
         return Result<T>.Fail(errorDetail);
     }
 
     public static Result Try(Action action,
         int numOfTry = 1
     ) {
-        var errors = new List<Exception>(numOfTry);
+        var errors = new List<object>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -96,7 +93,8 @@ public static partial class TryExtensions {
             }
         }
 
-        return Result.Fail(GenerateExceptionError(errors, numOfTry));
+        var errorDetail = TryHelper.GenerateError(errors, numOfTry);
+        return Result.Fail(errorDetail);
     }
 
     public static Result Try<T>(
