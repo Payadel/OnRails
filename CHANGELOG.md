@@ -34,6 +34,7 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 ### Fixed
 
 - `numOfTry` implement
+- Bug fixed: `public static Task<Result<List<T>>> Bind<T> (this IEnumerable<Task<T>> tasks,int numOfTry = 1)`
 
 ### Removed
 

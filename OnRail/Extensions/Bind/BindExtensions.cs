@@ -29,6 +29,7 @@ public static class BindExtensions {
             var taskResult = await TryExtensions.Try(task, numOfTry);
             if (!taskResult.IsSuccess)
                 return Result<List<T>>.Fail(taskResult.Detail as ErrorDetail);
+            result.Add(taskResult.Value!);
         }
 
         return Result<List<T>>.Ok(result);
