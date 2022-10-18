@@ -31,9 +31,13 @@ the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
 - ArgumentError
 
-### Fixes
+### Fixed
 
 - `numOfTry` implement
+
+### Removed
+
+- `AddNumOfTry` methods in `Try` methods [#17](https://github.com/Payadel/OnRail/issues/17)
 
 ## 1.4.1 - 2022-10-17
 

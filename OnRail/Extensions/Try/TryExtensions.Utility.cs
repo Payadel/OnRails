@@ -1,4 +1,3 @@
-using OnRail.ResultDetails;
 using OnRail.ResultDetails.Errors;
 
 namespace OnRail.Extensions.Try;
@@ -13,30 +12,5 @@ public static partial class TryExtensions {
             failResult.AddDetail(exceptions);
 
         return failResult;
-    }
-
-    //TODO: https://github.com/Payadel/OnRail/issues/17
-
-    private static Result AddNumOfTry(this Result source,
-        int numOfTry,
-        int maxTryRequested
-    ) {
-        source.Detail ??= new ResultDetail(nameof(ResultDetail));
-        source.Detail.AddNumOfTry(numOfTry, maxTryRequested);
-        return source;
-    }
-
-    private static Result<T> AddNumOfTry<T>(this Result<T> source,
-        int numOfTry,
-        int maxTryRequested
-    ) {
-        source.Detail ??= new ResultDetail(nameof(ResultDetail));
-        source.Detail.AddNumOfTry(numOfTry, maxTryRequested);
-        return source;
-    }
-
-    private static void AddNumOfTry(this ResultDetail detail,
-        int numOfTry, int maxTryRequested) {
-        detail.AddDetail(new {numOfTry, maxTryRequested});
     }
 }
