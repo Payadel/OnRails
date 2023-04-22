@@ -17,7 +17,7 @@ public static partial class SelectResultsExtensions {
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);
@@ -37,7 +37,7 @@ public static partial class SelectResultsExtensions {
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);
@@ -57,7 +57,7 @@ public static partial class SelectResultsExtensions {
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);
@@ -77,7 +77,7 @@ public static partial class SelectResultsExtensions {
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);
@@ -97,7 +97,7 @@ public static partial class SelectResultsExtensions {
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);
@@ -117,7 +117,7 @@ public static partial class SelectResultsExtensions {
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
                 selectedResult.Add(result.Value!);

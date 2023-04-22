@@ -17,7 +17,7 @@ public static partial class OperateWhenExtensions {
         Result predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => source.TeeOperateWhen(predicate.IsSuccess, function, numOfTry);
+    ) => source.TeeOperateWhen(predicate.Success, function, numOfTry);
 
     public static T TeeOperateWhen<T>(
         this T source,
@@ -52,28 +52,28 @@ public static partial class OperateWhenExtensions {
         Result predicate,
         Action action,
         int numOfTry = 1
-    ) => source.TeeOperateWhen(predicate.IsSuccess, action, numOfTry);
+    ) => source.TeeOperateWhen(predicate.Success, action, numOfTry);
 
     public static T TeeOperateWhen<T>(
         this T source,
         Func<T, Result> predicate,
         Action action,
         int numOfTry = 1
-    ) => source.TeeOperateWhen(t => predicate(t).IsSuccess, action, numOfTry);
+    ) => source.TeeOperateWhen(t => predicate(t).Success, action, numOfTry);
 
     public static T TeeOperateWhen<T>(
         this T source,
         Result predicate,
         Action<T> action,
         int numOfTry = 1
-    ) => source.TeeOperateWhen(predicate.IsSuccess, action, numOfTry);
+    ) => source.TeeOperateWhen(predicate.Success, action, numOfTry);
 
     public static T TeeOperateWhen<T>(
         this T source,
         Func<T, Result> predicate,
         Action<T> action,
         int numOfTry = 1
-    ) => source.TeeOperateWhen(t => predicate(t).IsSuccess, action, numOfTry);
+    ) => source.TeeOperateWhen(t => predicate(t).Success, action, numOfTry);
 
     public static Result<T> TeeOperateWhen<T>(
         this Result<T> source,
@@ -94,7 +94,7 @@ public static partial class OperateWhenExtensions {
         Func<Result> predicate,
         Action action,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate().IsSuccess, () => source.Tee(action, numOfTry), numOfTry: 1);
+    ) => source.OperateWhen(predicate().Success, () => source.Tee(action, numOfTry), numOfTry: 1);
 
     public static Result<T> TeeOperateWhen<T>(
         this T source,

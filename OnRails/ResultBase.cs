@@ -4,11 +4,11 @@ using OnRails.ResultDetails;
 namespace OnRails;
 
 public abstract class ResultBase {
-    public bool IsSuccess { get; set; }
+    public bool Success { get; set; }
     public ResultDetail? Detail { get; set; }
 
-    protected ResultBase(bool isSuccess, ResultDetail? detail = null) {
-        IsSuccess = isSuccess;
+    protected ResultBase(bool success, ResultDetail? detail = null) {
+        Success = success;
         Detail = detail;
     }
 
@@ -19,7 +19,7 @@ public abstract class ResultBase {
 
     public override string ToString() {
         var sb = new StringBuilder();
-        sb.AppendLine($"Success: {IsSuccess}");
+        sb.AppendLine($"Success: {Success}");
         if (Detail is not null) 
             sb.AppendLine(Detail.ToString());
         return sb.ToString();

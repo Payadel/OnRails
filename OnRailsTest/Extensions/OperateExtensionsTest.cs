@@ -17,7 +17,7 @@ public static class OperateExtensionsTest {
         var result = OperateWhenExtensions.OperateWhen(true,
             () => Result.Fail(), DefaultNumOfTry);
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public static class OperateExtensionsTest {
                 return Result.Ok();
             }, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     //
@@ -48,7 +48,7 @@ public static class OperateExtensionsTest {
         var result = OperateWhenExtensions.OperateWhen(() => true,
             () => Result.Fail(), DefaultNumOfTry);
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public static class OperateExtensionsTest {
                 return Result.Ok();
             }, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -90,7 +90,7 @@ public static class OperateExtensionsTest {
         var result = OperateWhenExtensions.OperateWhen(true,
             () => { }, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -104,7 +104,7 @@ public static class OperateExtensionsTest {
     public static void OperateWhen_FailPredicateAndActionThrowException_SuccessResult() {
         var result = OperateWhenExtensions.OperateWhen(false, ActionThrowException, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     //
@@ -113,7 +113,7 @@ public static class OperateExtensionsTest {
         var result = OperateWhenExtensions.OperateWhen(() => true,
             () => { }, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public static class OperateExtensionsTest {
     public static void OperateWhen_FailPredicateFunctionAndActionThrowException_SuccessResult() {
         var result = OperateWhenExtensions.OperateWhen(() => false, ActionThrowException, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     //
@@ -147,7 +147,7 @@ public static class OperateExtensionsTest {
         var result = "input".OperateWhen(true,
             () => Result<string>.Ok(SuccessResult));
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(SuccessResult, result.Value);
     }
 
@@ -156,7 +156,7 @@ public static class OperateExtensionsTest {
         var result = "input".OperateWhen(true,
             () => Result<string>.Fail(new ErrorDetail()));
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ErrorDetail);
     }
 
@@ -166,7 +166,7 @@ public static class OperateExtensionsTest {
         var result = firstInput.OperateWhen(false,
             () => Result<string>.Ok(SuccessResult));
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(firstInput, result.Value);
     }
 
@@ -176,7 +176,7 @@ public static class OperateExtensionsTest {
         var result = "input".OperateWhen(true,
             () => Result<string>.Ok(SuccessResult));
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(SuccessResult, result.Value);
     }
 
@@ -185,7 +185,7 @@ public static class OperateExtensionsTest {
         var result = "input".OperateWhen(true,
             () => Result<string>.Fail(new ErrorDetail()));
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ErrorDetail);
     }
 
@@ -195,7 +195,7 @@ public static class OperateExtensionsTest {
         var result = firstInput.OperateWhen(false,
             () => Result<string>.Ok(SuccessResult));
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(firstInput, result.Value);
     }
 
@@ -206,7 +206,7 @@ public static class OperateExtensionsTest {
             .OperateWhen(true,
                 () => Result<string>.Ok(SuccessResult));
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(SuccessResult, result.Value);
     }
 
@@ -216,7 +216,7 @@ public static class OperateExtensionsTest {
             .OperateWhen(true,
                 () => Result<string>.Fail(new ErrorDetail()));
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ErrorDetail);
     }
 
@@ -226,7 +226,7 @@ public static class OperateExtensionsTest {
         var result = Result<string>.Ok(firstInput)
             .OperateWhen(false, () => Result<string>.Ok(SuccessResult));
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(firstInput, result.Value);
     }
 
@@ -237,7 +237,7 @@ public static class OperateExtensionsTest {
             .OperateWhen(true,
                 () => { }, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -253,6 +253,6 @@ public static class OperateExtensionsTest {
         var result = Result<string>.Ok("input")
             .OperateWhen(false, ActionThrowException, DefaultNumOfTry);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 }

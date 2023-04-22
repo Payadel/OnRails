@@ -11,7 +11,7 @@ public static class BindExtensions {
     ) {
         foreach (var task in tasks) {
             var result = await TryExtensions.Try(task, numOfTry);
-            if (!result.IsSuccess)
+            if (!result.Success)
                 return result;
         }
 
@@ -27,7 +27,7 @@ public static class BindExtensions {
 
         foreach (var task in items) {
             var taskResult = await TryExtensions.Try(task, numOfTry);
-            if (!taskResult.IsSuccess)
+            if (!taskResult.Success)
                 return Result<List<T>>.Fail(taskResult.Detail as ErrorDetail);
             result.Add(taskResult.Value!);
         }

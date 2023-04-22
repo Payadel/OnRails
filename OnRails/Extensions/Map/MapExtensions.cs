@@ -230,7 +230,7 @@ public static partial class MapExtensions {
 
     public static Result Map<TSource>(
         this Result<TSource> source) =>
-        source.IsSuccess ? Result.Ok() : Result.Fail(source.Detail as ErrorDetail);
+        source.Success ? Result.Ok() : Result.Fail(source.Detail as ErrorDetail);
 
     #endregion
 

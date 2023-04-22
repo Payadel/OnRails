@@ -38,7 +38,7 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(() => Assert.False(disposableObj.IsDisposed));
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(obj => Assert.False(obj.IsDisposed));
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 
@@ -120,7 +120,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 
@@ -151,7 +151,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 
@@ -182,7 +182,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 
@@ -212,7 +212,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -241,7 +241,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -274,7 +274,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 
@@ -305,7 +305,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 
@@ -335,7 +335,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 
@@ -365,7 +365,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -394,7 +394,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -423,7 +423,7 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("result", result.Value);
     }
 

@@ -5,7 +5,7 @@ namespace OnRails.Extensions.OnFail;
 
 public static partial class OnFailExtensions {
     public static Result<T> OnFailThrowException<T>(this Result<T> source) {
-        if (!source.IsSuccess) {
+        if (!source.Success) {
             source.Detail ??= new ErrorDetail();
             source.Detail.ThrowException();
         }
@@ -14,7 +14,7 @@ public static partial class OnFailExtensions {
     }
 
     public static Result OnFailThrowException(this Result source) {
-        if (!source.IsSuccess) {
+        if (!source.Success) {
             source.Detail ??= new ErrorDetail();
             source.Detail.ThrowException();
         }

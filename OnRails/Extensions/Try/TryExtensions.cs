@@ -36,7 +36,7 @@ public static partial class TryExtensions {
             try {
                 var result = function();
 
-                if (result.IsSuccess || numOfTry == 1) {
+                if (result.Success || numOfTry == 1) {
                     return result;
                 }
 
@@ -62,7 +62,7 @@ public static partial class TryExtensions {
             try {
                 var result = function();
 
-                if (result.IsSuccess || numOfTry == 1) {
+                if (result.Success || numOfTry == 1) {
                     return result;
                 }
 

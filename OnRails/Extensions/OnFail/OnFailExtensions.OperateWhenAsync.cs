@@ -314,7 +314,7 @@ public static partial class OnFailExtensions {
         Result result,
         int numOfTry = 1) => TryExtensions.Try(source, numOfTry)
         .OnFail(sourceResult => sourceResult.OperateWhen(
-                () => predicate(sourceResult).IsSuccess, result, numOfTry),
+                () => predicate(sourceResult).Success, result, numOfTry),
             numOfTry: 1);
 
     public static Task<Result> OnFailOperateWhen(
@@ -322,7 +322,7 @@ public static partial class OnFailExtensions {
         Func<Result> predicate,
         Result result,
         int numOfTry = 1) => TryExtensions.Try(source, numOfTry)
-        .OnFail(() => OperateWhenExtensions.OperateWhen(() => predicate().IsSuccess, result, numOfTry),
+        .OnFail(() => OperateWhenExtensions.OperateWhen(() => predicate().Success, result, numOfTry),
             numOfTry: 1);
 
     public static Task<Result<T>> OnFailOperateWhen<T>(
@@ -330,6 +330,6 @@ public static partial class OnFailExtensions {
         Func<Result<T>, Result> predicate,
         Result<T> result,
         int numOfTry = 1) => TryExtensions.Try(source, numOfTry)
-        .OnFail(sourceResult => sourceResult.OperateWhen(() => predicate(sourceResult).IsSuccess, result, numOfTry),
+        .OnFail(sourceResult => sourceResult.OperateWhen(() => predicate(sourceResult).Success, result, numOfTry),
             numOfTry: 1);
 }

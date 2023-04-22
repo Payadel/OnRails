@@ -64,50 +64,50 @@ public static partial class OnSuccessExtensions {
         this Result source,
         Func<Result> predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate().IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate().Success, errorDetail), numOfTry: 1);
 
     public static Result OnSuccessFailWhen(
         this Result source,
         Result predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate.IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate.Success, errorDetail), numOfTry: 1);
 
     public static Result<T> OnSuccessFailWhen<T>(
         this Result<T> source,
         Func<T, Result> predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(t => t.FailWhen(predicate(t).IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate(t).Success, errorDetail), numOfTry: 1);
 
     public static Result<T> OnSuccessFailWhen<T>(
         this Result<T> source,
         Func<T, Result> predicate,
         Func<T, ErrorDetail> errorDetailFunc,
         int numOfTry = 1
-    ) => source.OnSuccess(t => t.FailWhen(predicate(t).IsSuccess, errorDetailFunc, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate(t).Success, errorDetailFunc, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessFailWhen<T>(
         this Result<T> source,
         Func<Result> predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(t => t.FailWhen(predicate().IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate().Success, errorDetail), numOfTry: 1);
 
     public static Result<T> OnSuccessFailWhen<T>(
         this Result<T> source,
         Func<Result> predicate,
         Func<T, ErrorDetail> errorDetailFunc,
         int numOfTry = 1
-    ) => source.OnSuccess(t => t.FailWhen(predicate().IsSuccess, errorDetailFunc, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate().Success, errorDetailFunc, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessFailWhen<T>(
         this Result<T> source,
         Result predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(t => t.FailWhen(predicate.IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate.Success, errorDetail), numOfTry: 1);
 
     public static Result<T> OnSuccessFailWhen<T>(
         this Result<T> source,
         Result predicate,
         Func<T, ErrorDetail> errorDetailFunc,
         int numOfTry = 1
-    ) => source.OnSuccess(t => t.FailWhen(predicate.IsSuccess, errorDetailFunc, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate.Success, errorDetailFunc, numOfTry), numOfTry: 1);
 }

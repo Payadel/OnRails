@@ -11,14 +11,14 @@ public static partial class OnFailExtensions {
         ErrorDetail? newErrorDetail,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess ? result : result.Fail(newErrorDetail);
+        return result.Success ? result : result.Fail(newErrorDetail);
     }
 
     public static async Task<Result<T>> OnFail<T>(
         this Result<T> source,
         Func<Task<ErrorDetail?>> errorDetailFunc,
         int numOfTry = 1) {
-        if (source.IsSuccess)
+        if (source.Success)
             return source;
 
         return await TryExtensions.Try(errorDetailFunc, numOfTry)
@@ -30,7 +30,7 @@ public static partial class OnFailExtensions {
         ErrorDetail? newErrorDetail,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess ? result : Result.Fail(newErrorDetail);
+        return result.Success ? result : Result.Fail(newErrorDetail);
     }
 
     public static async Task<Result> OnFail(
@@ -38,7 +38,7 @@ public static partial class OnFailExtensions {
         Func<ErrorDetail?> errorDetailFunc,
         int numOfTry = 1) {
         var result = await TryExtensions.Try(source, numOfTry);
-        if (result.IsSuccess)
+        if (result.Success)
             return result;
 
         return TryExtensions.Try(errorDetailFunc, numOfTry)
@@ -49,7 +49,7 @@ public static partial class OnFailExtensions {
         this Result source,
         Func<Task<ErrorDetail?>> errorDetailFunc,
         int numOfTry = 1) {
-        if (source.IsSuccess)
+        if (source.Success)
             return source;
 
         return await TryExtensions.Try(errorDetailFunc, numOfTry)

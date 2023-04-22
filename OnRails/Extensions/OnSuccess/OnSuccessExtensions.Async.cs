@@ -11,7 +11,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Task<TResult> obj,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(obj, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -19,7 +19,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Task<Result<TResult>> obj,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(obj, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -29,7 +29,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(obj, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -40,7 +40,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(obj, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -51,7 +51,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await t.Value!.Try(function, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -62,7 +62,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? TryExtensions.Try(action, numOfTry)
             : t.Map();
     }
@@ -73,7 +73,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? t.Value!.Try(action, numOfTry)
             : t.Map();
     }
@@ -84,7 +84,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await t.Value!.Try(function, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -95,7 +95,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -106,7 +106,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -117,7 +117,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await t.Value!.Try(function, numOfTry)
             : Result.Fail(t.Detail as ErrorDetail);
     }
@@ -128,7 +128,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await t.Value!.Try(function, numOfTry)
             : Result.Fail(t.Detail as ErrorDetail);
     }
@@ -139,7 +139,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result.Fail(t.Detail as ErrorDetail);
     }
@@ -150,7 +150,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result.Fail(t.Detail as ErrorDetail);
     }
@@ -161,7 +161,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -172,7 +172,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? TryExtensions.Try(action, numOfTry)
             : t;
     }
@@ -183,7 +183,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? Result<T>.Ok(obj)
             : t;
     }
@@ -194,7 +194,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(t.Detail as ErrorDetail);
     }
@@ -205,7 +205,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result.Fail(t.Detail as ErrorDetail);
     }
@@ -216,7 +216,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var t = await TryExtensions.Try(source, numOfTry);
-        return t.IsSuccess
+        return t.Success
             ? await TryExtensions.Try(function, numOfTry)
             : Result.Fail(t.Detail as ErrorDetail);
     }
@@ -225,7 +225,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Func<TSource, Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await source.Value!.Try(function, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -233,7 +233,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Func<TSource, Task<TResult>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await source.Value!.Try(function, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -241,7 +241,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Func<Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -249,7 +249,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Func<Task<TResult>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -257,14 +257,14 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Func<TSource, Task<Result>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await source.Value!.Try(function, numOfTry)
         : Result.Fail(source.Detail as ErrorDetail);
 
     public static async Task<Result> OnSuccess<TSource>(
         this Result<TSource> source,
         Func<TSource, Task> function,
-        int numOfTry = 1) => source.IsSuccess
+        int numOfTry = 1) => source.Success
         ? await source.Value!.Try(function, numOfTry)
         : Result.Fail(source.Detail as ErrorDetail);
 
@@ -272,7 +272,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Func<Task<Result>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result.Fail(source.Detail as ErrorDetail);
 
@@ -280,7 +280,7 @@ public static partial class OnSuccessExtensions {
         this Result<TSource> source,
         Func<Task> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result.Fail(source.Detail as ErrorDetail);
 
@@ -288,7 +288,7 @@ public static partial class OnSuccessExtensions {
         this Result source,
         Func<Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -296,7 +296,7 @@ public static partial class OnSuccessExtensions {
         this Result source,
         Func<Task<TResult>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
@@ -304,14 +304,14 @@ public static partial class OnSuccessExtensions {
         this Result source,
         Func<Task<Result>> function,
         int numOfTry = 1
-    ) => source.IsSuccess
+    ) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result.Fail(source.Detail as ErrorDetail);
 
     public static async Task<Result> OnSuccess(
         this Result source,
         Func<Task> function,
-        int numOfTry = 1) => source.IsSuccess
+        int numOfTry = 1) => source.Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result.Fail(source.Detail as ErrorDetail);
 
@@ -321,7 +321,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? result.Value!.Try(function, numOfTry)
             : Result<TResult>.Fail(result.Detail as ErrorDetail);
     }
@@ -332,7 +332,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? result.Value!.Try(function, numOfTry)
             : Result<TResult>.Fail(result.Detail as ErrorDetail);
     }
@@ -343,7 +343,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(result.Detail as ErrorDetail);
     }
@@ -354,7 +354,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(result.Detail as ErrorDetail);
     }
@@ -365,7 +365,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? result.Value!.Try(function, numOfTry)
             : Result.Fail(result.Detail as ErrorDetail);
     }
@@ -376,7 +376,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? TryExtensions.Try(function, numOfTry)
             : Result.Fail(result.Detail as ErrorDetail);
     }
@@ -387,7 +387,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(result.Detail as ErrorDetail);
     }
@@ -398,7 +398,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? TryExtensions.Try(function, numOfTry)
             : Result<TResult>.Fail(result.Detail as ErrorDetail);
     }
@@ -409,7 +409,7 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) {
         var result = await TryExtensions.Try(source, numOfTry);
-        return result.IsSuccess
+        return result.Success
             ? TryExtensions.Try(function, numOfTry)
             : Result.Fail(result.Detail as ErrorDetail);
     }

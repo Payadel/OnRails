@@ -35,7 +35,7 @@ public class ThrowExceptionExtensionsTest {
         var result = Result<string>.Ok("Ok")
             .OnFailThrowException();
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal("Ok", result.Value);
     }
 
@@ -52,7 +52,7 @@ public class ThrowExceptionExtensionsTest {
         var result = Result.Ok()
             .OnFailThrowException();
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]

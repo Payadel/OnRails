@@ -7,7 +7,7 @@ public class ResultTest {
     [Fact]
     public void Ok_NoInput() {
         var result = Result.Ok();
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
@@ -15,7 +15,7 @@ public class ResultTest {
         var resultDetail = new SuccessDetail("title");
         var result = Result.Ok(resultDetail);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.StrictEqual(result.Detail, resultDetail);
     }
 
@@ -23,7 +23,7 @@ public class ResultTest {
     public void Fail() {
         var result = Result.Fail();
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
     }
 }
 
@@ -33,7 +33,7 @@ public class ResultWithValue {
         const string value = "value";
         var result = Result<string>.Ok(value);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(result.Value, value);
     }
 
@@ -43,7 +43,7 @@ public class ResultWithValue {
         const string value = "value";
         var result = Result<string>.Ok(value, resultDetail);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.StrictEqual(result.Detail, resultDetail);
         Assert.Equal(result.Value, value);
     }
@@ -52,7 +52,7 @@ public class ResultWithValue {
     public void Fail() {
         var result = Result<string>.Fail();
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.Null(result.Value);
     }
 }

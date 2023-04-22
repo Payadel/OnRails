@@ -13,14 +13,14 @@ public static class StringExtensionsTest {
     public static void MustMatchRegex_MatchRegex_SuccessResult() {
         var result = SampleEmail.MustMatchRegex(EmailRegex);
 
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
     }
 
     [Fact]
     public static void MustMatchRegex_NoMatchRegexWithoutErrorDetail_ReturnDefaultErrorDetail() {
         var result = InvalidEmail.MustMatchRegex(EmailRegex);
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.IsType<ValidationError>(result.Detail);
     }
 
@@ -28,7 +28,7 @@ public static class StringExtensionsTest {
     public static void MustMatchRegex_NoMatchRegexWithErrorDetail_ReturnErrorDetail() {
         var result = InvalidEmail.MustMatchRegex(EmailRegex, new BadRequestError());
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.IsType<BadRequestError>(result.Detail);
     }
 }

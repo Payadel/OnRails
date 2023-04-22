@@ -22,12 +22,12 @@ public static partial class FailExtensions {
     public static Result FailWhen(
         Result predicate,
         ErrorDetail? errorDetail
-    ) => predicate.IsSuccess ? Result.Fail(errorDetail) : Result.Ok();
+    ) => predicate.Success ? Result.Fail(errorDetail) : Result.Ok();
 
     public static Result FailWhen(
         Func<Result> predicate,
         ErrorDetail? errorDetail
-    ) => FailWhen(predicate().IsSuccess, errorDetail);
+    ) => FailWhen(predicate().Success, errorDetail);
 
     public static Result<T> FailWhen<T>(
         this T source,
@@ -80,27 +80,27 @@ public static partial class FailExtensions {
         this T source,
         Result predicate,
         ErrorDetail? errorDetail
-    ) => predicate.IsSuccess ? Result<T>.Fail(errorDetail) : Result<T>.Ok(source);
+    ) => predicate.Success ? Result<T>.Fail(errorDetail) : Result<T>.Ok(source);
 
     public static Result<T> FailWhen<T>(
         this T source,
         Result predicate,
         Func<T, ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
-    ) => source.FailWhen(predicate.IsSuccess, errorDetailFunc, numOfTry);
+    ) => source.FailWhen(predicate.Success, errorDetailFunc, numOfTry);
 
     public static Result<T> FailWhen<T>(
         this T source,
         Func<Result> predicate,
         ErrorDetail? errorDetail
-    ) => source.FailWhen(predicate().IsSuccess, errorDetail);
+    ) => source.FailWhen(predicate().Success, errorDetail);
 
     public static Result<T> FailWhen<T>(
         this T source,
         Func<Result> predicate,
         Func<T, ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
-    ) => source.FailWhen(predicate().IsSuccess, errorDetailFunc, numOfTry);
+    ) => source.FailWhen(predicate().Success, errorDetailFunc, numOfTry);
 
     public static Result<T> FailWhen<T>(
         this T source,
@@ -113,5 +113,5 @@ public static partial class FailExtensions {
         Func<T, Result> predicate,
         Func<T, ErrorDetail?> errorDetailFunc,
         int numOfTry = 1
-    ) => source.FailWhen(predicate(source).IsSuccess, errorDetailFunc, numOfTry);
+    ) => source.FailWhen(predicate(source).Success, errorDetailFunc, numOfTry);
 }

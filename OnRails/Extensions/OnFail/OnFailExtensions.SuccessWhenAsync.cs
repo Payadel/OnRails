@@ -7,7 +7,7 @@ public static partial class OnFailExtensions {
 
     public static Task<Result> OnFailSuccessWhen(
         this Task<Result> source, Result predicate) =>
-        source.OnFailOperateWhen(predicate.IsSuccess, Result.Ok());
+        source.OnFailOperateWhen(predicate.Success, Result.Ok());
 
     public static Task<Result> OnFailSuccessWhen(
         this Task<Result> source, Func<bool> predicate, int numOfTry = 1) =>
@@ -19,7 +19,7 @@ public static partial class OnFailExtensions {
 
     public static Task<Result> OnFailSuccessWhen(
         this Task<Result> source, Func<Result> predicate) =>
-        source.OnFailSuccessWhen(predicate().IsSuccess);
+        source.OnFailSuccessWhen(predicate().Success);
 
     public static Task<Result> OnFailSuccessWhen(
         this Task<Result> source, Func<Result, Result> predicate, int numOfTry = 1) =>
@@ -39,15 +39,15 @@ public static partial class OnFailExtensions {
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Result predicate, T result) =>
-        source.OnFailOperateWhen(predicate.IsSuccess, Result<T>.Ok(result));
+        source.OnFailOperateWhen(predicate.Success, Result<T>.Ok(result));
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Result predicate, Func<T> function, int numOfTry = 1) =>
-        source.OnFailOperateWhen(predicate.IsSuccess, function, numOfTry);
+        source.OnFailOperateWhen(predicate.Success, function, numOfTry);
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Result predicate, Func<Task<T>> function, int numOfTry = 1) =>
-        source.OnFailOperateWhen(predicate.IsSuccess, function, numOfTry);
+        source.OnFailOperateWhen(predicate.Success, function, numOfTry);
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Func<bool> predicate, T result, int numOfTry = 1) =>
@@ -75,7 +75,7 @@ public static partial class OnFailExtensions {
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Func<Result> predicate, T result) =>
-        source.OnFailOperateWhen(predicate().IsSuccess, () => Result<T>.Ok(result));
+        source.OnFailOperateWhen(predicate().Success, () => Result<T>.Ok(result));
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Func<Result<T>, Result> predicate, T result, int numOfTry = 1) =>
@@ -83,7 +83,7 @@ public static partial class OnFailExtensions {
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Func<Result> predicate, Func<T> function, int numOfTry = 1) =>
-        source.OnFailOperateWhen(predicate().IsSuccess, function, numOfTry);
+        source.OnFailOperateWhen(predicate().Success, function, numOfTry);
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Func<Result<T>, Result> predicate, Func<T> function, int numOfTry = 1) =>
@@ -91,5 +91,5 @@ public static partial class OnFailExtensions {
 
     public static Task<Result<T>> OnFailSuccessWhen<T>(
         this Task<Result<T>> source, Func<Result> predicate, Func<Task<T>> function, int numOfTry = 1) =>
-        source.OnFailOperateWhen(predicate().IsSuccess, function, numOfTry);
+        source.OnFailOperateWhen(predicate().Success, function, numOfTry);
 }

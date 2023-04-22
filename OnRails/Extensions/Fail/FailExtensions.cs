@@ -13,7 +13,7 @@ public static partial class FailExtensions {
         int numOfTry = 1
     ) {
         var failResult = Result.Fail(errorDetail);
-        if (!source.IsSuccess && source.Detail is not null) {
+        if (!source.Success && source.Detail is not null) {
             return TryExtensions.Try(() => {
                 failResult.Detail!.AddDetail(source.Detail);
                 return failResult;
@@ -29,7 +29,7 @@ public static partial class FailExtensions {
         int numOfTry = 1
     ) {
         var failResult = Result<T>.Fail(errorDetail);
-        if (!source.IsSuccess && source.Detail is not null) {
+        if (!source.Success && source.Detail is not null) {
             return TryExtensions.Try(() => {
                 failResult.Detail!.AddDetail(source.Detail);
                 return failResult;

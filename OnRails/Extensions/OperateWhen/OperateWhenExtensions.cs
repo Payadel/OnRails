@@ -256,7 +256,7 @@ public static partial class OperateWhenExtensions {
         Func<Result> predicate,
         Func<Result<T>> operation,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate().IsSuccess, operation, numOfTry);
+    ) => source.OperateWhen(predicate().Success, operation, numOfTry);
 
     public static Result OperateWhen(
         this Result source,
@@ -377,7 +377,7 @@ public static partial class OperateWhenExtensions {
         Func<Result<T>, Result> predicateFunc,
         Func<T> function,
         int numOfTry = 1
-    ) => predicateFunc(source).IsSuccess
+    ) => predicateFunc(source).Success
         ? TryExtensions.Try(function, numOfTry)
         : source;
 
@@ -435,26 +435,26 @@ public static partial class OperateWhenExtensions {
         Func<Result> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => OperateWhen(predicate().IsSuccess, function, numOfTry);
+    ) => OperateWhen(predicate().Success, function, numOfTry);
 
     public static Result OperateWhen(
         Func<Result> predicate,
         Action action,
         int numOfTry = 1
-    ) => OperateWhen(predicate().IsSuccess, action, numOfTry);
+    ) => OperateWhen(predicate().Success, action, numOfTry);
 
     public static Result OperateWhen(
         Result predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => OperateWhen(predicate.IsSuccess, function, numOfTry);
+    ) => OperateWhen(predicate.Success, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this T source,
         Func<Result> predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate().IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate().Success, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this Result<T> source,
@@ -477,7 +477,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Result> predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate(source).IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate(source).Success, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this Result<T> source,
@@ -492,21 +492,21 @@ public static partial class OperateWhenExtensions {
         Func<Result> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate().IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate().Success, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this T source,
         Result predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate.IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate.Success, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this T source,
         Func<T, Result> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate(source).IsSuccess, function, numOfTry);
+    ) => source.OperateWhen(predicate(source).Success, function, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this T source,
@@ -580,7 +580,7 @@ public static partial class OperateWhenExtensions {
         Result predicate,
         Action action,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate.IsSuccess, action, numOfTry);
+    ) => source.OperateWhen(predicate.Success, action, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this T source,
@@ -595,7 +595,7 @@ public static partial class OperateWhenExtensions {
         Result predicate,
         Action<T> action,
         int numOfTry = 1
-    ) => source.OperateWhen(predicate.IsSuccess, action, numOfTry);
+    ) => source.OperateWhen(predicate.Success, action, numOfTry);
 
     public static Result<T> OperateWhen<T>(
         this T source,

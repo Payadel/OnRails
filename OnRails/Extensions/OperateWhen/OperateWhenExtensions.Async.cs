@@ -409,7 +409,7 @@ public static partial class OperateWhenExtensions {
         Func<T, Result> predicate,
         Func<Task<Result<T>>> function,
         int numOfTry = 1
-    ) => predicate(source).IsSuccess
+    ) => predicate(source).Success
         ? await TryExtensions.Try(function, numOfTry)
         : Result<T>.Ok(source);
 

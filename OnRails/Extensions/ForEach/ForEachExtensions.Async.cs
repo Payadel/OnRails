@@ -15,7 +15,7 @@ public static partial class ForEachExtensions {
         foreach (var item in source) {
             var result = await item.Try(function, numOfTry)
                 .OnFailAddMoreDetails(new {item});
-            if (!result.IsSuccess)
+            if (!result.Success)
                 return result;
         }
 
@@ -30,7 +30,7 @@ public static partial class ForEachExtensions {
         foreach (var item in source) {
             var result = await item.OnSuccess(function, numOfTry)
                 .OnFailAddMoreDetails(new {item});
-            if (!result.IsSuccess)
+            if (!result.Success)
                 return result;
         }
 
@@ -46,7 +46,7 @@ public static partial class ForEachExtensions {
             foreach (var item in items) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return result;
             }
 
@@ -63,7 +63,7 @@ public static partial class ForEachExtensions {
                 foreach (var item in items) {
                     var result = await item.OnSuccess(function, numOfTry)
                         .OnFailAddMoreDetails(new {item});
-                    if (!result.IsSuccess)
+                    if (!result.Success)
                         return result;
                 }
 
@@ -78,7 +78,7 @@ public static partial class ForEachExtensions {
         foreach (var item in source) {
             var result = await item.Try(function, numOfTry)
                 .OnFailAddMoreDetails(new {item});
-            if (!result.IsSuccess)
+            if (!result.Success)
                 return Result.Fail(result.Detail as ErrorDetail);
         }
 
@@ -93,7 +93,7 @@ public static partial class ForEachExtensions {
         foreach (var item in source) {
             var result = await item.OnSuccess(function, numOfTry)
                 .OnFailAddMoreDetails(new {item});
-            if (!result.IsSuccess)
+            if (!result.Success)
                 return result.Map();
         }
 
@@ -109,7 +109,7 @@ public static partial class ForEachExtensions {
             foreach (var item in items) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result.Fail(result.Detail as ErrorDetail);
             }
 
@@ -125,7 +125,7 @@ public static partial class ForEachExtensions {
             foreach (var item in items) {
                 var result = await item.OnSuccess(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return result.Map();
             }
 
@@ -141,7 +141,7 @@ public static partial class ForEachExtensions {
             foreach (var item in list) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result.Fail(result.Detail as ErrorDetail);
             }
 
@@ -157,7 +157,7 @@ public static partial class ForEachExtensions {
             foreach (var item in list) {
                 var result = await item.OnSuccess(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return result;
             }
 
@@ -173,7 +173,7 @@ public static partial class ForEachExtensions {
             foreach (var item in items) {
                 var result = await item.Try(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return Result.Fail(result.Detail as ErrorDetail);
             }
 
@@ -190,7 +190,7 @@ public static partial class ForEachExtensions {
             foreach (var item in list) {
                 var result = await item.OnSuccess(function, numOfTry)
                     .OnFailAddMoreDetails(new {item});
-                if (!result.IsSuccess)
+                if (!result.Success)
                     return result;
             }
 

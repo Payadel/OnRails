@@ -136,14 +136,14 @@ public static partial class OnSuccessExtensions {
         Func<Result> predicate,
         Action action,
         int numOfTry = 1
-    ) => source.OnSuccess(value => value.OperateWhen(predicate().IsSuccess, action, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(value => value.OperateWhen(predicate().Success, action, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> source,
         Func<Result> predicate,
         Action<T> action,
         int numOfTry = 1
-    ) => source.OnSuccess(value => value.OperateWhen(predicate().IsSuccess, action, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(value => value.OperateWhen(predicate().Success, action, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> source,
@@ -192,7 +192,7 @@ public static partial class OnSuccessExtensions {
         Result predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => source.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate.IsSuccess, function, numOfTry),
+    ) => source.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate.Success, function, numOfTry),
         numOfTry: 1);
 
     public static Result OnSuccessOperateWhen(
@@ -200,33 +200,33 @@ public static partial class OnSuccessExtensions {
         Result predicate,
         Action action,
         int numOfTry = 1
-    ) => source.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate.IsSuccess, action, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(() => OperateWhenExtensions.OperateWhen(predicate.Success, action, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> source,
         Result predicate,
         Func<Result<T>> function,
         int numOfTry = 1
-    ) => source.OnSuccess(value => value.OperateWhen(predicate.IsSuccess, function, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(value => value.OperateWhen(predicate.Success, function, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> source,
         Result predicate,
         Action action,
         int numOfTry = 1
-    ) => source.OnSuccess(value => value.OperateWhen(predicate.IsSuccess, action, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(value => value.OperateWhen(predicate.Success, action, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> source,
         Result predicate,
         Action<T> action,
         int numOfTry = 1
-    ) => source.OnSuccess(value => value.OperateWhen(predicate.IsSuccess, action, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(value => value.OperateWhen(predicate.Success, action, numOfTry), numOfTry: 1);
 
     public static Result<T> OnSuccessOperateWhen<T>(
         this Result<T> source,
         Result predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => source.OnSuccess(value => value.OperateWhen(predicate.IsSuccess, function, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(value => value.OperateWhen(predicate.Success, function, numOfTry), numOfTry: 1);
 }

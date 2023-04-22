@@ -31,7 +31,7 @@ public class TryExtensionsTest {
     #endregion
 
     private static void EnsureIsSuccess(ResultBase result) {
-        Assert.True(result.IsSuccess);
+        Assert.True(result.Success);
         Assert.Equal(1, result.Detail.GetMoreDetailProperties<int>("numOfTry").Single());
         Assert.Equal(DefaultNumOfTry, result.Detail.GetMoreDetailProperties<int>("maxTryRequested").Single());
     }
@@ -126,7 +126,7 @@ public class TryExtensionsTest {
     public void Try_FailActionWithInput_ReturnExceptionError() {
         var result = TryExtensions.Try(() => FailActionWithInput("input"));
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ExceptionError);
     }
 
@@ -142,7 +142,7 @@ public class TryExtensionsTest {
         const string input = "input";
         var result = input.Try(FailActionWithInput);
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ExceptionError);
     }
 
@@ -158,7 +158,7 @@ public class TryExtensionsTest {
     public void Try_FailFunction_ReturnExceptionError() {
         var result = TryExtensions.Try(FailFunctionReturnString);
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ExceptionError);
     }
 
@@ -173,7 +173,7 @@ public class TryExtensionsTest {
     public void Try_FailFunction_ReturnBadRequestError() {
         var result = TryExtensions.Try(FailFunctionReturnResultWithString);
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is BadRequestError);
     }
 
@@ -188,7 +188,7 @@ public class TryExtensionsTest {
     public void Try_FailFunction_ReturnsErrorDetail() {
         var result = TryExtensions.Try(FailFunctionReturnResult);
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ErrorDetail);
     }
 
@@ -204,7 +204,7 @@ public class TryExtensionsTest {
         const string input = "input";
         var result = TryExtensions.Try(() => FailFunctionReturnInput(input));
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ExceptionError);
     }
 
@@ -220,7 +220,7 @@ public class TryExtensionsTest {
         const string input = "input";
         var result = TryExtensions.Try(() => FailFunctionReturnResultWithString(input));
 
-        Assert.False(result.IsSuccess);
+        Assert.False(result.Success);
         Assert.True(result.Detail is ErrorDetail);
     }
 

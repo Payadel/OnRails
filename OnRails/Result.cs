@@ -5,7 +5,7 @@ using OnRails.ResultDetails;
 namespace OnRails;
 
 public sealed class Result : ResultBase {
-    private Result(bool isSuccess, ResultDetail? detail = null) : base(isSuccess, detail) { }
+    private Result(bool success, ResultDetail? detail = null) : base(success, detail) { }
 
     public static Result Ok() {
         return new Result(true);
@@ -46,8 +46,8 @@ public sealed class Result<T> : ResultBase {
 
     public override string ToString() {
         var sb = new StringBuilder();
-        sb.AppendLine($"Success: {IsSuccess}");
-        if (IsSuccess && Value is not null)
+        sb.AppendLine($"Success: {Success}");
+        if (Success && Value is not null)
             sb.AppendLine($"Value: {Value}");
         if (Detail is not null)
             sb.AppendLine(Detail.ToString());

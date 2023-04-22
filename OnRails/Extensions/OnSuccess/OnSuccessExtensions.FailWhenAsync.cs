@@ -64,13 +64,13 @@ public static partial class OnSuccessExtensions {
         this Task<Result> source,
         Func<Result> predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate().IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate().Success, errorDetail), numOfTry: 1);
 
     public static Task<Result> OnSuccessFailWhen(
         this Task<Result> source,
         Result predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate.IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(() => FailExtensions.FailWhen(predicate.Success, errorDetail), numOfTry: 1);
 
     public static Task<Result<T>> OnSuccessFailWhen<T>(
         this Task<Result<T>> source,
@@ -89,7 +89,7 @@ public static partial class OnSuccessExtensions {
         this Task<Result<T>> source,
         Func<Result> predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(t => t.FailWhen(predicate().IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate().Success, errorDetail), numOfTry: 1);
 
     public static Task<Result<T>> OnSuccessFailWhen<T>(
         this Task<Result<T>> source,
@@ -102,12 +102,12 @@ public static partial class OnSuccessExtensions {
         this Task<Result<T>> source,
         Result predicate,
         ErrorDetail errorDetail
-    ) => source.OnSuccess(t => t.FailWhen(predicate.IsSuccess, errorDetail), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate.Success, errorDetail), numOfTry: 1);
 
     public static Task<Result<T>> OnSuccessFailWhen<T>(
         this Task<Result<T>> source,
         Result predicate,
         Func<T, ErrorDetail> errorDetailFunc,
         int numOfTry = 1
-    ) => source.OnSuccess(t => t.FailWhen(predicate.IsSuccess, errorDetailFunc, numOfTry), numOfTry: 1);
+    ) => source.OnSuccess(t => t.FailWhen(predicate.Success, errorDetailFunc, numOfTry), numOfTry: 1);
 }

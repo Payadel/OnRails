@@ -85,20 +85,20 @@ public static partial class OnFailExtensions {
         this Result source,
         Func<Result> predicate,
         Result result
-    ) => source.OnFailOperateWhen(predicate().IsSuccess, result);
+    ) => source.OnFailOperateWhen(predicate().Success, result);
 
     public static Result OnFailOperateWhen(
         this Result source,
         Func<Result> predicate,
         Func<Result> function,
         int numOfTry = 1
-    ) => source.OnFailOperateWhen(predicate().IsSuccess, function, numOfTry);
+    ) => source.OnFailOperateWhen(predicate().Success, function, numOfTry);
 
     public static Result OnFailOperateWhen(
         this Result source,
         Func<Result, Result> predicate,
         Result result
-    ) => source.OnFailOperateWhen(predicate(source).IsSuccess, result);
+    ) => source.OnFailOperateWhen(predicate(source).Success, result);
 
     public static Result<T> OnFailOperateWhen<T>(
         this Result<T> source,
@@ -117,5 +117,5 @@ public static partial class OnFailExtensions {
         this Result<T> source,
         Func<Result> predicate,
         Result<T> result
-    ) => source.OnFailOperateWhen(predicate().IsSuccess, result);
+    ) => source.OnFailOperateWhen(predicate().Success, result);
 }
