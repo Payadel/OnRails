@@ -1,6 +1,13 @@
+using System.Text;
+
 namespace OnRail.ResultDetails;
 
 public class ResultDetail {
+    public string Title { get; }
+    public string? Message { get; }
+    public int? StatusCode { get; }
+    public List<object>? MoreDetails { get; private set; }
+
     public ResultDetail(string title, string? message = null, int? statusCode = null, object? moreDetails = null) {
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(title));
@@ -11,11 +18,6 @@ public class ResultDetail {
         if (moreDetails is not null)
             MoreDetails = new List<object> {moreDetails};
     }
-
-    public string Title { get; }
-    public string? Message { get; }
-    public int? StatusCode { get; }
-    public List<object>? MoreDetails { get; private set; }
 
     public ResultDetail AddDetail(object newDetail) {
         if (newDetail == null) throw new ArgumentNullException(nameof(newDetail));
@@ -55,4 +57,21 @@ public class ResultDetail {
         Title,
         Message,
     };
+
+    public override string ToString() {
+        var sb = new StringBuilder();
+        sb.AppendLine("Detail:")
+            .AppendLine($"\tTitle: {Title}");
+        if (Message is not null)
+            sb.AppendLine($"\tMessage: {Message}");
+        if (StatusCode is not null)
+            sb.AppendLine($"\tStatusCode: {StatusCode}");
+        if (MoreDetails is not null) {
+            sb.AppendLine("\tMoreDetails:");
+            foreach (var detail in MoreDetails)
+                sb.AppendLine($"\t\t{detail}");
+        }
+
+        return sb.ToString();
+    }
 }

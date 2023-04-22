@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Http;
 
 namespace OnRail.ResultDetails.Errors;
@@ -21,4 +22,15 @@ public class ValidationError : ErrorDetail {
         Message,
         Errors
     };
+
+    public override string ToString() {
+        var sb = new StringBuilder(base.ToString());
+        if (Errors is not null) {
+            sb.AppendLine("Errors:\n");
+            foreach (var (key, value) in Errors)
+                sb.AppendLine($"\t{key}:\t{value}");
+        }
+
+        return sb.ToString();
+    }
 }
