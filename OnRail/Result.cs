@@ -1,3 +1,4 @@
+using System.Text;
 using OnRail.Extensions.Try;
 using OnRail.ResultDetails;
 
@@ -42,4 +43,14 @@ public sealed class Result<T> : ResultBase {
 
     public static Result<T> Fail(Func<ErrorDetail?> errorDetailFunc, int numOfTry = 1) =>
         TryExtensions.Try(() => new Result<T>(errorDetailFunc()), numOfTry);
+
+    public override string ToString() {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Success: {IsSuccess}");
+        if (IsSuccess && Value is not null)
+            sb.AppendLine($"Value: {Value}");
+        if (Detail is not null)
+            sb.AppendLine(Detail.ToString());
+        return sb.ToString();
+    }
 }

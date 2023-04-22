@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 
 namespace OnRail.ResultDetails;
 
@@ -12,4 +13,12 @@ public class ErrorDetail : ResultDetail {
 
     public StackTrace StackTrace { get; } = new(1, true);
     public ExceptionData? Exception { get; }
+
+    public override string ToString() {
+        var sb = new StringBuilder(base.ToString());
+        if (Exception is not null)
+            sb.AppendLine($"Exception:\n\t{Exception}");
+        sb.AppendLine($"StackTrace:\n\t{StackTrace}");
+        return sb.ToString();
+    }
 }
