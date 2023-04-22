@@ -11,7 +11,7 @@ To set up a development environment, please follow these steps:
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/Payadel/OnRail
+   git clone https://github.com/Payadel/OnRails
    ```
 
 2. To run this project, go to project directory:
