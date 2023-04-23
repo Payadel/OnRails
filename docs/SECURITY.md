@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If there are any vulnerabilities, don't hesitate to _report them_.
+If there are any vulnerabilities in this project, don't hesitate to _report them_.
 
 1. Use any of the contact addresses.
 2. Describe the vulnerability.
