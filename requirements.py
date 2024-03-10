@@ -74,7 +74,7 @@ def main():
     pip_name = find_pip_name()
     if pip_name:
         print(generate_message(f"The {pip_name} tool found. Install pre-commit..."))
-        run_shell(f"{pip_name} install pre-commit")
+        run_shell(f"{pip_name} install pre-commit --break-system-packages")
         run_shell("pre-commit install")
     else:
         print(generate_message("Can not install pre-commit."))
