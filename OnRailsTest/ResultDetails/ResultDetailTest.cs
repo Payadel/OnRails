@@ -15,7 +15,7 @@ public class ResultDetailTest {
         Assert.Equal(resultDetail.Title, title);
         Assert.Equal(resultDetail.Message, message);
         Assert.Equal(resultDetail.StatusCode, statusCode);
-        Assert.Single(resultDetail.MoreDetails!);
+        Assert.Single(resultDetail.MoreDetails);
     }
 
     [Fact]
@@ -27,10 +27,10 @@ public class ResultDetailTest {
     [Fact]
     public void AddDetail_GiveNewDetail_NewDetailAdded() {
         var resultDetail = new ResultDetail("title", moreDetails: new object());
-        var beforeDetailsCount = resultDetail.MoreDetails?.Count ?? 0;
+        var beforeDetailsCount = resultDetail.MoreDetails.Count;
 
         resultDetail.AddDetail(new object());
-        Assert.Equal(resultDetail.MoreDetails?.Count, beforeDetailsCount + 1);
+        Assert.Equal(resultDetail.MoreDetails.Count, beforeDetailsCount + 1);
     }
 
     [Fact]

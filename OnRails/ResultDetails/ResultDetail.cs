@@ -6,7 +6,7 @@ public class ResultDetail {
     public string Title { get; }
     public string? Message { get; }
     public int? StatusCode { get; }
-    public List<object>? MoreDetails { get; private set; }
+    public List<object> MoreDetails { get; } = [];
 
     public ResultDetail(string title, string? message = null, int? statusCode = null, object? moreDetails = null) {
         if (string.IsNullOrWhiteSpace(title))
@@ -21,14 +21,13 @@ public class ResultDetail {
 
     public ResultDetail AddDetail(object newDetail) {
         if (newDetail == null) throw new ArgumentNullException(nameof(newDetail));
-        MoreDetails ??= new List<object>();
         MoreDetails.Add(newDetail);
         return this;
     }
 
     public List<T> GetMoreDetailProperties<T>(string? name = null) {
-        if (MoreDetails is null || !MoreDetails.Any())
-            return new List<T>();
+        if (!MoreDetails.Any())
+            return [];
 
         var result = new List<T>();
         foreach (var detail in MoreDetails) {
