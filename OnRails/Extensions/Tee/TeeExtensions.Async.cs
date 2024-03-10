@@ -3,11 +3,11 @@ using OnRails.Extensions.Try;
 namespace OnRails.Extensions.Tee;
 
 public static partial class TeeExtensions {
-    public static async Task Tee<TResult>(
+    public static Task Tee<TResult>(
         Func<Task<TResult>> function,
         int numOfTry = 1
     ) {
-        await TryExtensions.Try(function, numOfTry);
+        return TryExtensions.Try(function, numOfTry);
     }
 
     public static async Task<T> Tee<T>(
