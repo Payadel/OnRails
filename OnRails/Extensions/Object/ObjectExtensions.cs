@@ -7,8 +7,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Object;
 
-//TODO: Test
-
 public static class ObjectExtensions {
     public static bool IsNullOrEmpty(
         this IEnumerable? source) =>

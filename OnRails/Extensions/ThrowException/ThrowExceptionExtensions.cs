@@ -8,11 +8,11 @@ public static class ThrowExceptionExtensions {
     private static Exception GenerateException(ResultDetail resultDetail) {
         Exception? innerException;
         switch (resultDetail) {
-            case ExceptionError {Exception: { }} exceptionError:
+            case ExceptionError { Exception: not null } exceptionError:
                 innerException = exceptionError.MainException;
                 break;
             case ErrorDetail errorDetail:
-                errorDetail.AddDetail(new {MainStackTrace = errorDetail.StackTrace.ToString()});
+                errorDetail.AddDetail(new { MainStackTrace = errorDetail.StackTrace.ToString() });
                 innerException = new Exception(JsonSerializer.Serialize(errorDetail));
                 break;
             default:

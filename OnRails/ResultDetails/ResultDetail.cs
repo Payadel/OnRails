@@ -16,7 +16,7 @@ public class ResultDetail {
         StatusCode = statusCode;
         Message = message;
         if (moreDetails is not null)
-            MoreDetails = new List<object> {moreDetails};
+            MoreDetails = [moreDetails];
     }
 
     public ResultDetail AddDetail(object newDetail) {
@@ -34,7 +34,7 @@ public class ResultDetail {
         foreach (var detail in MoreDetails) {
             if (string.IsNullOrWhiteSpace(name) && detail.GetType() == typeof(T)) {
                 //The whole object is our target
-                result.Add((T) detail);
+                result.Add((T)detail);
                 continue;
             }
 
@@ -46,7 +46,7 @@ public class ResultDetail {
 
             var objs = props.Select(prop => prop.GetValue(detail, null))
                 .Where(obj => obj is not null)
-                .Select(obj => (T) obj!);
+                .Select(obj => (T)obj!);
             result.AddRange(objs);
         }
 
@@ -66,7 +66,7 @@ public class ResultDetail {
             sb.AppendLine($"\tMessage: {Message}");
         if (StatusCode is not null)
             sb.AppendLine($"\tStatusCode: {StatusCode}");
-        if (MoreDetails is not null) {
+        if (MoreDetails.Count > 0) {
             sb.AppendLine("\tMoreDetails:");
             foreach (var detail in MoreDetails)
                 sb.AppendLine($"\t\t{detail}");

@@ -2,23 +2,13 @@ using System.Collections;
 
 namespace OnRails.ResultDetails;
 
-public sealed class ExceptionData {
-    public ExceptionData(Exception exception) {
-        StackTrace = exception.StackTrace;
-        Source = exception.Source;
-        Message = exception.Message;
-        InnerException = exception.InnerException?.ToString();
-        HResult = exception.HResult;
-        Data = exception.Data;
-        HelpLink = exception.HelpLink;
-    }
-
+public sealed class ExceptionData(Exception exception) {
     // Summary:
     //     Gets a string representation of the immediate frames on the call stack.
     //
     // Returns:
     //     A string that describes the immediate frames of the call stack.
-    public string? StackTrace { get; }
+    public string? StackTrace { get; } = exception.StackTrace;
 
     //
     // Summary:
@@ -30,7 +20,7 @@ public sealed class ExceptionData {
     // Exceptions:
     //   T:System.ArgumentException:
     //     The object must be a runtime System.Reflection object.
-    public string? Source { get; }
+    public string? Source { get; } = exception.Source;
 
     //
     // Summary:
@@ -39,7 +29,7 @@ public sealed class ExceptionData {
     // Returns:
     //     The error message that explains the reason for the exception, or an empty string
     //     ("").
-    public string Message { get; }
+    public string Message { get; } = exception.Message;
 
     //
     // Summary:
@@ -50,7 +40,7 @@ public sealed class ExceptionData {
     //     property returns the same value as was passed into the System.Exception.#ctor(System.String,System.Exception)
     //     constructor, or null if the inner exception value was not supplied to the constructor.
     //     This property is read-only.
-    public string? InnerException { get; }
+    public string? InnerException { get; } = exception.InnerException?.ToString();
 
     //
     // Summary:
@@ -59,7 +49,7 @@ public sealed class ExceptionData {
     //
     // Returns:
     //     The HRESULT value.
-    public int HResult { get; }
+    public int HResult { get; } = exception.HResult;
 
     //
     // Summary:
@@ -69,7 +59,7 @@ public sealed class ExceptionData {
     // Returns:
     //     An object that implements the System.Collections.IDictionary interface and contains
     //     a collection of user-defined key/value pairs. The default is an empty collection.
-    public IDictionary Data { get; }
+    public IDictionary Data { get; } = exception.Data;
 
     //
     // Summary:
@@ -77,5 +67,5 @@ public sealed class ExceptionData {
     //
     // Returns:
     //     The Uniform Resource Name (URN) or Uniform Resource Locator (URL).
-    public string? HelpLink { get; }
+    public string? HelpLink { get; } = exception.HelpLink;
 }

@@ -35,7 +35,6 @@ public static class BindExtensions {
         return Result<List<T>>.Ok(result);
     }, numOfTry: 1);
 
-    //TODO: Test
     public static Task<Result> Bind(
         this Task source,
         int numOfTry = 1,
@@ -43,7 +42,6 @@ public static class BindExtensions {
     ) => TryExtensions.Try(() => source, numOfTry)
         .OnSuccess(() => tasks.Bind(numOfTry));
 
-    //TODO: Test
     public static Task<Result<List<T>>> Bind<T>(
         this Task<T> source,
         int numOfTry = 1,

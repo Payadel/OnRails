@@ -4,8 +4,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Fail;
 
-//TODO: Test
-
 public static partial class FailExtensions {
     public static Result FailWhen(
         bool condition,

@@ -1,6 +1,8 @@
 namespace OnRails.ResultDetails;
 
-public class SuccessDetail : ResultDetail {
-    public SuccessDetail(string title = nameof(SuccessDetail), string? message = null, int? statusCode = null,
-        object? moreDetails = null) : base(title, message, statusCode, moreDetails) { }
-}
+public class SuccessDetail(
+    string title = nameof(SuccessDetail),
+    string? message = null,
+    int? statusCode = null,
+    object? moreDetails = null)
+    : ResultDetail(title, message, statusCode, moreDetails);

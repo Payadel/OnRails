@@ -36,8 +36,8 @@ public class ResultDetailTest {
     [Fact]
     public void GetMoreDetailProperties_GetExistObj_ReturnObject() {
         var result = new ResultDetail("Title");
-        result.AddDetail(new {duplicate_Obj = "duplicate_Obj", obj2 = "obj2"});
-        result.AddDetail(new {duplicate_Obj = "duplicate_Obj"});
+        result.AddDetail(new { duplicate_Obj = "duplicate_Obj", obj2 = "obj2" });
+        result.AddDetail(new { duplicate_Obj = "duplicate_Obj" });
 
         var objs = result.GetMoreDetailProperties<string>("obj2");
         Assert.Single(objs);
@@ -49,8 +49,8 @@ public class ResultDetailTest {
     [Fact]
     public void GetMoreDetailProperties_GetExistObjWithType_ReturnObject() {
         var result = new ResultDetail("Title");
-        var list = new List<string> {"1", "2"};
-        result.AddDetail(new {obj = "obj"});
+        var list = new List<string> { "1", "2" };
+        result.AddDetail(new { obj = "obj" });
         result.AddDetail(list);
 
         var objs = result.GetMoreDetailProperties<List<string>>();
@@ -61,8 +61,8 @@ public class ResultDetailTest {
     [Fact]
     public void GetMoreDetailProperties_GetNotExistObj_ReturnEmptyList() {
         var result = new ResultDetail("Title");
-        result.AddDetail(new {obj1 = "obj1", obj2 = "obj2-exist"});
-        result.AddDetail(new {obj3 = "obj3"});
+        result.AddDetail(new { obj1 = "obj1", obj2 = "obj2-exist" });
+        result.AddDetail(new { obj3 = "obj3" });
 
         Assert.False(result.GetMoreDetailProperties<string>("not-exist").Any());
         Assert.False(result.GetMoreDetailProperties<int>("obj2-exist").Any()); //invalid type

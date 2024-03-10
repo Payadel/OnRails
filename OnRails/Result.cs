@@ -21,13 +21,14 @@ public sealed class Result : ResultBase {
 }
 
 public sealed class Result<T> : ResultBase {
+    public T? Value { get; }
+
     private Result(T item, ResultDetail? detail = null) : base(true, detail) {
         Value = item;
     }
 
     private Result(ResultDetail? detail = null) : base(false, detail) { }
 
-    public T? Value { get; }
 
     public static Result<T> Ok(T item) {
         return new Result<T>(item);

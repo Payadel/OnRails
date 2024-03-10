@@ -4,8 +4,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Fail;
 
-//TODO: Test
-
 public static partial class FailExtensions {
     public static Result Fail(
         this Result source,
@@ -13,7 +11,7 @@ public static partial class FailExtensions {
         int numOfTry = 1
     ) {
         var failResult = Result.Fail(errorDetail);
-        if (!source.Success && source.Detail is not null) {
+        if (source is { Success: false, Detail: not null }) {
             return TryExtensions.Try(() => {
                 failResult.Detail!.AddDetail(source.Detail);
                 return failResult;
@@ -29,7 +27,7 @@ public static partial class FailExtensions {
         int numOfTry = 1
     ) {
         var failResult = Result<T>.Fail(errorDetail);
-        if (!source.Success && source.Detail is not null) {
+        if (source is { Success: false, Detail: not null }) {
             return TryExtensions.Try(() => {
                 failResult.Detail!.AddDetail(source.Detail);
                 return failResult;

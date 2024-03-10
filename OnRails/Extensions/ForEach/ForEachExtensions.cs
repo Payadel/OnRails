@@ -13,7 +13,7 @@ public static partial class ForEachExtensions {
     ) {
         foreach (var item in source) {
             var result = item.Try(function, numOfTry)
-                .OnFailAddMoreDetails(new {item});
+                .OnFailAddMoreDetails(new { item });
             if (!result.Success)
                 return result;
         }
@@ -29,7 +29,7 @@ public static partial class ForEachExtensions {
         var list = source.ToList();
         foreach (var item in list) {
             var result = item.OnSuccess(function, numOfTry)
-                .OnFailAddMoreDetails(new {item});
+                .OnFailAddMoreDetails(new { item });
             if (!result.Success)
                 return result;
         }
@@ -44,7 +44,7 @@ public static partial class ForEachExtensions {
     ) {
         foreach (var item in source) {
             var result = item.Try(function, numOfTry)
-                .OnFailAddMoreDetails(new {item});
+                .OnFailAddMoreDetails(new { item });
             if (!result.Success)
                 return result.Map();
         }
@@ -60,7 +60,7 @@ public static partial class ForEachExtensions {
         var list = source.ToList();
         foreach (var item in list) {
             var result = item.OnSuccess(function, numOfTry)
-                .OnFailAddMoreDetails(new {item});
+                .OnFailAddMoreDetails(new { item });
             if (!result.Success)
                 return result.Map();
         }
@@ -76,7 +76,7 @@ public static partial class ForEachExtensions {
         var list = source.ToList();
         foreach (var item in list) {
             var result = item.Try(action, numOfTry)
-                .OnFailAddMoreDetails(new {item});
+                .OnFailAddMoreDetails(new { item });
             if (!result.Success)
                 return result;
         }
@@ -92,7 +92,7 @@ public static partial class ForEachExtensions {
         var list = source.ToList();
         foreach (var item in list) {
             var result = item.OnSuccess(action, numOfTry)
-                .OnFailAddMoreDetails(new {item});
+                .OnFailAddMoreDetails(new { item });
             if (!result.Success)
                 return result;
         }

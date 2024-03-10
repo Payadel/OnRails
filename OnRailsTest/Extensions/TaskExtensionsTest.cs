@@ -18,13 +18,13 @@ public static class TaskExtensionsTest {
         return 1;
     });
 
-    private static readonly List<Task> SuccessfulTasks = new() {SuccessfulTask, SuccessfulTask};
+    private static readonly List<Task> SuccessfulTasks = [SuccessfulTask, SuccessfulTask];
 
     private static readonly List<Task<int>> SuccessfulTasksWithOutput =
-        new() {SuccessfulTaskWithOutput, SuccessfulTaskWithOutput};
+        [SuccessfulTaskWithOutput, SuccessfulTaskWithOutput];
 
-    private static readonly List<Task> FailTasks = new() {SuccessfulTask, FailTask};
-    private static readonly List<Task<int>> FailTasksWithOutput = new() {SuccessfulTaskWithOutput, FailTaskWithOutput};
+    private static readonly List<Task> FailTasks = [SuccessfulTask, FailTask];
+    private static readonly List<Task<int>> FailTasksWithOutput = [SuccessfulTaskWithOutput, FailTaskWithOutput];
 
     [Fact]
     public static async Task BindAsync_SuccessfulTasks_BindTasks() {

@@ -16,7 +16,7 @@ public static partial class SelectResultsExtensions {
 
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
-                    .OnFailAddMoreDetails(new {item});
+                    .OnFailAddMoreDetails(new { item });
                 if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 
@@ -36,7 +36,7 @@ public static partial class SelectResultsExtensions {
 
             foreach (var item in list) {
                 var result = item.Try(function, numOfTry)
-                    .OnFailAddMoreDetails(new {item});
+                    .OnFailAddMoreDetails(new { item });
                 if (!result.Success)
                     return Result<List<TResult>>.Fail(result.Detail as ErrorDetail);
 

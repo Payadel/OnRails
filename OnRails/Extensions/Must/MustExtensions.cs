@@ -9,8 +9,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Must;
 
-//TODO: Test
-
 public static class MustExtensions {
     public static Result<T> Must<T>(
         this T source,
@@ -57,5 +55,5 @@ public static class MustExtensions {
         ErrorDetail? errorDetail = null) =>
         source.FailWhen(source is null, errorDetail ?? new ErrorDetail(
                 title: "NullError", message: "Object is null."))
-            .Map((T) source!);
+            .Map((T)source!);
 }
