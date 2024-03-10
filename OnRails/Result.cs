@@ -23,7 +23,11 @@ public sealed class Result : ResultBase {
 public sealed class Result<T> : ResultBase {
     public T? Value { get; }
 
-    private Result(T item, ResultDetail? detail = null) : base(true, detail) {
+    private Result(T item) : base(true) {
+        Value = item;
+    }
+    
+    private Result(T item, ResultDetail detail) : base(true, detail) {
         Value = item;
     }
 
