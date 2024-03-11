@@ -17,7 +17,7 @@ internal static class TryHelper {
                 $"At least one of the errors was an exception type, the first exception being stored in the {nameof(ErrorDetail.Exception)} field.");
         }
 
-        var errorDetail = new ErrorDetail(title: $"Operation Failed!",
+        var errorDetail = new ErrorDetail(title: "Operation Failed!",
             message: message.ToString(),
             exception: exception,
             statusCode: 500);
