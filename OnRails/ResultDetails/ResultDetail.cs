@@ -16,7 +16,7 @@ public class ResultDetail {
         StatusCode = statusCode;
         Message = message;
         if (moreDetails is not null)
-            MoreDetails = [moreDetails];
+            MoreDetails.Add(moreDetails);
     }
 
     public ResultDetail AddDetail(object newDetail) {
