@@ -80,9 +80,10 @@ public class ResultDetail {
         if (StatusCode is not null)
             sb.AppendLine($"StatusCode: {StatusCode}");
         if (MoreDetails.Count > 0) {
-            sb.AppendLine("\tMoreDetails:");
+            sb.AppendLine()
+                .AppendLine("MoreDetails:");
             foreach (var detail in MoreDetails)
-                sb.AppendLine($"\t\t{detail}");
+                sb.AppendLine($"\t{detail}");
         }
 
         return sb.ToString();
