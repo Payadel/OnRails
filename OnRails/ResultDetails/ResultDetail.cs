@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 
 namespace OnRails.ResultDetails;
@@ -21,6 +22,7 @@ public class ResultDetail {
 
     public ResultDetail AddDetail(object newDetail) {
         if (newDetail == null) throw new ArgumentNullException(nameof(newDetail));
+
         MoreDetails.Add(newDetail);
         return this;
     }
@@ -29,27 +31,37 @@ public class ResultDetail {
         if (!MoreDetails.Any())
             return [];
 
-        var result = new List<T>();
-        foreach (var detail in MoreDetails) {
-            if (string.IsNullOrWhiteSpace(name) && detail.GetType() == typeof(T)) {
-                //The whole object is our target
-                result.Add((T)detail);
-                continue;
-            }
+        return MoreDetails
+            .Aggregate(new List<T>(), (result, detail) => {
+                result.AddRange(GetProperties<T>(detail, name));
+                return result;
+            });
+    }
 
-            var props = detail.GetType().GetProperties()
-                .Where(prop => prop.PropertyType == typeof(T));
-
-            if (!string.IsNullOrWhiteSpace(name))
-                props = props.Where(prop => prop.Name == name);
-
-            var objs = props.Select(prop => prop.GetValue(detail, null))
-                .Where(obj => obj is not null)
-                .Select(obj => (T)obj!);
-            result.AddRange(objs);
+    private static List<T> GetProperties<T>(object detail, string? name) {
+        if (string.IsNullOrWhiteSpace(name) && detail is T targetObject) {
+            // The whole object is our target
+            return [targetObject];
         }
 
-        return result;
+        var properties = GetProperties<T>(detail);
+        if (!string.IsNullOrWhiteSpace(name)) 
+            properties = properties.Where(prop => prop.Name == name);
+
+        var matchingObjects = properties
+            .Select(prop => prop.GetValue(detail))
+            .Where(obj => obj != null)
+            .OfType<T>() // Convert to type T
+            .ToList();
+
+        return matchingObjects;
+    }
+
+    private static IEnumerable<PropertyInfo> GetProperties<T>(object detail) {
+        var properties = detail
+            .GetType().GetProperties()
+            .Where(prop => prop.PropertyType == typeof(T));
+        return properties;
     }
 
     public virtual object GetViewModel() => new {
