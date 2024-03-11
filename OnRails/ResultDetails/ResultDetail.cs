@@ -45,7 +45,7 @@ public class ResultDetail {
         }
 
         var properties = GetProperties<T>(detail);
-        if (!string.IsNullOrWhiteSpace(name)) 
+        if (!string.IsNullOrWhiteSpace(name))
             properties = properties.Where(prop => prop.Name == name);
 
         var matchingObjects = properties
@@ -71,12 +71,12 @@ public class ResultDetail {
 
     public override string ToString() {
         var sb = new StringBuilder();
-        sb.AppendLine("Detail:")
-            .AppendLine($"\tTitle: {Title}");
+
+        sb.AppendLine($"Title: {Title}");
         if (Message is not null)
-            sb.AppendLine($"\tMessage: {Message}");
+            sb.AppendLine($"Message: {Message}");
         if (StatusCode is not null)
-            sb.AppendLine($"\tStatusCode: {StatusCode}");
+            sb.AppendLine($"StatusCode: {StatusCode}");
         if (MoreDetails.Count > 0) {
             sb.AppendLine("\tMoreDetails:");
             foreach (var detail in MoreDetails)
