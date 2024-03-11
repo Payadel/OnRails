@@ -26,7 +26,7 @@ public sealed class Result<T> : ResultBase {
     private Result(T item) : base(true) {
         Value = item;
     }
-    
+
     private Result(T item, ResultDetail detail) : base(true, detail) {
         Value = item;
     }

@@ -15,8 +15,10 @@ public abstract class ResultBase(bool success, ResultDetail? detail = null) {
     public override string ToString() {
         var sb = new StringBuilder();
         sb.AppendLine($"Success: {Success}");
+
         if (Detail is not null)
             sb.AppendLine(Detail.ToString());
+
         return sb.ToString();
     }
 }
