@@ -25,7 +25,7 @@ public static partial class TryExtensions {
         Func<TSource, TResult> function,
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry);
-    
+
     private static Result Try(
         Func<Result> function,
         int numOfTry,
@@ -120,13 +120,13 @@ public static partial class TryExtensions {
         Func<TSource, Result<TResult>> function,
         int numOfTry = 1) => Try(() => function(source), numOfTry);
 
-    
+
     public static Result Try<TSource>(
         this TSource source,
         Func<TSource, Result> function,
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry, false);
-    
+
     public static Result TryOnExceptions<TSource>(
         this TSource source,
         Func<TSource, Result> function,
