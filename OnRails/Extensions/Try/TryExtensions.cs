@@ -103,20 +103,20 @@ public static partial class TryExtensions {
         int numOfTry = 1
     ) => Try(() => action(source), numOfTry);
 
-    //TODO: Test
+
     public static Task<Result<TResult>> Try<TSource, TResult>(
         this TSource source,
         Func<TSource, Task<Result<TResult>>> function,
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry);
 
-    //TODO: Test
+
     public static Result<TResult> Try<TSource, TResult>(
         this TSource source,
         Func<TSource, Result<TResult>> function,
         int numOfTry = 1) => Try(() => function(source), numOfTry);
 
-    //TODO: Test
+
     public static Result Try<TSource>(
         this TSource source,
         Func<TSource, Result> function,
