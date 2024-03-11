@@ -52,10 +52,15 @@ public sealed class Result<T> : ResultBase {
     public override string ToString() {
         var sb = new StringBuilder();
         sb.AppendLine($"Success: {Success}");
-        if (Success && Value is not null)
-            sb.AppendLine($"Value: {Value}");
+
+        if (Success) {
+            var value = Value is null ? "null" : Value.ToString();
+            sb.AppendLine($"Value: {value}");
+        }
+
         if (Detail is not null)
             sb.AppendLine(Detail.ToString());
+
         return sb.ToString();
     }
 }
