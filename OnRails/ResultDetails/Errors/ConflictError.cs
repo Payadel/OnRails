@@ -2,7 +2,8 @@
 
 public class ConflictError(
     string title = nameof(ConflictError),
-    string? message = null,
+    string? message =
+        "The request could not be completed due to a conflict with the current state of the target resource.",
     Exception? exception = null,
     object? moreDetails = null)
     : ErrorDetail(title, message, 409, exception, moreDetails);

@@ -1,12 +1,11 @@
 using System.Text;
-using Microsoft.AspNetCore.Http;
 
 namespace OnRails.ResultDetails.Errors;
 
 public class ValidationError(
     string title = nameof(ValidationError),
     string? message = "One or more validation errors occurred.",
-    int? statusCode = StatusCodes.Status400BadRequest,
+    int? statusCode = 400,
     Exception? exception = null,
     object? moreDetails = null)
     : ErrorDetail(title, message, statusCode, exception, moreDetails) {

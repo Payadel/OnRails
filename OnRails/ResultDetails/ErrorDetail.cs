@@ -4,9 +4,13 @@ using System.Text;
 namespace OnRails.ResultDetails;
 
 public class ErrorDetail : ResultDetail {
-    public ErrorDetail(string title = nameof(ErrorDetail), string? message = null, int? statusCode = null,
-        Exception? exception = null, object? moreDetails = null) : base(
-        title, message, statusCode, moreDetails) {
+    public ErrorDetail(
+        string title = nameof(ErrorDetail),
+        string? message = "An error occurred",
+        int? statusCode = 500,
+        Exception? exception = null,
+        object? moreDetails = null) :
+        base(title, message, statusCode, moreDetails) {
         if (exception != null)
             Exception = new ExceptionData(exception);
     }
@@ -16,8 +20,10 @@ public class ErrorDetail : ResultDetail {
 
     public override string ToString() {
         var sb = new StringBuilder(base.ToString());
+
         if (Exception is not null)
             sb.AppendLine($"Exception:\n\t{Exception}");
+
         sb.AppendLine($"StackTrace:\n\t{StackTrace}");
         return sb.ToString();
     }

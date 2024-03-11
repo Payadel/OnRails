@@ -3,8 +3,8 @@
 public class ExceptionError(
     Exception exception,
     string title = nameof(ExceptionError),
-    string? message = null,
+    string? message = "An unexpected error occurred.",
     object? moreDetails = null)
-    : InternalError(title, message ?? "An exception has occurred.", exception: exception, moreDetails: moreDetails) {
+    : InternalError(title, message, exception: exception, moreDetails: moreDetails) {
     public Exception MainException { get; } = exception;
 }
