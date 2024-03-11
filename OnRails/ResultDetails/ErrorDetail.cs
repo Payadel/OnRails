@@ -3,20 +3,15 @@ using System.Text;
 
 namespace OnRails.ResultDetails;
 
-public class ErrorDetail : ResultDetail {
-    public ErrorDetail(
-        string title = nameof(ErrorDetail),
-        string? message = "An error occurred",
-        int? statusCode = 500,
-        Exception? exception = null,
-        object? moreDetails = null) :
-        base(title, message, statusCode, moreDetails) {
-        if (exception != null)
-            Exception = new ExceptionData(exception);
-    }
-
+public class ErrorDetail(
+    string title = nameof(ErrorDetail),
+    string? message = "An error occurred",
+    int? statusCode = 500,
+    Exception? exception = null,
+    object? moreDetails = null)
+    : ResultDetail(title, message, statusCode, moreDetails) {
     public StackTrace StackTrace { get; } = new(1, true);
-    public ExceptionData? Exception { get; }
+    public Exception? Exception { get; } = exception;
 
     public override string ToString() {
         var sb = new StringBuilder(base.ToString());
