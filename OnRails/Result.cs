@@ -1,4 +1,5 @@
 using System.Text;
+using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.Try;
 using OnRails.ResultDetails;
 
@@ -47,7 +48,8 @@ public sealed class Result<T> : ResultBase {
     }
 
     public static Result<T> Fail(Func<ErrorDetail?> errorDetailFunc, int numOfTry = 1) =>
-        TryExtensions.Try(() => new Result<T>(errorDetailFunc()), numOfTry);
+        TryExtensions.Try(errorDetailFunc, numOfTry: numOfTry)
+            .OnSuccess(Fail);
 
     public override string ToString() {
         var sb = new StringBuilder();
