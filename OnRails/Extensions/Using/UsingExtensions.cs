@@ -5,23 +5,7 @@ namespace OnRails.Extensions.Using;
 
 [DebuggerStepThrough]
 public static partial class UsingExtensions {
-    public static Result<TResult> Using<TSource, TResult>(
-        this TSource obj,
-        Func<TSource, TResult> function,
-        int numOfTry = 1) where TSource : IDisposable =>
-        obj.Using(() => function(obj), numOfTry);
-
-    public static Result Using<T>(
-        this T obj,
-        Func<T, Result> function,
-        int numOfTry = 1) where T : IDisposable =>
-        obj.Using(() => function(obj), numOfTry);
-
-    public static Result<TResult> Using<TSource, TResult>(
-        this TSource obj,
-        Func<TSource, Result<TResult>> function,
-        int numOfTry = 1) where TSource : IDisposable =>
-        obj.Using(() => function(obj), numOfTry);
+    #region <TSource, Result<TResult>>
 
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
@@ -29,19 +13,16 @@ public static partial class UsingExtensions {
         int numOfTry = 1) where TSource : IDisposable =>
         TryExtensions.Try(() => {
             using (obj) {
-                return Result<TResult>.Ok(function());
+                var tResult = function();
+                return Result<TResult>.Ok(tResult);
             }
         }, numOfTry);
 
-    public static Result Using<TSource>(
+    public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
-        Func<Result> function,
+        Func<TSource, TResult> function,
         int numOfTry = 1) where TSource : IDisposable =>
-        TryExtensions.Try(() => {
-            using (obj) {
-                return function();
-            }
-        }, numOfTry);
+        obj.Using(() => function(obj), numOfTry);
 
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
@@ -53,19 +34,48 @@ public static partial class UsingExtensions {
             }
         }, numOfTry);
 
-    public static Result Using<TSource>(
+    public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
-        Action<TSource> action,
+        Func<TSource, Result<TResult>> function,
         int numOfTry = 1) where TSource : IDisposable =>
-        obj.Using(() => action(obj), numOfTry);
+        obj.Using(() => function(obj), numOfTry);
 
-    public static Result Using<TSource>(
-        this TSource obj,
+    #endregion
+
+    #region <T, Result>
+
+    public static Result Using<T>(
+        this T obj,
+        Func<Result> function,
+        int numOfTry = 1) where T : IDisposable =>
+        TryExtensions.Try(() => {
+            using (obj) {
+                return function();
+            }
+        }, numOfTry);
+
+    public static Result Using<T>(
+        this T obj,
+        Func<T, Result> function,
+        int numOfTry = 1) where T : IDisposable =>
+        obj.Using(() => function(obj), numOfTry);
+
+    public static Result Using<T>(
+        this T obj,
         Action action,
-        int numOfTry = 1) where TSource : IDisposable =>
+        int numOfTry = 1) where T : IDisposable =>
         TryExtensions.Try(() => {
             using (obj) {
                 action();
             }
         }, numOfTry);
+
+
+    public static Result Using<T>(
+        this T obj,
+        Action<T> action,
+        int numOfTry = 1) where T : IDisposable =>
+        obj.Using(() => action(obj), numOfTry);
+
+    #endregion
 }
