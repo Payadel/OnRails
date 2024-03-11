@@ -25,10 +25,11 @@ public static partial class TryExtensions {
         Func<TSource, TResult> function,
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry);
-
-    public static Result Try(
+    
+    private static Result Try(
         Func<Result> function,
-        int numOfTry = 1
+        int numOfTry,
+        bool tryOnlyOnExceptions
     ) {
         var errors = new List<object>(numOfTry);
 
@@ -36,7 +37,7 @@ public static partial class TryExtensions {
             try {
                 var result = function();
 
-                if (result.Success || numOfTry == 1) {
+                if (result.Success || numOfTry == 1 || tryOnlyOnExceptions) {
                     return result;
                 }
 
@@ -51,6 +52,16 @@ public static partial class TryExtensions {
         var errorDetail = TryHelper.GenerateError(errors, numOfTry);
         return Result.Fail(errorDetail);
     }
+
+    public static Result Try(
+        Func<Result> function,
+        int numOfTry = 1
+    ) => Try(function, numOfTry, false);
+
+    public static Result TryOnExceptions(
+        Func<Result> function,
+        int numOfTry = 1
+    ) => Try(function, numOfTry, true);
 
     public static Result<T> Try<T>(
         Func<Result<T>> function,
@@ -104,22 +115,21 @@ public static partial class TryExtensions {
     ) => Try(() => action(source), numOfTry);
 
 
-    public static Task<Result<TResult>> Try<TSource, TResult>(
-        this TSource source,
-        Func<TSource, Task<Result<TResult>>> function,
-        int numOfTry = 1
-    ) => Try(() => function(source), numOfTry);
-
-
     public static Result<TResult> Try<TSource, TResult>(
         this TSource source,
         Func<TSource, Result<TResult>> function,
         int numOfTry = 1) => Try(() => function(source), numOfTry);
 
-
+    
     public static Result Try<TSource>(
         this TSource source,
         Func<TSource, Result> function,
         int numOfTry = 1
-    ) => Try(() => function(source), numOfTry);
+    ) => Try(() => function(source), numOfTry, false);
+    
+    public static Result TryOnExceptions<TSource>(
+        this TSource source,
+        Func<TSource, Result> function,
+        int numOfTry = 1
+    ) => Try(() => function(source), numOfTry, true);
 }

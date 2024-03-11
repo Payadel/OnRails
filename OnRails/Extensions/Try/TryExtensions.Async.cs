@@ -20,18 +20,17 @@ public static partial class TryExtensions {
         return Result<T>.Fail(errorDetail);
     }
 
-    //TODO: Test
     //TODO: Add this and change name to source
     public static Task<Result> Try(
         Task task,
         int numOfTry = 1
     ) => Try(async () => await task, numOfTry);
 
-    //TODO: Test
     //TODO: Add this and change name to source
-    public static async Task<Result> Try(
+    private static async Task<Result> Try(
         Task<Result> task,
-        int numOfTry = 1
+        int numOfTry,
+        bool tryOnlyOnExceptions
     ) {
         var errors = new List<object>(numOfTry);
 
@@ -39,7 +38,7 @@ public static partial class TryExtensions {
             try {
                 var result = await task;
 
-                if (result.Success || numOfTry == 1) {
+                if (result.Success || numOfTry == 1 || tryOnlyOnExceptions) {
                     return result;
                 }
 
@@ -55,9 +54,25 @@ public static partial class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
+    public static Task<Result> Try(
+        Task<Result> task,
+        int numOfTry = 1
+    ) => Try(task, numOfTry, tryOnlyOnExceptions: false);
+
+    public static Task<Result> TryOnExceptions(
+        Task<Result> task,
+        int numOfTry = 1
+    ) => Try(task, numOfTry, tryOnlyOnExceptions: true);
+
     public static Task<Result<T>> Try<T>(
         this T source,
         Func<T, Task<T>> function,
+        int numOfTry = 1
+    ) => Try(() => function(source), numOfTry);
+
+    public static Task<Result<TResult>> Try<TSource, TResult>(
+        this TSource source,
+        Func<TSource, Task<Result<TResult>>> function,
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry);
 
@@ -107,9 +122,10 @@ public static partial class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
-    public static async Task<Result> Try(
+    private static async Task<Result> Try(
         Func<Task<Result>> function,
-        int numOfTry = 1
+        int numOfTry,
+        bool tryOnlyOnExceptions
     ) {
         var errors = new List<object>(numOfTry);
 
@@ -117,7 +133,7 @@ public static partial class TryExtensions {
             try {
                 var result = await function();
 
-                if (result.Success || numOfTry == 1) {
+                if (result.Success || numOfTry == 1 || tryOnlyOnExceptions) {
                     return result;
                 }
 
@@ -132,6 +148,17 @@ public static partial class TryExtensions {
         var errorDetail = TryHelper.GenerateError(errors, numOfTry);
         return Result.Fail(errorDetail);
     }
+
+    public static Task<Result> Try(
+        Func<Task<Result>> function,
+        int numOfTry = 1
+    ) => Try(function, numOfTry, false);
+
+    public static Task<Result> TryOnExceptions(
+        Func<Task<Result>> function,
+        int numOfTry = 1
+    ) => Try(function, numOfTry, true);
+
 
     public static Task<Result> Try<T>(
         this T source,
@@ -176,10 +203,11 @@ public static partial class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
-    public static async Task<Result> Try(
+    private static async Task<Result> Try(
         this Task source,
         Func<Result> function,
-        int numOfTry = 1
+        int numOfTry,
+        bool tryOnlyOnExceptions
     ) {
         var errors = new List<object>(numOfTry);
 
@@ -188,7 +216,7 @@ public static partial class TryExtensions {
                 await source;
                 var result = function();
 
-                if (result.Success || numOfTry == 1) {
+                if (result.Success || numOfTry == 1 || tryOnlyOnExceptions) {
                     return result;
                 }
 
@@ -204,10 +232,23 @@ public static partial class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
-    public static async Task<Result> Try(
+    public static Task<Result> Try(
+        this Task source,
+        Func<Result> function,
+        int numOfTry = 1
+    ) => source.Try(function, numOfTry, false);
+
+    public static Task<Result> TryOnExceptions(
+        this Task source,
+        Func<Result> function,
+        int numOfTry = 1
+    ) => source.Try(function, numOfTry, true);
+
+    private static async Task<Result> Try(
         this Task source,
         Func<Task<Result>> function,
-        int numOfTry = 1
+        int numOfTry,
+        bool tryOnlyOnExceptions
     ) {
         var errors = new List<object>(numOfTry);
 
@@ -216,7 +257,7 @@ public static partial class TryExtensions {
                 await source;
                 var result = await function();
 
-                if (result.Success || numOfTry == 1) {
+                if (result.Success || numOfTry == 1 || tryOnlyOnExceptions) {
                     return result;
                 }
 
@@ -232,13 +273,24 @@ public static partial class TryExtensions {
         return Result.Fail(errorDetail);
     }
 
+    public static Task<Result> Try(
+        this Task source,
+        Func<Task<Result>> function,
+        int numOfTry = 1
+    ) => source.Try(function, numOfTry, false);
+
+    public static Task<Result> TryOnExceptions(
+        this Task source,
+        Func<Task<Result>> function,
+        int numOfTry = 1
+    ) => source.Try(function, numOfTry, true);
+
     public static Task<Result> Try<T>(
         this Task<T> source,
         Func<T, Task> function,
         int numOfTry = 1
     ) => Try(async () => await function(await source), numOfTry);
 
-    //TODO: Test
     public static Task<Result<T>> Try<T>(
         this Task<T> source,
         Func<T, Task<Result<T>>> onSuccessFunction,
@@ -251,25 +303,29 @@ public static partial class TryExtensions {
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry);
 
-    public static Task<Result> Try<T>(
-        this Task<T> source,
-        Func<T, Task<Result>> onSuccessFunction,
+    public static Task<Result> TryOnExceptions<T>(
+        this T source,
+        Func<T, Task<Result>> function,
         int numOfTry = 1
-    ) => Try(async () => await onSuccessFunction(await source), numOfTry);
+    ) => TryOnExceptions(() => function(source), numOfTry);
 
-//TODO: Test
-//TODO: Add this and change name to source
+    //TODO: Fix this
+    // public static Task<Result> Try<T>(
+    //     this Task<T> source,
+    //     Func<T, Task<Result>> onSuccessFunction,
+    //     int numOfTry = 1
+    // ) =>  Try(async () =>  onSuccessFunction(await source), numOfTry);
+
+    //TODO: Add this and change name to source
     public static Task<Result<T>> Try<T>(Task<T> task, int numOfTry = 1) =>
         Try(async () => await task, numOfTry);
 
-    //TODO: Test
     public static Task<Result<TResult>> Try<TSource, TResult>(
         this TSource source,
         Func<TSource, Task<TResult>> function,
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry);
 
-//TODO: Test
     public static Task<Result<T>> Try<T>(Task<Result<T>> task,
         int numOfTry = 1
     ) => Try(async () => await task, numOfTry);
