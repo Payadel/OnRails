@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text;
+using OnRails.Utilities;
 
 namespace OnRails.ResultDetails;
 
@@ -11,7 +12,10 @@ public class ErrorDetail(
     object? moreDetails = null)
     : ResultDetail(title, message, statusCode, moreDetails) {
     public List<KeyValuePair<string, string>> Errors { get; } = [];
-    public StackTrace StackTrace { get; } = new(1, true);
+
+    public StackTrace StackTrace { get; } = new StackTrace(1, true)
+        .RemoveFrames(Constants.AppNamespace);
+
     public Exception? Exception { get; } = exception;
 
     public override string ToString() {
