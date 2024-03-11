@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using OnRails.ResultDetails;
 
 namespace OnRails;
 
+[DebuggerStepThrough]
 public abstract class ResultBase(bool success, ResultDetail? detail = null) {
     public bool Success { get; } = success;
     public ResultDetail? Detail { get; set; } = detail;
