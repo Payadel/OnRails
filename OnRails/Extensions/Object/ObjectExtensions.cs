@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using OnRails.Extensions.Must;
 using OnRails.Extensions.OnFail;
 using OnRails.Extensions.OnSuccess;
@@ -7,6 +8,7 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Object;
 
+[DebuggerStepThrough]
 public static class ObjectExtensions {
     public static bool IsNullOrEmpty(
         this IEnumerable? source) =>

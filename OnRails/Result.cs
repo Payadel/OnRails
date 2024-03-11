@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.Try;
@@ -5,6 +6,7 @@ using OnRails.ResultDetails;
 
 namespace OnRails;
 
+[DebuggerStepThrough]
 public sealed class Result : ResultBase {
     private Result(bool success, ResultDetail? detail = null) : base(success, detail) { }
 
@@ -21,6 +23,7 @@ public sealed class Result : ResultBase {
     }
 }
 
+[DebuggerStepThrough]
 public sealed class Result<T> : ResultBase {
     public T? Value { get; }
 

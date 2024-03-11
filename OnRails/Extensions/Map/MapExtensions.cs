@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OnRails.Extensions.Fail;
 using OnRails.Extensions.OnFail;
 using OnRails.Extensions.OnSuccess;
@@ -6,6 +7,7 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Map;
 
+[DebuggerStepThrough]
 public static partial class MapExtensions {
     #region Map
 

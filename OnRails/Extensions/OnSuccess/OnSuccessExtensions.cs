@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using OnRails.Extensions.Try;
 using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.OnSuccess;
 
+[DebuggerStepThrough]
 public static partial class OnSuccessExtensions {
     public static Result<TResult> OnSuccess<TSource, TResult>(
         this Result<TSource> source,

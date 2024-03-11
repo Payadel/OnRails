@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.Tee;
 
+[DebuggerStepThrough]
 public static partial class TeeExtensions {
     public static T Tee<T>(
         this T source,

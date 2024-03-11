@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OnRails.Extensions.ActionResult;
 
+[DebuggerStepThrough]
 public class ActionResultObject : ObjectResult {
     public ActionResultObject(ResultBase result) : base(result) {
         StatusCode =

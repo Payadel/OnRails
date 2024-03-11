@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.OnFail;
 
+[DebuggerStepThrough]
 public static partial class OnFailExtensions {
     public static Result<T> OnFail<T>(
         this Result<T> source,

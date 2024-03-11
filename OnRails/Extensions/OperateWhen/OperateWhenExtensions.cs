@@ -1,9 +1,11 @@
-﻿using OnRails.Extensions.OnSuccess;
+﻿using System.Diagnostics;
+using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.Try;
 using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.OperateWhen;
 
+[DebuggerStepThrough]
 public static partial class OperateWhenExtensions {
     public static Result OperateWhen(
         bool condition,
