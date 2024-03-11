@@ -10,6 +10,7 @@ namespace OnRails.Extensions.Object;
 
 [DebuggerStepThrough]
 public static class ObjectExtensions {
+    [Obsolete("This method will remove in next version.")]
     public static bool IsNullOrEmpty(
         this IEnumerable? source) =>
         source is null || !source.GetEnumerator().MoveNext();

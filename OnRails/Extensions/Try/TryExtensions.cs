@@ -22,7 +22,7 @@ public static partial class TryExtensions {
         var errorDetail = TryHelper.GenerateError(errors, numOfTry);
         return Result<T>.Fail(errorDetail);
     }
-    
+
     public static Result<T> Try<T>(
         Func<Result<T>> function,
         int numOfTry = 1
@@ -54,8 +54,8 @@ public static partial class TryExtensions {
         Func<TSource, TResult> function,
         int numOfTry = 1
     ) => Try(() => function(source), numOfTry);
-    
-    
+
+
     public static Result<TResult> Try<TSource, TResult>(
         this TSource source,
         Func<TSource, Result<TResult>> function,

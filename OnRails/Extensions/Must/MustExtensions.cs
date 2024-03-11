@@ -40,6 +40,7 @@ public static class MustExtensions {
     ) => TryExtensions.Try(predicate, numOfTry)
         .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc)), numOfTry: 1);
 
+    [Obsolete("This method will remove in next version.")]
     public static Result MustNotNullOrEmpty(
         this IEnumerable? source,
         ErrorDetail? errorDetail = null
