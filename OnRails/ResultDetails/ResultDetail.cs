@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
 namespace OnRails.ResultDetails;
 
+[DebuggerStepThrough]
 public class ResultDetail {
     public string Title { get; }
     public string? Message { get; }

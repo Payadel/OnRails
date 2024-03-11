@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OnRails.Extensions.Map;
 using OnRails.Extensions.OnFail;
 using OnRails.Extensions.OnSuccess;
@@ -5,6 +6,7 @@ using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.ForEach;
 
+[DebuggerStepThrough]
 public static partial class ForEachExtensions {
     public static Result ForEachUntilIsSuccess<T>(
         this IEnumerable<T> source,

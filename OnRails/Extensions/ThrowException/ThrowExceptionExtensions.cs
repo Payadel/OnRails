@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using System.Text.Json;
 using OnRails.ResultDetails;
 using OnRails.ResultDetails.Errors;
 
 namespace OnRails.Extensions.ThrowException;
 
+[DebuggerStepThrough]
 public static class ThrowExceptionExtensions {
     private static Exception GenerateException(ResultDetail resultDetail) {
         Exception? innerException;

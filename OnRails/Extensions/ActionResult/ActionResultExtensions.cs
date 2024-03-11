@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.ActionResult;
 
+[DebuggerStepThrough]
 public static class ActionResultExtensions {
     public static ActionResultObject ReturnResult(this Result result) => new(result);
 

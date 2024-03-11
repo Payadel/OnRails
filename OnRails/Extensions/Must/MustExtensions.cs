@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using OnRails.Extensions.Fail;
 using OnRails.Extensions.Map;
 using OnRails.Extensions.Object;
@@ -9,6 +10,7 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Must;
 
+[DebuggerStepThrough]
 public static class MustExtensions {
     public static Result<T> Must<T>(
         this T source,

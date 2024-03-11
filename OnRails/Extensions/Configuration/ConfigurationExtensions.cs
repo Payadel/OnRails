@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnRails.Extensions.Map;
@@ -6,6 +7,7 @@ using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.Configuration;
 
+[DebuggerStepThrough]
 public static class ConfigurationExtensions {
     public static Result<T> GetConfig<T>(this IConfiguration source, int numOfTry = 1) =>
         TryExtensions.Try(() =>

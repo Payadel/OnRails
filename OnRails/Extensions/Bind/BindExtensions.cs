@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.Try;
 using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Bind;
 
+[DebuggerStepThrough]
 public static class BindExtensions {
     public static async Task<Result> Bind(
         this IEnumerable<Task> tasks,

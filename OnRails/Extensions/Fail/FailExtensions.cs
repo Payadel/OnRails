@@ -1,9 +1,11 @@
-﻿using OnRails.Extensions.OnSuccess;
+﻿using System.Diagnostics;
+using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.Try;
 using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.Fail;
 
+[DebuggerStepThrough]
 public static partial class FailExtensions {
     public static Result Fail(
         this Result source,

@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.Using;
 
+[DebuggerStepThrough]
 public static partial class UsingExtensions {
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,

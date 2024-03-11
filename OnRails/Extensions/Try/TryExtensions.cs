@@ -1,5 +1,8 @@
+using System.Diagnostics;
+
 namespace OnRails.Extensions.Try;
 
+[DebuggerStepThrough]
 public static partial class TryExtensions {
     public static Result<T> Try<T>(
         Func<T> function,

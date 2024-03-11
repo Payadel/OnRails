@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OnRails.Extensions.OnFail;
 using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.Try;
@@ -5,6 +6,7 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.SelectResults;
 
+[DebuggerStepThrough]
 public static partial class SelectResultsExtensions {
     public static Result<List<TResult>> SelectResults<TSource, TResult>(
         this IEnumerable<TSource> source,
