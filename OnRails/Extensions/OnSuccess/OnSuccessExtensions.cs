@@ -3,8 +3,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.OnSuccess;
 
-//TODO: Test
-
 public static partial class OnSuccessExtensions {
     public static Result<TResult> OnSuccess<TSource, TResult>(
         this Result<TSource> source,

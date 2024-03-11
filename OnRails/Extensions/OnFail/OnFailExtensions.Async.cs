@@ -2,8 +2,6 @@ using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.OnFail;
 
-//TODO: Test
-
 public static partial class OnFailExtensions {
     public static async Task<Result<TSource>> OnFail<TSource>(
         this Task<Result<TSource>> source,

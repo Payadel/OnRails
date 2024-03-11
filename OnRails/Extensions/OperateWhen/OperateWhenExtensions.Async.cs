@@ -3,8 +3,6 @@ using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.OperateWhen;
 
-//TODO: Test
-
 public static partial class OperateWhenExtensions {
     public static Task<Result> OperateWhen(
         bool condition,

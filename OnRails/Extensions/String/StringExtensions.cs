@@ -5,8 +5,6 @@ using OnRails.ResultDetails.Errors;
 
 namespace OnRails.Extensions.String;
 
-//TODO: Test
-
 public static class StringExtensions {
     public static Result<string> MustMatchRegex(
         this string source,

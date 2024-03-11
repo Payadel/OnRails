@@ -4,8 +4,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.OnSuccess;
 
-//TODO: Test
-
 public static partial class OnSuccessExtensions {
     public static async Task<Result<TResult>> OnSuccess<TSource, TResult>(
         this Result<TSource> source,

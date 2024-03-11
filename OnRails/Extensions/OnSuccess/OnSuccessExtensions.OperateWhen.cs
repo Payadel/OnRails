@@ -2,8 +2,6 @@ using OnRails.Extensions.OperateWhen;
 
 namespace OnRails.Extensions.OnSuccess;
 
-//TODO: Test all methods
-
 public static partial class OnSuccessExtensions {
     public static Result OnSuccessOperateWhen(
         this Result source,

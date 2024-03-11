@@ -3,8 +3,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.OnSuccess;
 
-//TODO: Test all methods
-
 public static partial class OnSuccessExtensions {
     public static Result OnSuccessFailWhen(
         this Result source,

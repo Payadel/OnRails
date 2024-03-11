@@ -2,8 +2,6 @@ using OnRails.Extensions.Tee;
 
 namespace OnRails.Extensions.OnFail;
 
-//TODO: Test
-
 public static partial class OnFailExtensions {
     public static Task<Result<TSource>> OnFailTee<TSource, TResult>(
         this Task<Result<TSource>> source,

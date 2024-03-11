@@ -2,8 +2,6 @@ using OnRails.Extensions.Tee;
 
 namespace OnRails.Extensions.OperateWhen;
 
-//TODO: Test
-
 public static partial class OperateWhenExtensions {
     public static Task<T> TeeOperateWhen<T>(
         this T source,

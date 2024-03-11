@@ -4,8 +4,6 @@ using OnRails.ResultDetails;
 
 namespace OnRails.Extensions.OperateWhen;
 
-//TODO: Test
-
 public static partial class OperateWhenExtensions {
     public static Result OperateWhen(
         bool condition,

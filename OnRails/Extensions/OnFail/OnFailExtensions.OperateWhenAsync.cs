@@ -3,8 +3,6 @@ using OnRails.Extensions.Try;
 
 namespace OnRails.Extensions.OnFail;
 
-//TODO: Test
-
 public static partial class OnFailExtensions {
     public static Task<Result> OnFailOperateWhen(
         this Task<Result> source,
