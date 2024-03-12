@@ -20,7 +20,6 @@ public class ErrorDetail(
 
     public override string ToString() {
         var sb = new StringBuilder(base.ToString());
-        sb.AppendLine();
 
         var customFields = CustomFieldsToString();
         if (!string.IsNullOrEmpty(customFields))
@@ -46,14 +45,15 @@ public class ErrorDetail(
         for (var i = 0; i < Errors.Count; i++) {
             if (Errors.Count > 1)
                 sb.AppendLine($"\tError {i + 1}:");
-            sb.AppendLine($"\t\t{Errors[i].ToString()}");
-            sb.AppendLine();
+            sb.AppendLine($"\t{Errors[i].ToString()}");
         }
-        
+
+        sb.AppendLine();
+
         return sb.ToString();
     }
 
-    protected virtual string CustomFieldsToString() {
-        return "";
+    protected virtual string? CustomFieldsToString() {
+        return null;
     }
 }

@@ -79,8 +79,7 @@ public class ResultDetail {
             sb.AppendLine($"Status Code: {StatusCode}");
 
         if (MoreDetails.Count > 0) {
-            sb.AppendLine()
-                .AppendLine("MoreDetails:");
+            sb.AppendLine("MoreDetails:");
             foreach (var detail in MoreDetails)
                 sb.AppendLine($"\t{detail}");
         }

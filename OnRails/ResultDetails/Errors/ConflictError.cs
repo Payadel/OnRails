@@ -10,9 +10,9 @@ public class ConflictError(
     : ErrorDetail(title, message, 409, exception, moreDetails) {
     public string? ObjectIdentity { get; } = objectIdentity;
 
-    protected override string CustomFieldsToString() {
+    protected override string? CustomFieldsToString() {
         return ObjectIdentity is null
-            ? ""
+            ? null
             : $"Object Identity: {ObjectIdentity}";
     }
 }
