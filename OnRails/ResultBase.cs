@@ -15,6 +15,10 @@ public abstract class ResultBase(bool success, ResultDetail? detail = null) {
         return Success ? defaultSuccessCode : defaultFailCode;
     }
 
+    public void RemoveDetail() {
+        Detail = null;
+    }
+
     public override string ToString() {
         var sb = new StringBuilder();
         sb.AppendLine($"Success: {Success}");
