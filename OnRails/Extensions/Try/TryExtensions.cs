@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using OnRails.ResultDetails;
+using OnRails.ResultDetails.Errors;
 
 namespace OnRails.Extensions.Try;
 
@@ -8,14 +10,14 @@ public static partial class TryExtensions {
         Func<T> function,
         int numOfTry = 1
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 return Result<T>.Ok(function());
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -27,21 +29,20 @@ public static partial class TryExtensions {
         Func<Result<T>> function,
         int numOfTry = 1
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 var result = function();
 
-                if (result.Success || numOfTry == 1) {
+                if (result.Success || numOfTry == 1) 
                     return result;
-                }
 
                 if (result.Detail is not null)
-                    errors.Add(result.Detail);
+                    errors.Add((ErrorDetail)result.Detail);
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -66,21 +67,20 @@ public static partial class TryExtensions {
         int numOfTry,
         bool tryOnlyOnExceptions
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 var result = function();
 
-                if (result.Success || numOfTry == 1 || tryOnlyOnExceptions) {
+                if (result.Success || numOfTry == 1 || tryOnlyOnExceptions) 
                     return result;
-                }
 
                 if (result.Detail is not null)
-                    errors.Add(result.Detail);
+                    errors.Add((ErrorDetail)result.Detail);
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -102,7 +102,7 @@ public static partial class TryExtensions {
         Action action,
         int numOfTry = 1
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -110,7 +110,7 @@ public static partial class TryExtensions {
                 return Result.Ok();
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 

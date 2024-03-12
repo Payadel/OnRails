@@ -1,3 +1,6 @@
+using OnRails.ResultDetails;
+using OnRails.ResultDetails.Errors;
+
 namespace OnRails.Extensions.Try;
 
 public static partial class TryExtensions {
@@ -5,14 +8,14 @@ public static partial class TryExtensions {
         Func<Task<T>> function,
         int numOfTry = 1
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
                 return Result<T>.Ok(await function());
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -30,7 +33,7 @@ public static partial class TryExtensions {
         int numOfTry,
         bool tryOnlyOnExceptions
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -41,10 +44,10 @@ public static partial class TryExtensions {
                 }
 
                 if (result.Detail is not null)
-                    errors.Add(result.Detail);
+                    errors.Add((ErrorDetail)result.Detail);
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -78,7 +81,7 @@ public static partial class TryExtensions {
         Func<Task<Result<T>>> function,
         int numOfTry = 1
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -89,10 +92,10 @@ public static partial class TryExtensions {
                 }
 
                 if (result.Detail is not null)
-                    errors.Add(result.Detail);
+                    errors.Add((ErrorDetail)result.Detail);
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -104,7 +107,7 @@ public static partial class TryExtensions {
         Func<Task> function,
         int numOfTry = 1
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -112,7 +115,7 @@ public static partial class TryExtensions {
                 return Result.Ok();
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -125,7 +128,7 @@ public static partial class TryExtensions {
         int numOfTry,
         bool tryOnlyOnExceptions
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -136,10 +139,10 @@ public static partial class TryExtensions {
                 }
 
                 if (result.Detail is not null)
-                    errors.Add(result.Detail);
+                    errors.Add((ErrorDetail)result.Detail);
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -184,7 +187,7 @@ public static partial class TryExtensions {
         Action action,
         int numOfTry = 1
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -193,7 +196,7 @@ public static partial class TryExtensions {
                 return Result.Ok();
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -207,7 +210,7 @@ public static partial class TryExtensions {
         int numOfTry,
         bool tryOnlyOnExceptions
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -219,10 +222,10 @@ public static partial class TryExtensions {
                 }
 
                 if (result.Detail is not null)
-                    errors.Add(result.Detail);
+                    errors.Add((ErrorDetail)result.Detail);
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
@@ -248,7 +251,7 @@ public static partial class TryExtensions {
         int numOfTry,
         bool tryOnlyOnExceptions
     ) {
-        var errors = new List<object>(numOfTry);
+        var errors = new List<ErrorDetail>(numOfTry);
 
         for (var counter = 0; counter < numOfTry; counter++) {
             try {
@@ -260,10 +263,10 @@ public static partial class TryExtensions {
                 }
 
                 if (result.Detail is not null)
-                    errors.Add(result.Detail);
+                    errors.Add((ErrorDetail)result.Detail);
             }
             catch (Exception e) {
-                errors.Add(e);
+                errors.Add(new ExceptionError(e));
             }
         }
 
