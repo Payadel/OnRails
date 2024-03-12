@@ -52,4 +52,10 @@ public class ErrorDetail(
     protected virtual string? CustomFieldsToString() {
         return null;
     }
+
+    public override object GetViewModel() => new {
+        Title,
+        Message,
+        Errors
+    };
 }
