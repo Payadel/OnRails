@@ -1,4 +1,6 @@
 using OnRails.Extensions.OperateWhen;
+using OnRails.ResultDetails;
+using OnRails.ResultDetails.Errors;
 
 namespace OnRails.Extensions.OnFail;
 
@@ -116,4 +118,75 @@ public static partial class OnFailExtensions {
         Func<Result> predicate,
         Result<T> result
     ) => source.OnFailOperateWhen(predicate().Success, result);
+
+    #region Condition base ErrorDetail or Exception type
+
+    public static Result OnFailOperateWhen(
+        this Result source,
+        Type errorOrExceptionType,
+        Result result
+    ) => source.OnFail(() => {
+        var errorDetail = (ErrorDetail)source.Detail!;
+
+        if (errorOrExceptionType.IsAssignableTo(typeof(ErrorDetail)))
+            return source.OperateWhen(source.IsDetailTypeOf(errorOrExceptionType), result);
+        if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
+            return source.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), result);
+
+        return Result.Fail(new ValidationError(
+            message:
+            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+    });
+
+    public static Result OnFailOperateWhen(
+        this Result source,
+        Type errorOrExceptionType,
+        Func<Result> function,
+        int numOfTry = 1
+    ) => source.OnFail(() => {
+        var errorDetail = (ErrorDetail)source.Detail!;
+
+        if (errorOrExceptionType.IsAssignableTo(typeof(ErrorDetail)))
+            return source.OperateWhen(source.IsDetailTypeOf(errorOrExceptionType), function, numOfTry);
+        if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
+            return source.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), function);
+
+        return Result.Fail(new ValidationError(
+            message:
+            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+    });
+
+    public static Result OnFailOperateWhen(
+        this Result source,
+        Type errorOrExceptionType,
+        Func<Result, Result> function,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(errorOrExceptionType, () => function(source), numOfTry);
+
+    public static Result<TSource> OnFailOperateWhen<TSource>(
+        this Result<TSource> source,
+        Type errorOrExceptionType,
+        Func<Result<TSource>> function,
+        int numOfTry = 1
+    ) => source.OnFail(() => {
+        var errorDetail = (ErrorDetail)source.Detail!;
+
+        if (errorOrExceptionType.IsAssignableTo(typeof(ErrorDetail)))
+            return source.OperateWhen(source.IsDetailTypeOf(errorOrExceptionType), function, numOfTry);
+        if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
+            return source.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), function);
+
+        return Result<TSource>.Fail(new ValidationError(
+            message:
+            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+    });
+
+    public static Result<TSource> OnFailOperateWhen<TSource>(
+        this Result<TSource> source,
+        Type errorOrExceptionType,
+        Func<Result<TSource>, Result<TSource>> function,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(errorOrExceptionType, () => function(source), numOfTry);
+
+    #endregion
 }

@@ -1,5 +1,7 @@
 using OnRails.Extensions.OperateWhen;
 using OnRails.Extensions.Try;
+using OnRails.ResultDetails;
+using OnRails.ResultDetails.Errors;
 
 namespace OnRails.Extensions.OnFail;
 
@@ -330,4 +332,25 @@ public static partial class OnFailExtensions {
         int numOfTry = 1) => TryExtensions.Try(source, numOfTry)
         .OnFail(sourceResult => sourceResult.OperateWhen(() => predicate(sourceResult).Success, result, numOfTry),
             numOfTry: 1);
+
+    #region Condition base ErrorDetail or Exception type
+
+    public static Task<Result> OnFailOperateWhen(
+        this Task<Result> source,
+        Type errorOrExceptionType,
+        Result result
+    ) => source.OnFail(srcResult => {
+        var errorDetail = (ErrorDetail)srcResult.Detail!;
+
+        if (errorOrExceptionType.IsAssignableTo(typeof(ErrorDetail)))
+            return srcResult.OperateWhen(srcResult.IsDetailTypeOf(errorOrExceptionType), result);
+        if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
+            return srcResult.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), result);
+
+        return Result.Fail(new ValidationError(
+            message:
+            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+    });
+
+    #endregion
 }
