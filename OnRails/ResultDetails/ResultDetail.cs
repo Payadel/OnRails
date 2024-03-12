@@ -27,6 +27,8 @@ public class ResultDetail {
         MoreDetails.Add(newDetail);
     }
 
+    public bool IsTypeOf(Type type) => GetType() == type;
+
     public List<T> GetMoreDetailProperties<T>(string? name = null) {
         if (MoreDetails.Count == 0)
             return [];
