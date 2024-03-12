@@ -8,8 +8,9 @@ public class ErrorDetail(
     string title = nameof(ErrorDetail),
     string? message = "An error occurred",
     int? statusCode = 500,
-    object? moreDetails = null)
-    : ResultDetail(title, message, statusCode, moreDetails) {
+    object? moreDetails = null,
+    bool view = false)
+    : ResultDetail(title, message, statusCode, moreDetails, view) {
     public List<object> Errors { get; } = [];
 
     public StackTrace StackTrace { get; } = new StackTrace(1, true)

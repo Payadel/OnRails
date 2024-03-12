@@ -3,5 +3,6 @@
 public class CreatedDetail(
     string title = nameof(CreatedDetail),
     string? message = "Resource created successfully.",
-    object? moreDetails = null)
-    : SuccessDetail(title, message, 201, moreDetails);
+    object? moreDetails = null,
+    bool view = false)
+    : SuccessDetail(title, message, 201, moreDetails, view);

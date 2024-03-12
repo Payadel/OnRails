@@ -10,14 +10,17 @@ public class ResultDetail {
     public string? Message { get; protected init; }
     public int? StatusCode { get; protected init; }
     public List<object> MoreDetails { get; } = [];
+    public bool View { get; set; }
 
-    public ResultDetail(string title, string? message = null, int? statusCode = null, object? moreDetails = null) {
+    public ResultDetail(string title, string? message = null, int? statusCode = null, object? moreDetails = null,
+        bool view = false) {
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(title));
 
         Title = title;
         Message = message;
         StatusCode = statusCode;
+        View = view;
         if (moreDetails is not null)
             MoreDetails.Add(moreDetails);
     }
@@ -79,6 +82,7 @@ public class ResultDetail {
             sb.AppendLine($"Message: {Message}");
         if (StatusCode is not null)
             sb.AppendLine($"Status Code: {StatusCode}");
+        sb.AppendLine($"View: {View}");
 
         if (MoreDetails.Count > 0) {
             sb.AppendLine("MoreDetails:");

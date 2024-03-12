@@ -3,5 +3,6 @@
 public class NotImplementedError(
     string title = nameof(NotImplementedError),
     string? message = "The requested functionality is not implemented.",
-    object? moreDetails = null)
-    : ErrorDetail(title, message, 501, moreDetails);
+    object? moreDetails = null,
+    bool view = false)
+    : ErrorDetail(title, message, 501, moreDetails, view);
