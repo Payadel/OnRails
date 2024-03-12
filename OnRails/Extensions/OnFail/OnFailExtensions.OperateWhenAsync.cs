@@ -347,9 +347,11 @@ public static partial class OnFailExtensions {
         if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
             return srcResult.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), result);
 
-        return Result.Fail(new ValidationError(
-            message:
-            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+        return Result.Fail(new ValidationError([
+                new(errorOrExceptionType.Name,
+                    $"is not type of {nameof(ErrorDetail)} or {nameof(Exception)}.")
+            ]
+        ));
     });
 
     #endregion

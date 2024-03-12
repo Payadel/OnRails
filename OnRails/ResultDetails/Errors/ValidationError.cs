@@ -3,6 +3,7 @@ using System.Text;
 namespace OnRails.ResultDetails.Errors;
 
 public sealed class ValidationError(
+    List<KeyValuePair<string, string>> errors,
     string title = nameof(ValidationError),
     string? message = "One or more validation errors occurred.",
     int? statusCode = 400,

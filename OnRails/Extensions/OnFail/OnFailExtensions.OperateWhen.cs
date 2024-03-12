@@ -133,9 +133,11 @@ public static partial class OnFailExtensions {
         if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
             return source.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), result);
 
-        return Result.Fail(new ValidationError(
-            message:
-            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+        return Result.Fail(new ValidationError([
+                new(errorOrExceptionType.Name,
+                    $"is not type of {nameof(ErrorDetail)} or {nameof(Exception)}.")
+            ]
+        ));
     });
 
     public static Result OnFailOperateWhen(
@@ -151,9 +153,11 @@ public static partial class OnFailExtensions {
         if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
             return source.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), function);
 
-        return Result.Fail(new ValidationError(
-            message:
-            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+        return Result.Fail(new ValidationError([
+                new(errorOrExceptionType.Name,
+                    $"is not type of {nameof(ErrorDetail)} or {nameof(Exception)}.")
+            ]
+        ));
     });
 
     public static Result OnFailOperateWhen(
@@ -176,9 +180,11 @@ public static partial class OnFailExtensions {
         if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
             return source.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), function);
 
-        return Result<TSource>.Fail(new ValidationError(
-            message:
-            $"{errorOrExceptionType.Name} is not type of {nameof(ErrorDetail)} or {nameof(Exception)}."));
+        return Result<TSource>.Fail(new ValidationError([
+                new(errorOrExceptionType.Name,
+                    $"is not type of {nameof(ErrorDetail)} or {nameof(Exception)}.")
+            ]
+        ));
     });
 
     public static Result<TSource> OnFailOperateWhen<TSource>(
