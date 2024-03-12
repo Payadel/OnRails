@@ -16,6 +16,7 @@ public class ResultDetail {
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(title));
 
         Title = title;
+        Message = message;
         StatusCode = statusCode;
         Message = message;
         if (moreDetails is not null)
@@ -29,7 +30,7 @@ public class ResultDetail {
     }
 
     public List<T> GetMoreDetailProperties<T>(string? name = null) {
-        if (!MoreDetails.Any())
+        if (MoreDetails.Count == 0)
             return [];
 
         return MoreDetails
