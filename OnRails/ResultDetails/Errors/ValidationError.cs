@@ -22,8 +22,8 @@ public sealed class ValidationError(
         Errors
     };
 
-    protected override string ErrorsToString() {
-        if (Errors.Count <= 0) return "";
+    protected override string? ErrorsToString() {
+        if (Errors.Count <= 0) return null;
 
         var sb = new StringBuilder();
 
