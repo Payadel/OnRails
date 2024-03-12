@@ -28,7 +28,7 @@ public sealed class ValidationError(
 
         var sb = new StringBuilder();
 
-        sb.AppendLine("Errors:\n");
+        sb.AppendLine("Errors:");
         foreach (var (key, value) in Errors)
             sb.AppendLine($"\t{key}: {value}");
 
