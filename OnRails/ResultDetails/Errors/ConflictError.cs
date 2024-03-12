@@ -15,4 +15,10 @@ public class ConflictError(
             ? null
             : $"Object Identity: {ObjectIdentity}";
     }
+
+    public override object GetViewModel() => new {
+        Title,
+        Message,
+        ObjectIdentity
+    };
 }
