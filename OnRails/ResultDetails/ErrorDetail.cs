@@ -15,6 +15,8 @@ public class ErrorDetail(
     public StackTrace StackTrace { get; } = new StackTrace(1, true)
         .RemoveFrames(Constants.AppNamespace);
 
+    public bool HasErrorTypeOf(Type type) => Errors.Any(error => error.GetType() == type);
+
     public override string ToString() {
         var sb = new StringBuilder(base.ToString());
 
