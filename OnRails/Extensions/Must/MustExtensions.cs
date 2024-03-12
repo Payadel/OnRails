@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Diagnostics;
 using OnRails.Extensions.Fail;
 using OnRails.Extensions.Map;
-using OnRails.Extensions.Object;
 using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.OperateWhen;
 using OnRails.Extensions.Try;
@@ -39,20 +37,6 @@ public static class MustExtensions {
         int numOfTry = 1
     ) => TryExtensions.Try(predicate, numOfTry)
         .OnSuccess(condition => source.OperateWhen(!condition, Result<T>.Fail(errorDetailFunc)), numOfTry: 1);
-
-    //TODO: Remove
-    [Obsolete("This method will remove in next version.")]
-    public static Result MustNotNullOrEmpty(
-        this IEnumerable? source,
-        ErrorDetail? errorDetail = null
-    ) {
-        var error = errorDetail ?? new ErrorDetail(
-            title: "IsNullOrEmptyError",
-            message: "object is not null or empty.");
-        return source.IsNullOrEmpty()
-            ? Result.Fail(error)
-            : Result.Ok();
-    }
 
     public static Result<T> MustNotNull<T>(
         this object? source,
