@@ -18,7 +18,6 @@ public class ResultDetail {
         Title = title;
         Message = message;
         StatusCode = statusCode;
-        Message = message;
         if (moreDetails is not null)
             MoreDetails.Add(moreDetails);
     }
@@ -26,7 +25,6 @@ public class ResultDetail {
     public void AddDetail(object newDetail) {
         ArgumentNullException.ThrowIfNull(newDetail);
         MoreDetails.Add(newDetail);
-        return this;
     }
 
     public List<T> GetMoreDetailProperties<T>(string? name = null) {
@@ -78,7 +76,8 @@ public class ResultDetail {
         if (Message is not null)
             sb.AppendLine($"Message: {Message}");
         if (StatusCode is not null)
-            sb.AppendLine($"StatusCode: {StatusCode}");
+            sb.AppendLine($"Status Code: {StatusCode}");
+
         if (MoreDetails.Count > 0) {
             sb.AppendLine()
                 .AppendLine("MoreDetails:");
