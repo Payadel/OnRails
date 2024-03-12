@@ -6,9 +6,9 @@ namespace OnRails.ResultDetails;
 
 [DebuggerStepThrough]
 public class ResultDetail {
-    public string Title { get; }
-    public string? Message { get; }
-    public int? StatusCode { get; }
+    public string Title { get; protected init; }
+    public string? Message { get; protected init; }
+    public int? StatusCode { get; protected init; }
     public List<object> MoreDetails { get; } = [];
 
     public ResultDetail(string title, string? message = null, int? statusCode = null, object? moreDetails = null) {

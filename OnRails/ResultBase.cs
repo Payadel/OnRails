@@ -6,7 +6,7 @@ namespace OnRails;
 
 [DebuggerStepThrough]
 public abstract class ResultBase(bool success, ResultDetail? detail = null) {
-    public bool Success { get; } = success;
+    public bool Success { get; protected init; } = success;
     public ResultDetail? Detail { get; set; } = detail;
     public bool HasStatusCode => Detail?.StatusCode is not null;
 
