@@ -19,6 +19,8 @@ public abstract class ResultBase(bool success, ResultDetail? detail = null) {
         Detail = null;
     }
 
+    public bool IsDetailTypeOf(Type type) => Detail?.IsTypeOf(type) ?? false;
+
     public override string ToString() {
         var sb = new StringBuilder();
         sb.AppendLine($"Success: {Success}");
