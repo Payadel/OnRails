@@ -12,8 +12,5 @@ internal static class Helper {
 
         if (numOfTry > 0)
             Assert.True(errorDetail!.MoreDetails.Count >= numOfTry);
-
-        if (hasExceptionType)
-            Assert.True(errorDetail!.Exception is not null);
     }
 }

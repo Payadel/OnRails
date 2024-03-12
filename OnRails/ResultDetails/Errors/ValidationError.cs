@@ -6,9 +6,8 @@ public sealed class ValidationError(
     string title = nameof(ValidationError),
     string? message = "One or more validation errors occurred.",
     int? statusCode = 400,
-    Exception? exception = null,
     object? moreDetails = null)
-    : ErrorDetail(title, message, statusCode, exception, moreDetails) {
+    : ErrorDetail(title, message, statusCode, moreDetails) {
     public new List<KeyValuePair<string, string>> Errors { get; } = [];
 
     public ValidationError AddError(string parameterName, string description) {

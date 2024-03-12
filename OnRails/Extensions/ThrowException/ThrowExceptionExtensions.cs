@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
 using OnRails.ResultDetails;
-using OnRails.ResultDetails.Errors;
 
 namespace OnRails.Extensions.ThrowException;
 
@@ -10,9 +9,6 @@ public static class ThrowExceptionExtensions {
     private static Exception GenerateException(ResultDetail resultDetail) {
         Exception? innerException;
         switch (resultDetail) {
-            case ExceptionError { Exception: not null } exceptionError:
-                innerException = exceptionError.MainException;
-                break;
             case ErrorDetail errorDetail:
                 errorDetail.AddDetail(new { MainStackTrace = errorDetail.StackTrace.ToString() });
                 innerException = new Exception(JsonSerializer.Serialize(errorDetail));

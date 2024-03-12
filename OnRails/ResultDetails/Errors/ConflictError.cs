@@ -5,9 +5,8 @@ public class ConflictError(
     string? message =
         "The request could not be completed due to a conflict with the current state of the target resource.",
     string? objectIdentity = null,
-    Exception? exception = null,
     object? moreDetails = null)
-    : ErrorDetail(title, message, 409, exception, moreDetails) {
+    : ErrorDetail(title, message, 409, moreDetails) {
     public string? ObjectIdentity { get; } = objectIdentity;
 
     protected override string? CustomFieldsToString() {
