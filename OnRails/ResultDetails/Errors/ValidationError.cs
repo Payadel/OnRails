@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace OnRails.ResultDetails.Errors;
 
 public sealed class ValidationError(
@@ -7,6 +9,8 @@ public sealed class ValidationError(
     Exception? exception = null,
     object? moreDetails = null)
     : ErrorDetail(title, message, statusCode, exception, moreDetails) {
+    public new List<KeyValuePair<string, string>> Errors { get; } = [];
+
     public ValidationError AddError(string parameterName, string description) {
         Errors.Add(new KeyValuePair<string, string>(parameterName, description));
         return this;
@@ -17,4 +21,16 @@ public sealed class ValidationError(
         Message,
         Errors
     };
+
+    protected override string ErrorsToString() {
+        if (Errors.Count <= 0) return "";
+
+        var sb = new StringBuilder();
+
+        sb.AppendLine("Errors:\n");
+        foreach (var (key, value) in Errors)
+            sb.AppendLine($"\t{key}: {value}");
+
+        return sb.ToString();
+    }
 }
