@@ -22,9 +22,8 @@ public class ResultDetail {
             MoreDetails.Add(moreDetails);
     }
 
-    public ResultDetail AddDetail(object newDetail) {
-        if (newDetail == null) throw new ArgumentNullException(nameof(newDetail));
-
+    public void AddDetail(object newDetail) {
+        ArgumentNullException.ThrowIfNull(newDetail);
         MoreDetails.Add(newDetail);
         return this;
     }
