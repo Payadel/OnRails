@@ -10,7 +10,7 @@ public abstract class ResultBase(bool success, ResultDetail? detail = null) {
     public ResultDetail? Detail { get; set; } = detail;
     public bool HasStatusCode => Detail?.StatusCode is not null;
 
-    public int GetStatusCodeOrDefault(int defaultSuccessCode = 200, int defaultFailCode = 500) {
+    public int GetStatusCodeOrDefault(int defaultSuccessCode, int defaultFailCode) {
         if (HasStatusCode) return (int)Detail!.StatusCode!;
         return Success ? defaultSuccessCode : defaultFailCode;
     }
