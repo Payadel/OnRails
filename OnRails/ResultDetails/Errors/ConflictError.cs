@@ -16,9 +16,10 @@ public class ConflictError(
             : $"Object Identity: {ObjectIdentity}";
     }
 
-    public override object GetViewModel() => new {
-        Title,
-        Message,
-        ObjectIdentity
-    };
+    public override Dictionary<string, object?> GetViewModel() =>
+        new() {
+            { nameof(Title), Title },
+            { nameof(Message), Message },
+            { nameof(ObjectIdentity), ObjectIdentity }
+        };
 }

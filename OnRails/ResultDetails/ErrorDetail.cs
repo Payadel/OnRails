@@ -53,9 +53,10 @@ public class ErrorDetail(
         return null;
     }
 
-    public override object GetViewModel() => new {
-        Title,
-        Message,
-        Errors
-    };
+    public override Dictionary<string, object?> GetViewModel() =>
+        new() {
+            { nameof(Title), Title },
+            { nameof(Message), Message },
+            { nameof(Errors), Errors }
+        };
 }

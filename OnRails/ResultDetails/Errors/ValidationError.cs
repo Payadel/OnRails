@@ -24,11 +24,12 @@ public class ValidationError : ErrorDetail {
 
     public new List<KeyValue> Errors { get; }
 
-    public override object GetViewModel() => new {
-        Title,
-        Message,
-        Errors = Errors.ToDictionary()
-    };
+    public override Dictionary<string, object?> GetViewModel() =>
+        new() {
+            { nameof(Title), Title },
+            { nameof(Message), Message },
+            { nameof(Errors), Errors.ToDictionary() }
+        };
 
     protected override string? ErrorsToString() {
         if (Errors.Count <= 0) return null;

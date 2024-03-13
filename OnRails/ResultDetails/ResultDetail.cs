@@ -69,10 +69,11 @@ public class ResultDetail {
         return properties;
     }
 
-    public virtual object GetViewModel() => new {
-        Title,
-        Message,
-    };
+    public virtual Dictionary<string, object?> GetViewModel() =>
+        new() {
+            { nameof(Title), Title },
+            { nameof(Message), Message }
+        };
 
     public override string ToString() {
         var sb = new StringBuilder();
