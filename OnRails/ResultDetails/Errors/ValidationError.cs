@@ -4,7 +4,8 @@ using OnRails.Utilities;
 namespace OnRails.ResultDetails.Errors;
 
 public class ValidationError : ErrorDetail {
-    public ValidationError(List<KeyValue> errors,
+    public ValidationError(
+        List<KeyValue> errors,
         string title = nameof(ValidationError),
         string? message = "One or more validation errors occurred.",
         int? statusCode = 400,
@@ -13,7 +14,8 @@ public class ValidationError : ErrorDetail {
         Errors = errors;
     }
 
-    public ValidationError(KeyValue error,
+    public ValidationError(
+        KeyValue error,
         string title = nameof(ValidationError),
         string? message = "One or more validation errors occurred.",
         int? statusCode = 400,
