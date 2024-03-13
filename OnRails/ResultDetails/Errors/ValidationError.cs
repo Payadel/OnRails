@@ -3,25 +3,31 @@ using OnRails.Utilities;
 
 namespace OnRails.ResultDetails.Errors;
 
-public sealed class ValidationError(
-    List<KeyValue> errors,
-    string title = nameof(ValidationError),
-    string? message = "One or more validation errors occurred.",
-    int? statusCode = 400,
-    object? moreDetails = null,
-    bool view = false)
-    : ErrorDetail(title, message, statusCode, moreDetails, view) {
-    public new List<KeyValue> Errors { get; } = errors;
-
-    public ValidationError AddError(string parameterName, string description) {
-        Errors.Add(new KeyValue(parameterName, description));
-        return this;
+public class ValidationError : ErrorDetail {
+    public ValidationError(List<KeyValue> errors,
+        string title = nameof(ValidationError),
+        string? message = "One or more validation errors occurred.",
+        int? statusCode = 400,
+        object? moreDetails = null,
+        bool view = false) : base(title, message, statusCode, moreDetails, view) {
+        Errors = errors;
     }
+
+    public ValidationError(KeyValue error,
+        string title = nameof(ValidationError),
+        string? message = "One or more validation errors occurred.",
+        int? statusCode = 400,
+        object? moreDetails = null,
+        bool view = false) : base(title, message, statusCode, moreDetails, view) {
+        Errors = [error];
+    }
+
+    public new List<KeyValue> Errors { get; }
 
     public override object GetViewModel() => new {
         Title,
         Message,
-        Errors
+        Errors = Errors.ToDictionary()
     };
 
     protected override string? ErrorsToString() {

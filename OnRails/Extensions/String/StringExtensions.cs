@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using OnRails.Extensions.Fail;
 using OnRails.ResultDetails;
 using OnRails.ResultDetails.Errors;
+using OnRails.Utilities;
 
 namespace OnRails.Extensions.String;
 
@@ -13,8 +14,7 @@ public static class StringExtensions {
         Regex regex,
         ErrorDetail? errorDetail = null) =>
         source.FailWhen(!regex.IsMatch(source),
-            errorDetail ?? new ValidationError([
-                    new(source, $"is not match with {regex}")
-                ]
+            errorDetail ?? new ValidationError(
+                new KeyValue(source, $"is not match with {regex}")
             ));
 }

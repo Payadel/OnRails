@@ -5,3 +5,8 @@ public record KeyValue(string Key, string Value) {
         return $"{Key}: {Value}";
     }
 }
+
+internal static class KeyValueExtensions {
+    public static Dictionary<string, string> ToDictionary(this IEnumerable<KeyValue> keyValues) =>
+        keyValues.Select(error => (error.Key, error.Value)).ToDictionary();
+}
