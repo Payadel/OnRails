@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace OnRails.Extensions.ActionResult;
 
 [DebuggerStepThrough]
-public class ActionResultObject : ObjectResult {
-    public ActionResultObject(ResultBase result) : base(result) {
+public class ActionResultView : ObjectResult {
+    public ActionResultView(ResultBase result) : base(result) {
         var hasDetailView = result.Detail != null;
         var view = hasDetailView && result.Detail!.View;
 
@@ -14,8 +14,9 @@ public class ActionResultObject : ObjectResult {
     }
 }
 
-public class ActionResultObject<T> : ObjectResult {
-    public ActionResultObject(Result<T> result) : base(result) {
+[DebuggerStepThrough]
+public class ActionResultView<T> : ObjectResult {
+    public ActionResultView(Result<T> result) : base(result) {
         var hasDetailView = result.Detail != null;
         var view = hasDetailView && result.Detail!.View;
 
