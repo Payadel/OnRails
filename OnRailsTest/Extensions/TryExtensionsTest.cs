@@ -26,7 +26,7 @@ public class TryExtensionsTest {
     private static void FailActionWithInput(string input) => throw new Exception();
     private static string FailFunctionReturnString() => throw new Exception();
     private static string FailFunctionReturnInput(string input) => throw new Exception();
-    private static Result FailFunctionReturnResult() => Result.Fail(new BadRequestError());
+    private static Result FailFunctionReturnResult() => Result.Fail(new BadRequestError([]));
 
     #endregion
 
@@ -103,10 +103,10 @@ public class TryExtensionsTest {
 
     //----------------------------------------------------------------------------
     private static Result<string> FailFunctionReturnResultWithString() =>
-        Result<string>.Fail(new BadRequestError());
+        Result<string>.Fail(new BadRequestError([]));
 
     private static Result<string> FailFunctionReturnResultWithString(string input) =>
-        Result<string>.Fail(new BadRequestError());
+        Result<string>.Fail(new BadRequestError([]));
 
     [Fact]
     public void Try_FailAction_ReturnExceptionError() {
