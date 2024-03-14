@@ -1,5 +1,8 @@
+using System.Diagnostics;
+
 namespace OnRails.Utilities;
 
+[DebuggerStepThrough]
 public record KeyValue(string Key, string Value) {
     public override string ToString() {
         return $"{Key}: {Value}";
