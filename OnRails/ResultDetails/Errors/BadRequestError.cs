@@ -2,9 +2,9 @@
 
 namespace OnRails.ResultDetails.Errors;
 
-public class BadRequestError : ErrorDetail<KeyValue> {
+public class BadRequestError : ErrorDetail<KeyValue<string>> {
     public BadRequestError(
-        List<KeyValue> errors,
+        List<KeyValue<string>> errors,
         string title = nameof(BadRequestError),
         string? message = "Bad request. Please check your request parameters.",
         int? statusCode = 400,
@@ -12,12 +12,14 @@ public class BadRequestError : ErrorDetail<KeyValue> {
         bool view = false) : base(errors, title, message, statusCode, moreDetails, view) { }
 
     public BadRequestError(
-        KeyValue error,
+        string errorKey,
+        string errorValue,
         string title = nameof(BadRequestError),
         string? message = "Bad request. Please check your request parameters.",
         int? statusCode = 400,
         object? moreDetails = null,
-        bool view = false) : base(error, title, message, statusCode, moreDetails, view) { }
+        bool view = false) : base(new KeyValue<string>(errorKey, errorValue), title, message, statusCode, moreDetails,
+        view) { }
 
 
     public override bool IsTypeOf(Type type) => GetType() == type;
