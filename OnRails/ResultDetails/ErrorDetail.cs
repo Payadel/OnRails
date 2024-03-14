@@ -11,27 +11,49 @@ public class ErrorDetail(
     object? moreDetails = null,
     bool view = false)
     : ResultDetail(title, message, statusCode, moreDetails, view) {
-    public List<object> Errors { get; } = [];
-
     public StackTrace StackTrace { get; } = new StackTrace(1, true)
         .RemoveFrames(Constants.AppNamespace);
-
-    public bool HasErrorTypeOf(Type type) => Errors.Any(error => error.GetType() == type);
 
     public override string ToString() {
         var sb = new StringBuilder(base.ToString());
 
-        var customFields = CustomFieldsToString();
-        if (!string.IsNullOrEmpty(customFields))
-            sb.AppendLine(customFields);
-
-        var errors = ErrorsToString();
-        if (!string.IsNullOrEmpty(errors))
-            sb.AppendLine(errors);
-
         sb.AppendLine($"StackTrace:\n\t{StackTrace.ToString().Trim()}");
-
         return sb.ToString();
+    }
+
+    public override Dictionary<string, object?> GetViewModel() =>
+        new() {
+            { nameof(Title), Title },
+            { nameof(Message), Message },
+        };
+}
+
+public abstract class ErrorDetail<T> : ErrorDetail where T : class {
+    protected ErrorDetail(
+        T error,
+        string title = nameof(ErrorDetail),
+        string? message = "An error occurred",
+        int? statusCode = 500,
+        object? moreDetails = null,
+        bool view = false) : base(title, message, statusCode, moreDetails, view) {
+        Errors ??= [];
+        Errors.Add(error);
+    }
+
+    protected ErrorDetail(
+        List<T> errors,
+        string title = nameof(ErrorDetail),
+        string? message = "An error occurred",
+        int? statusCode = 500,
+        object? moreDetails = null,
+        bool view = false) : base(title, message, statusCode, moreDetails, view) {
+        Errors = errors;
+    }
+
+    public List<T> Errors { get; }
+
+    protected override string? CustomFieldsToString() {
+        return ErrorsToString();
     }
 
     protected virtual string? ErrorsToString() {
@@ -40,17 +62,10 @@ public class ErrorDetail(
         var sb = new StringBuilder();
 
         sb.AppendLine($"Errors ({Errors.Count}):");
-        for (var i = 0; i < Errors.Count; i++) {
-            if (Errors.Count > 1)
-                sb.AppendLine($"\tError {i + 1}:");
-            sb.AppendLine($"\t{Errors[i].ToString()?.Trim()}");
-        }
+        foreach (var error in Errors)
+            sb.AppendLine($"\t{error.ToString()}");
 
         return sb.ToString();
-    }
-
-    protected virtual string? CustomFieldsToString() {
-        return null;
     }
 
     public override Dictionary<string, object?> GetViewModel() =>
@@ -59,4 +74,7 @@ public class ErrorDetail(
             { nameof(Message), Message },
             { nameof(Errors), Errors }
         };
+
+    public override bool IsTypeOf(Type type) => GetType() == type || Errors.Any(error => error.GetType() == type);
+    public override bool IsTypeOf<TType>() where TType : class => this is TType || Errors.Any(error => error is TType);
 }

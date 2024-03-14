@@ -30,7 +30,8 @@ public class ResultDetail {
         MoreDetails.Add(newDetail);
     }
 
-    public bool IsTypeOf(Type type) => GetType() == type;
+    public virtual bool IsTypeOf(Type type) => GetType() == type;
+    public virtual bool IsTypeOf<T>() where T : class => this is T;
 
     public List<T> GetMoreDetailProperties<T>(string? name = null) {
         if (MoreDetails.Count == 0)
@@ -41,6 +42,39 @@ public class ResultDetail {
                 result.AddRange(GetProperties<T>(detail, name));
                 return result;
             });
+    }
+
+    public virtual Dictionary<string, object?> GetViewModel() =>
+        new() {
+            { nameof(Title), Title },
+            { nameof(Message), Message }
+        };
+
+    public override string ToString() {
+        var sb = new StringBuilder();
+
+        sb.AppendLine($"Title: {Title}");
+        if (Message is not null)
+            sb.AppendLine($"Message: {Message}");
+        if (StatusCode is not null)
+            sb.AppendLine($"Status Code: {StatusCode}");
+        sb.AppendLine($"View: {View}");
+
+        var customFields = CustomFieldsToString();
+        if (!string.IsNullOrEmpty(customFields))
+            sb.AppendLine(customFields);
+
+        if (MoreDetails.Count > 0) {
+            sb.AppendLine("MoreDetails:");
+            foreach (var detail in MoreDetails)
+                sb.AppendLine($"\t{detail}");
+        }
+
+        return sb.ToString();
+    }
+
+    protected virtual string? CustomFieldsToString() {
+        return null;
     }
 
     private static List<T> GetProperties<T>(object detail, string? name) {
@@ -67,30 +101,5 @@ public class ResultDetail {
             .GetType().GetProperties()
             .Where(prop => prop.PropertyType == typeof(T));
         return properties;
-    }
-
-    public virtual Dictionary<string, object?> GetViewModel() =>
-        new() {
-            { nameof(Title), Title },
-            { nameof(Message), Message }
-        };
-
-    public override string ToString() {
-        var sb = new StringBuilder();
-
-        sb.AppendLine($"Title: {Title}");
-        if (Message is not null)
-            sb.AppendLine($"Message: {Message}");
-        if (StatusCode is not null)
-            sb.AppendLine($"Status Code: {StatusCode}");
-        sb.AppendLine($"View: {View}");
-
-        if (MoreDetails.Count > 0) {
-            sb.AppendLine("MoreDetails:");
-            foreach (var detail in MoreDetails)
-                sb.AppendLine($"\t{detail}");
-        }
-
-        return sb.ToString();
     }
 }

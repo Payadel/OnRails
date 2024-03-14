@@ -1,18 +1,15 @@
-using System.Text;
 using OnRails.Utilities;
 
 namespace OnRails.ResultDetails.Errors;
 
-public class ValidationError : ErrorDetail {
+public class ValidationError : BadRequestError {
     public ValidationError(
         List<KeyValue> errors,
         string title = nameof(ValidationError),
         string? message = "One or more validation errors occurred.",
         int? statusCode = 400,
         object? moreDetails = null,
-        bool view = false) : base(title, message, statusCode, moreDetails, view) {
-        Errors = errors;
-    }
+        bool view = false) : base(errors, title, message, statusCode, moreDetails, view) { }
 
     public ValidationError(
         KeyValue error,
@@ -20,28 +17,5 @@ public class ValidationError : ErrorDetail {
         string? message = "One or more validation errors occurred.",
         int? statusCode = 400,
         object? moreDetails = null,
-        bool view = false) : base(title, message, statusCode, moreDetails, view) {
-        Errors = [error];
-    }
-
-    public new List<KeyValue> Errors { get; }
-
-    public override Dictionary<string, object?> GetViewModel() =>
-        new() {
-            { nameof(Title), Title },
-            { nameof(Message), Message },
-            { nameof(Errors), Errors.ToDictionary() }
-        };
-
-    protected override string? ErrorsToString() {
-        if (Errors.Count <= 0) return null;
-
-        var sb = new StringBuilder();
-
-        sb.AppendLine("Errors:");
-        foreach (var error in Errors)
-            sb.AppendLine($"\t{error.ToString()}");
-
-        return sb.ToString();
-    }
+        bool view = false) : base(error, title, message, statusCode, moreDetails, view) { }
 }
