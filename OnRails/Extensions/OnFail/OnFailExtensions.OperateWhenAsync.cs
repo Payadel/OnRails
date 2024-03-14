@@ -1,11 +1,11 @@
 using OnRails.Extensions.OperateWhen;
 using OnRails.Extensions.Try;
-using OnRails.ResultDetails;
-using OnRails.ResultDetails.Errors;
 
 namespace OnRails.Extensions.OnFail;
 
 public static partial class OnFailExtensions {
+    #region Condition base boolean
+
     public static Task<Result> OnFailOperateWhen(
         this Task<Result> source,
         Func<bool> predicate,
@@ -333,26 +333,64 @@ public static partial class OnFailExtensions {
         .OnFail(sourceResult => sourceResult.OperateWhen(() => predicate(sourceResult).Success, result, numOfTry),
             numOfTry: 1);
 
-    #region Condition base ErrorDetail or Exception type
+    #endregion
+
+    #region Condition base type
 
     public static Task<Result> OnFailOperateWhen(
         this Task<Result> source,
-        Type errorOrExceptionType,
+        Type detailType,
         Result result
-    ) => source.OnFail(srcResult => {
-        var errorDetail = (ErrorDetail)srcResult.Detail!;
+    ) => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), result);
 
-        if (errorOrExceptionType.IsAssignableTo(typeof(ErrorDetail)))
-            return srcResult.OperateWhen(srcResult.IsDetailTypeOf(errorOrExceptionType), result);
-        if (errorOrExceptionType.IsAssignableTo(typeof(Exception)))
-            return srcResult.OperateWhen(errorDetail.HasErrorTypeOf(errorOrExceptionType), result);
+    public static Task<Result> OnFailOperateWhen(
+        this Task<Result> source,
+        Type detailType,
+        Func<Result> function,
+        int numOfTry = 1)
+        => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), function, numOfTry);
 
-        return Result.Fail(new ValidationError([
-                new(errorOrExceptionType.Name,
-                    $"is not type of {nameof(ErrorDetail)} or {nameof(Exception)}.")
-            ]
-        ));
-    });
+    public static Task<Result> OnFailOperateWhen(
+        this Task<Result> source,
+        Type detailType,
+        Func<Task<Result>> function,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Task<Result<T>> OnFailOperateWhen<T>(
+        this Task<Result<T>> source,
+        Type detailType,
+        Func<Task<Result<T>>> function,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Task<Result<T>> OnFailOperateWhen<T>(
+        this Task<Result<T>> source,
+        Type detailType,
+        Func<Result<T>, Task<Result<T>>> function,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Task<Result> OnFailOperateWhen(
+        this Task<Result> source,
+        Type detailType,
+        Func<Result, Task<Result>> function,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Task<Result<T>> OnFailOperateWhen<T>(
+        this Task<Result<T>> source,
+        Type detailType,
+        Func<Result<T>> function,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Task<Result<T>> OnFailOperateWhen<T>(
+        this Task<Result<T>> source,
+        Type detailType,
+        Result<T> result,
+        int numOfTry = 1
+    ) => source.OnFailOperateWhen(srcResult => srcResult.IsDetailTypeOf(detailType), result, numOfTry);
 
     #endregion
 }
