@@ -7,6 +7,8 @@ namespace OnRails.Extensions.OperateWhen;
 
 [DebuggerStepThrough]
 public static partial class OperateWhenExtensions {
+    #region Condition base boolean
+
     public static Result OperateWhen(
         bool condition,
         Func<Result> function,
@@ -611,4 +613,44 @@ public static partial class OperateWhenExtensions {
         Result<T> result) => condition
         ? result
         : source;
+
+    #endregion
+
+    #region Condition base type
+
+    public static Result OperateWhen(
+        this Result source,
+        Type detailType,
+        Result result
+    ) => source.OperateWhen(source.IsDetailTypeOf(detailType), result);
+
+    public static Result OperateWhen(
+        this Result source,
+        Type detailType,
+        Func<Result> function,
+        int numOfTry = 1
+    ) => source.OperateWhen(source.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Result OperateWhen(
+        this Result source,
+        Type detailType,
+        Func<Result, Result> function,
+        int numOfTry = 1
+    ) => source.OperateWhen(source.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Result<TSource> OperateWhen<TSource>(
+        this Result<TSource> source,
+        Type detailType,
+        Func<Result<TSource>> function,
+        int numOfTry = 1
+    ) => source.OperateWhen(source.IsDetailTypeOf(detailType), function, numOfTry);
+
+    public static Result<TSource> OperateWhen<TSource>(
+        this Result<TSource> source,
+        Type detailType,
+        Func<Result<TSource>, Result<TSource>> function,
+        int numOfTry = 1
+    ) => source.OperateWhen(source.IsDetailTypeOf(detailType), function, numOfTry);
+
+    #endregion
 }

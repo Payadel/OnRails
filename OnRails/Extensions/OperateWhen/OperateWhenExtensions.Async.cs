@@ -4,6 +4,8 @@ using OnRails.Extensions.Try;
 namespace OnRails.Extensions.OperateWhen;
 
 public static partial class OperateWhenExtensions {
+    #region Condition base boolean
+
     public static Task<Result> OperateWhen(
         bool condition,
         Func<Task> function,
@@ -438,4 +440,6 @@ public static partial class OperateWhenExtensions {
         int numOfTry = 1
     ) => source.Try(predicateFunc, numOfTry)
         .OnSuccess(condition => source.OperateWhen(condition, operation, numOfTry), numOfTry: 1);
+
+    #endregion
 }
