@@ -44,10 +44,10 @@ public class ActionResultView<T> : ObjectResult {
         else {
             // We have not detail data or have not access to show
             Value = result.Success ? result.Value : null;
-        
+
             if (!result.Success)
                 StatusCode = 500;
-            else 
+            else
                 StatusCode = hasValue ? 200 : 204;
         }
     }
