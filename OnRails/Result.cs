@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using OnRails.Extensions.OnSuccess;
 using OnRails.Extensions.Try;
 using OnRails.ResultDetails;
@@ -20,6 +21,34 @@ public sealed class Result : ResultBase {
 
     public static Result Fail(ErrorDetail? detail = null) {
         return new Result(false, detail);
+    }
+
+    public object? GetViewValue() {
+        var view = HasDetail && Detail!.View;
+
+        return view
+            ?
+            // We have a detail data with view access
+            Detail!.GetViewModel()
+            :
+            // We have not detail data or have not access to show
+            null;
+    }
+
+    public int GetViewStatusCode() {
+        var view = HasDetail && Detail!.View;
+
+        if (view) {
+            // We have a detail data with view access
+            return GetStatusCodeOrDefault(
+                StatusCodes.Status204NoContent,
+                StatusCodes.Status500InternalServerError);
+        }
+
+        // We have not detail data or have not access to show
+        return Success
+            ? StatusCodes.Status204NoContent
+            : StatusCodes.Status500InternalServerError;
     }
 }
 
@@ -67,5 +96,31 @@ public sealed class Result<T> : ResultBase {
             sb.AppendLine(Detail.ToString());
 
         return sb.ToString();
+    }
+
+    public object? GetViewValue() {
+        if (Success) return Value;
+
+        var view = HasDetail && Detail!.View;
+        return view
+            ? Detail!.GetViewModel()
+            : null;
+    }
+
+    public int GetViewStatusCode() {
+        var view = HasDetail && Detail!.View;
+        var hasValue = Value is not null;
+
+        if (view) {
+            // We have a detail data with view access
+            return GetStatusCodeOrDefault(
+                hasValue ? StatusCodes.Status200OK : StatusCodes.Status204NoContent,
+                StatusCodes.Status500InternalServerError);
+        }
+
+        // We have not detail data or have not access to show
+        if (!Success)
+            return 500;
+        return hasValue ? 200 : 204;
     }
 }
