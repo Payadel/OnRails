@@ -27,7 +27,7 @@ public class CollectionErrorDetail : ErrorDetail<ErrorDetail> {
 
         sb.AppendLine($"Errors ({Errors.Count}):");
         for (var i = 0; i < Errors.Count; i++)
-            sb.AppendLine($"\t{i}- {Errors[i].ToString()}");
+            sb.AppendLine($"\t{i + 1}- {Errors[i].ToString()}");
 
         return sb.ToString();
     }
