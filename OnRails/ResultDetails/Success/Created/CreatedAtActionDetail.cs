@@ -4,14 +4,37 @@ using System.Text;
 namespace OnRails.ResultDetails.Success.Created;
 
 [DebuggerStepThrough]
-public class CreatedAtActionDetail(
-    string actionName,
-    string? controllerName,
-    object? routeValues)
-    : CreatedDetail(nameof(CreatedAtActionDetail)) {
-    public string ActionName { get; } = actionName;
-    public string? ControllerName { get; } = controllerName;
-    public object? RouteValues { get; } = routeValues;
+public class CreatedAtActionDetail : CreatedDetail {
+    public CreatedAtActionDetail(string actionName) : base(nameof(CreatedAtActionDetail)) {
+        ActionName = actionName;
+    }
+
+    public CreatedAtActionDetail(
+        string actionName,
+        string controllerName) : base(nameof(CreatedAtActionDetail)) {
+        ActionName = actionName;
+        ControllerName = controllerName;
+    }
+
+    public CreatedAtActionDetail(
+        string actionName,
+        string controllerName,
+        object routeValues) : base(nameof(CreatedAtActionDetail)) {
+        ActionName = actionName;
+        ControllerName = controllerName;
+        RouteValues = routeValues;
+    }
+
+    public CreatedAtActionDetail(
+        string actionName,
+        object routeValues) : base(nameof(CreatedAtActionDetail)) {
+        ActionName = actionName;
+        RouteValues = routeValues;
+    }
+
+    public string ActionName { get; }
+    public string? ControllerName { get; }
+    public object? RouteValues { get; }
 
     protected override string CustomFieldsToString() {
         var sb = new StringBuilder();
