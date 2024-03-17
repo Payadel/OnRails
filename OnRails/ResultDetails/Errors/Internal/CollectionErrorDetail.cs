@@ -1,13 +1,16 @@
+using System.Diagnostics;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
-namespace OnRails.ResultDetails.Errors;
+namespace OnRails.ResultDetails.Errors.Internal;
 
+[DebuggerStepThrough]
 public class CollectionErrorDetail : ErrorDetail<ErrorDetail> {
     public CollectionErrorDetail(
         ErrorDetail error,
         string title = nameof(CollectionErrorDetail),
         string? message = "One or more error(s) occurred",
-        int? statusCode = 500,
+        int? statusCode = StatusCodes.Status500InternalServerError,
         object? moreDetails = null,
         bool view = false) : base(error, title, message, statusCode,
         moreDetails, view) { }
@@ -15,7 +18,7 @@ public class CollectionErrorDetail : ErrorDetail<ErrorDetail> {
     public CollectionErrorDetail(List<ErrorDetail> errors,
         string title = nameof(CollectionErrorDetail),
         string? message = "One or more error(s) occurred",
-        int? statusCode = 500,
+        int? statusCode = StatusCodes.Status500InternalServerError,
         object? moreDetails = null,
         bool view = false) : base(
         errors, title, message, statusCode, moreDetails, view) { }

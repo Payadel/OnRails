@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 using OnRails.Extensions.String;
-using OnRails.ResultDetails.Errors;
+using OnRails.ResultDetails.Errors.BadRequest;
 
 namespace OnRailTest.Extensions;
 

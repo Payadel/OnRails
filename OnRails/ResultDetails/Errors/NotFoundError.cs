@@ -1,8 +1,12 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using OnRails.Models;
 using OnRails.Utilities;
 
 namespace OnRails.ResultDetails.Errors;
 
+[DebuggerStepThrough]
 public class NotFoundError : ErrorDetail {
     public NotFoundError(
         string keyName,
@@ -10,7 +14,7 @@ public class NotFoundError : ErrorDetail {
         string title = nameof(NotFoundError),
         string? message = "The requested resource(s) could not be found.",
         object? moreDetails = null,
-        bool view = false) : base(title, message, 404, moreDetails, view) {
+        bool view = false) : base(title, message, StatusCodes.Status404NotFound, moreDetails, view) {
         Keys = [new(keyName, keyValue)];
     }
 
@@ -19,7 +23,7 @@ public class NotFoundError : ErrorDetail {
         string title = nameof(NotFoundError),
         string? message = "The requested resource(s) could not be found.",
         object? moreDetails = null,
-        bool view = false) : base(title, message, 404, moreDetails, view) {
+        bool view = false) : base(title, message, StatusCodes.Status404NotFound, moreDetails, view) {
         Keys = keys;
     }
 

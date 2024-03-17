@@ -1,13 +1,15 @@
 using System.Diagnostics;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using OnRails.Utilities;
 
 namespace OnRails.ResultDetails;
 
+[DebuggerStepThrough]
 public class ErrorDetail(
     string title = nameof(ErrorDetail),
     string? message = "An error occurred",
-    int? statusCode = 500,
+    int? statusCode = StatusCodes.Status500InternalServerError,
     object? moreDetails = null,
     bool view = false)
     : ResultDetail(title, message, statusCode, moreDetails, view) {
@@ -33,7 +35,7 @@ public abstract class ErrorDetail<T> : ErrorDetail where T : class {
         T error,
         string title = nameof(ErrorDetail),
         string? message = "An error occurred",
-        int? statusCode = 500,
+        int? statusCode = StatusCodes.Status500InternalServerError,
         object? moreDetails = null,
         bool view = false) : base(title, message, statusCode, moreDetails, view) {
         Errors ??= [];
@@ -44,7 +46,7 @@ public abstract class ErrorDetail<T> : ErrorDetail where T : class {
         List<T> errors,
         string title = nameof(ErrorDetail),
         string? message = "An error occurred",
-        int? statusCode = 500,
+        int? statusCode = StatusCodes.Status500InternalServerError,
         object? moreDetails = null,
         bool view = false) : base(title, message, statusCode, moreDetails, view) {
         Errors = errors;
@@ -52,9 +54,7 @@ public abstract class ErrorDetail<T> : ErrorDetail where T : class {
 
     public List<T> Errors { get; }
 
-    protected override string? CustomFieldsToString() {
-        return ErrorsToString();
-    }
+    protected override string? CustomFieldsToString() => ErrorsToString();
 
     protected virtual string? ErrorsToString() {
         if (Errors.Count <= 0) return null;

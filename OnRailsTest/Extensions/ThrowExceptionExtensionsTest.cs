@@ -1,7 +1,7 @@
 using OnRails;
 using OnRails.Extensions.OnFail;
 using OnRails.Extensions.ThrowException;
-using OnRails.ResultDetails.Errors;
+using OnRails.ResultDetails.Errors.Internal;
 
 namespace OnRailTest.Extensions;
 

@@ -1,5 +1,9 @@
+using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
+
 namespace OnRails.ResultDetails;
 
+[DebuggerStepThrough]
 public class WarningDetail : ResultDetail {
     public string WarningMessage { get; }
 
@@ -7,7 +11,7 @@ public class WarningDetail : ResultDetail {
         string warningMessage,
         string title = nameof(WarningDetail),
         string? message = "The operation was completed successfully, but there is a warning.",
-        int? statusCode = 200,
+        int? statusCode = StatusCodes.Status200OK,
         object? moreDetails = null,
         bool view = false) : base(title, message, statusCode, moreDetails, view) {
         if (string.IsNullOrWhiteSpace(warningMessage))

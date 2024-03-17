@@ -1,7 +1,8 @@
 using OnRails;
 using OnRails.Extensions.Try;
 using OnRails.ResultDetails;
-using OnRails.ResultDetails.Errors;
+using OnRails.ResultDetails.Errors.BadRequest;
+using OnRails.ResultDetails.Errors.Internal;
 
 namespace OnRailTest.Extensions;
 

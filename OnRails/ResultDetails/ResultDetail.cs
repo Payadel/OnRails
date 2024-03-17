@@ -73,9 +73,7 @@ public class ResultDetail {
         return sb.ToString();
     }
 
-    protected virtual string? CustomFieldsToString() {
-        return null;
-    }
+    protected virtual string? CustomFieldsToString() => null;
 
     private static List<T> GetProperties<T>(object detail, string? name) {
         if (string.IsNullOrWhiteSpace(name) && detail is T targetObject) {

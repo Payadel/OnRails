@@ -1,5 +1,8 @@
-﻿namespace OnRails.ResultDetails.Errors;
+﻿using System.Diagnostics;
 
+namespace OnRails.ResultDetails.Errors.Internal;
+
+[DebuggerStepThrough]
 public class ExceptionError(
     Exception exception,
     string title = $"{nameof(ExceptionError)} - An unexpected error occurred.",
@@ -9,7 +12,7 @@ public class ExceptionError(
     : InternalError(title, message ?? exception.Message, moreDetails: moreDetails, view) {
     public Exception Exception { get; } = exception;
 
-    protected override string? CustomFieldsToString() {
+    protected override string CustomFieldsToString() {
         return Exception.ToString();
     }
 
