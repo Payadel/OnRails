@@ -30,6 +30,14 @@ public static partial class OnSuccessExtensions {
 
     public static Result<TResult> OnSuccess<TSource, TResult>(
         this Result<TSource> source,
+        Func<TSource, Result<TSource>, Result<TResult>> function,
+        int numOfTry = 1
+    ) => source.Success
+        ? TryExtensions.Try(() => function(source.Value!, source), numOfTry)
+        : Result<TResult>.Fail(source.Detail as ErrorDetail);
+
+    public static Result<TResult> OnSuccess<TSource, TResult>(
+        this Result<TSource> source,
         Func<Result<TResult>> function,
         int numOfTry = 1
     ) => source.Success
@@ -51,6 +59,14 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) => source.Success
         ? source.Value!.Try(function, numOfTry)
+        : Result.Fail(source.Detail as ErrorDetail);
+
+    public static Result OnSuccess<TSource>(
+        this Result<TSource> source,
+        Func<TSource, Result<TSource>, Result> function,
+        int numOfTry = 1
+    ) => source.Success
+        ? TryExtensions.Try(() => function(source.Value!, source), numOfTry)
         : Result.Fail(source.Detail as ErrorDetail);
 
 
@@ -77,6 +93,14 @@ public static partial class OnSuccessExtensions {
         int numOfTry = 1
     ) => source.Success
         ? source.Value!.Try(function, numOfTry)
+        : Result<TResult>.Fail(source.Detail as ErrorDetail);
+
+    public static Result<TResult> OnSuccess<TSource, TResult>(
+        this Result<TSource> source,
+        Func<TSource, Result<TSource>, TResult> function,
+        int numOfTry = 1
+    ) => source.Success
+        ? TryExtensions.Try(() => function(source.Value!, source), numOfTry)
         : Result<TResult>.Fail(source.Detail as ErrorDetail);
 
     public static Result<TResult> OnSuccess<TSource, TResult>(
