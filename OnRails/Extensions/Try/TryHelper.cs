@@ -1,6 +1,6 @@
 using System.Text;
 using OnRails.ResultDetails;
-using OnRails.ResultDetails.Errors;
+using OnRails.ResultDetails.Errors.Internal;
 
 namespace OnRails.Extensions.Try;
 

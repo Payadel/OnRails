@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using OnRails.Extensions.Fail;
 using OnRails.ResultDetails;
-using OnRails.ResultDetails.Errors;
+using OnRails.ResultDetails.Errors.BadRequest;
 
 namespace OnRails.Extensions.String;
 
