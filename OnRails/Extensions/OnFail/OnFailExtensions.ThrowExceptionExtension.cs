@@ -21,4 +21,24 @@ public static partial class OnFailExtensions {
 
         return source;
     }
+
+    public static Task<Result<T>> OnFailThrowException<T>(this Task<Result<T>> source) =>
+        source.OnFail(result => {
+            if (!result.Success) {
+                result.Detail ??= new ErrorDetail();
+                result.Detail.ThrowException();
+            }
+
+            return result;
+        });
+
+    public static Task<Result> OnFailThrowException(this Task<Result> source) =>
+        source.OnFail(result => {
+            if (!result.Success) {
+                result.Detail ??= new ErrorDetail();
+                result.Detail.ThrowException();
+            }
+
+            return result;
+        });
 }
