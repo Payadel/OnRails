@@ -5,27 +5,26 @@
 # minimum configuration for two package managers
 
 version: 2
-updates:
-  - package-ecosystem: "NuGet"
-    directory: "OnRails"
-    schedule:
-      interval: "weekly"
-    target-branch: "dev"
-    
-  # Enable version updates for npm
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/"
-    # Check the npm registry for updates every day (weekdays)
-    schedule:
-      interval: "weekly"
-    target-branch: "dev"
 
-  # Enable version updates for Docker
+updates:
+  # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
-    # Look for a `Dockerfile` in the `root` directory
+    # Look in the `root` directory
     directory: "/"
     # Check for updates once a week
     schedule:
       interval: "weekly"
+    # Update will target the `dev` branch
     target-branch: "dev"
+    # Limit the number of open pull requests for updates to 10
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: nuget
+    directory: src
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    target-branch: 'dev'
+    open-pull-requests-limit: 10

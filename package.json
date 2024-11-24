@@ -1,13 +1,6 @@
 {
-  "version": "2.0.0",
-  "scripts": {
-    "actions:watch": "gh run watch && notify-send \"run is done!\"",
-    "actions:release": "gh workflow run Release --ref dev -f version=''",
-    "actions:changelog": "gh workflow run Changelog --ref dev -f version=''",
-    "version": "node -p -e \"require('./package.json').version\""
-  },
-  "devDependencies": {
-    "@action-validator/cli": "^0.5.1",
-    "@action-validator/core": "^0.5.1"
+  "dependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0"
   }
 }

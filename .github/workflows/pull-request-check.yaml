@@ -1,31 +1,35 @@
 name: Pull Request Checks
-on: [ pull_request ]
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
 
 jobs:
-
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Print commitlint.config.js
-        run: cat .configs/commitlint.config.js
+      - name: Print commitlint.config.mjs
+        run: cat .configs/commitlint.config.mjs
 
-      - uses: wagoid/commitlint-github-action@v5
+      - uses: wagoid/commitlint-github-action@v6
         with:
-          configFile: .configs/commitlint.config.js
+          configFile: .configs/commitlint.config.mjs
 
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
 
       - name: Print Configs
         run: cat .configs/.pre-commit-config-server.yaml
 
-      - uses: pre-commit/action@v3.0.0
+      - uses: pre-commit/action@v3.0.1
         with:
           extra_args: --config .configs/.pre-commit-config-server.yaml
