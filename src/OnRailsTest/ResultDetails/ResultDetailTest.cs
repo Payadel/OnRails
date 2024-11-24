@@ -12,8 +12,8 @@ public class ResultDetailTest {
 
         var resultDetail = new ResultDetail(title, message, statusCode, obj);
 
-        Assert.Equal(resultDetail.Title, title);
-        Assert.Equal(resultDetail.Message, message);
+        Assert.Equal(title, resultDetail.Title);
+        Assert.Equal(message, resultDetail.Message);
         Assert.Equal(resultDetail.StatusCode, statusCode);
         Assert.Single(resultDetail.MoreDetails);
     }
@@ -64,8 +64,8 @@ public class ResultDetailTest {
         result.AddDetail(new { obj1 = "obj1", obj2 = "obj2-exist" });
         result.AddDetail(new { obj3 = "obj3" });
 
-        Assert.False(result.GetMoreDetailProperties<string>("not-exist").Any());
-        Assert.False(result.GetMoreDetailProperties<int>("obj2-exist").Any()); //invalid type
+        Assert.Empty(result.GetMoreDetailProperties<string>("not-exist"));
+        Assert.Empty(result.GetMoreDetailProperties<int>("obj2-exist")); //invalid type
     }
 
     [Fact]

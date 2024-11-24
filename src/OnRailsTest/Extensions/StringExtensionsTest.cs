@@ -4,10 +4,10 @@ using OnRails.ResultDetails.Errors.BadRequest;
 
 namespace OnRailTest.Extensions;
 
-public static class StringExtensionsTest {
+public static partial class StringExtensionsTest {
     private const string SampleEmail = "test@test.com";
     private const string InvalidEmail = "test.com";
-    private static readonly Regex EmailRegex = new(@"^[\w-\.]+@([\w-]+\.)+[\w-]+");
+    private static readonly Regex EmailRegex = MyRegex();
 
     [Fact]
     public static void MustMatchRegex_MatchRegex_SuccessResult() {
@@ -31,4 +31,7 @@ public static class StringExtensionsTest {
         Assert.False(result.Success);
         Assert.IsType<BadRequestError>(result.Detail);
     }
+
+    [GeneratedRegex(@"^[\w-\.]+@([\w-]+\.)+[\w-]+")]
+    private static partial Regex MyRegex();
 }

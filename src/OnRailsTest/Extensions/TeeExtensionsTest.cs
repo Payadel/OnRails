@@ -93,7 +93,7 @@ public class TeeExtensionsTest {
         var result = "obj".Tee(() => {
             counter++;
             throw new Exception("Fake");
-            return "";
+            return string.Empty;
         }, DefaultNumOfTry);
 
         Assert.Equal("obj", result);
@@ -116,7 +116,7 @@ public class TeeExtensionsTest {
         TeeExtensions.Tee(() => {
             counter++;
             throw new Exception("Fake");
-            return "";
+            return string.Empty;
         }, DefaultNumOfTry);
 
         Assert.Equal(DefaultNumOfTry, counter);

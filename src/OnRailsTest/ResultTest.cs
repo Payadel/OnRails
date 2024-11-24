@@ -34,7 +34,7 @@ public class ResultWithValue {
         var result = Result<string>.Ok(value);
 
         Assert.True(result.Success);
-        Assert.Equal(result.Value, value);
+        Assert.Equal(value, result.Value);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class ResultWithValue {
 
         Assert.True(result.Success);
         Assert.StrictEqual(result.Detail, resultDetail);
-        Assert.Equal(result.Value, value);
+        Assert.Equal(value, result.Value);
     }
 
     [Fact]
