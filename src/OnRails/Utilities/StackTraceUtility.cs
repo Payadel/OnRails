@@ -4,17 +4,19 @@ namespace OnRails.Utilities;
 
 internal static class StackTraceUtility {
     public static StackTrace RemoveFrames(this StackTrace originalStackTrace, string appNamespace) {
-        // Get the frames from the original stack trace
-        var originalFrames = originalStackTrace.GetFrames();
+        ArgumentNullException.ThrowIfNull(originalStackTrace);
+        if (string.IsNullOrWhiteSpace(appNamespace))
+            throw new ArgumentException("Namespace cannot be null or empty", nameof(appNamespace));
 
-        var filteredFrames = originalFrames
-            .Where(frame => frame.GetMethod()?.DeclaringType?.Namespace != null &&
-                            !frame.GetMethod()!.DeclaringType!.Namespace!.StartsWith(appNamespace))
+        // Filter out frames where the namespace starts with the specified appNamespace
+        var filteredFrames = originalStackTrace.GetFrames()
+            .Where(frame => {
+                var methodNamespace = frame.GetMethod()?.DeclaringType?.Namespace;
+                return methodNamespace != null &&
+                       !methodNamespace.StartsWith(appNamespace, StringComparison.CurrentCultureIgnoreCase);
+            })
             .ToArray();
 
-        // Create a new stack trace with the filtered frames
-        var filteredStackTrace = new StackTrace(filteredFrames);
-
-        return filteredStackTrace;
+        return new StackTrace(filteredFrames);
     }
 }
