@@ -14,7 +14,7 @@ public class ErrorDetail(
     bool view = false)
     : ResultDetail(title, message, statusCode, moreDetails, view) {
     public StackTrace StackTrace { get; } = new StackTrace(1, true)
-        .RemoveFrames(Constants.AppNamespace);
+        .RemoveFrames(AppNamespace.GetLibraryNamespace());
 
     public override string ToString() {
         var sb = new StringBuilder(base.ToString());
