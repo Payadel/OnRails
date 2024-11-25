@@ -72,7 +72,7 @@ public class ResultBaseTests {
     [Fact]
     public void GetStatusCodeOrDefault_ShouldReturnDefaultFailCode_WhenSuccessIsFalseAndNoDetail() {
         // Arrange
-        var result = new TestResult(false, null);
+        var result = new TestResult(false);
 
         // Act
         var statusCode = result.GetStatusCodeOrDefault(200, 400);
@@ -97,7 +97,7 @@ public class ResultBaseTests {
     [Fact]
     public void HasDetail_ShouldReturnFalse_WhenDetailIsNull() {
         // Arrange
-        var result = new TestResult(true, null);
+        var result = new TestResult(true);
 
         // Act
         var hasDetail = result.HasDetail;
