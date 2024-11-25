@@ -1,8 +1,8 @@
 using System.Diagnostics;
 
-namespace OnRails.Utilities;
+namespace OnRails.Helpers;
 
-internal static class StackTraceUtility {
+internal static class StackTraceHelper {
     public static StackTrace RemoveFrames(this StackTrace originalStackTrace, string appNamespace) {
         ArgumentNullException.ThrowIfNull(originalStackTrace);
         if (string.IsNullOrWhiteSpace(appNamespace))

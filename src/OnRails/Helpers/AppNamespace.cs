@@ -1,4 +1,4 @@
-namespace OnRails.Utilities;
+namespace OnRails.Helpers;
 
 internal static class AppNamespace {
     public static string GetLibraryNamespace() {
