@@ -24,7 +24,7 @@ public sealed class Result : ResultBase {
     }
 
     public object? GetViewValue() {
-        var view = HasDetail && Detail!.View;
+        var view = Detail?.View ?? false;
 
         return view
             ?
@@ -101,14 +101,14 @@ public sealed class Result<T> : ResultBase {
     public object? GetViewValue() {
         if (Success) return Value;
 
-        var view = HasDetail && Detail!.View;
+        var view = Detail?.View ?? false;
         return view
             ? Detail!.GetViewModel()
             : null;
     }
 
     public int GetViewStatusCode() {
-        var view = HasDetail && Detail!.View;
+        var view = Detail?.View ?? false;
         var hasValue = Value is not null;
 
         if (view) {
@@ -120,7 +120,7 @@ public sealed class Result<T> : ResultBase {
 
         // We have not detail data or have not access to show
         if (!Success)
-            return 500;
-        return hasValue ? 200 : 204;
+            return StatusCodes.Status500InternalServerError;
+        return hasValue ? StatusCodes.Status200OK : StatusCodes.Status204NoContent;
     }
 }
