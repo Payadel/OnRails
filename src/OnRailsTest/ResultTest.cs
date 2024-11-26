@@ -19,7 +19,7 @@ public class ResultTests {
     [Fact]
     public void Ok_WithDetail_ShouldCreateResultWithSuccessTrueAndDetail() {
         // Arrange
-        var detail = new SuccessDetail { View = true };
+        var detail = new SuccessDetail(view: true);
 
         // Act
         var result = Result.Ok(detail);
@@ -70,7 +70,7 @@ public class ResultTests {
     [Fact]
     public void GetViewValue_ShouldReturnViewModel_IfDetailExistsWithViewAccess() {
         // Arrange
-        var detail = new SuccessDetail { View = true };
+        var detail = new SuccessDetail(view: true);
         var result = Result.Ok(detail);
 
         // Act
@@ -84,7 +84,7 @@ public class ResultTests {
     [Fact]
     public void GetViewValue_ShouldReturnNull_IfDetailExistsWithoutViewAccess() {
         // Arrange
-        var detail = new SuccessDetail { View = false };
+        var detail = new SuccessDetail(view: false);
         var result = Result.Ok(detail);
 
         // Act
@@ -121,7 +121,7 @@ public class ResultTests {
     [Fact]
     public void GetViewStatusCode_ShouldReturnStatusCodeFromDetail_WhenDetailHasViewAccess() {
         // Arrange
-        var detail = new SuccessDetail { View = true, StatusCode = StatusCodes.Status201Created };
+        var detail = new SuccessDetail(view: true, statusCode: StatusCodes.Status201Created);
         var result = Result.Ok(detail);
 
         // Act
@@ -134,7 +134,7 @@ public class ResultTests {
     [Fact]
     public void GetViewStatusCode_ShouldReturn500_WhenDetailExistsWithoutViewAccess() {
         // Arrange
-        var detail = new ErrorDetail { View = false, StatusCode = 505 };
+        var detail = new ErrorDetail(view: false, statusCode: 505);
         var result = Result.Fail(detail);
 
         // Act
@@ -165,7 +165,7 @@ public class ResultWithValueTest {
     public void Ok_WithDetail_ShouldCreateResultWithSuccessTrueValueAndDetail() {
         // Arrange
         const string value = "TestValue";
-        var detail = new SuccessDetail { View = true };
+        var detail = new SuccessDetail(view: true);
 
         // Act
         var result = Result<string>.Ok(value, detail);
@@ -232,7 +232,7 @@ public class ResultWithValueTest {
     [Fact]
     public void GetViewValue_ShouldReturnViewModel_WhenDetailExistsWithViewAccessAndSuccessIsFalse() {
         // Arrange
-        var detail = new ErrorDetail { View = true };
+        var detail = new ErrorDetail(view: true);
         var result = Result<string>.Fail(detail);
 
         // Act
@@ -283,7 +283,7 @@ public class ResultWithValueTest {
     [Fact]
     public void GetViewStatusCode_ShouldReturnDetailStatusCode_WhenDetailExistsWithViewAccess() {
         // Arrange
-        var detail = new ErrorDetail { View = true, StatusCode = StatusCodes.Status404NotFound };
+        var detail = new ErrorDetail(view: true, statusCode: StatusCodes.Status404NotFound);
         var result = Result<string>.Fail(detail);
 
         // Act
@@ -310,7 +310,7 @@ public class ResultWithValueTest {
     [Fact]
     public void ToString_ShouldIncludeSuccessAndDetail_WhenSuccessIsFalse() {
         // Arrange
-        var detail = new ErrorDetail { View = true, StatusCode = StatusCodes.Status404NotFound };
+        var detail = new ErrorDetail(view: true, statusCode: StatusCodes.Status404NotFound);
         var result = Result<string>.Fail(detail);
 
         // Act
