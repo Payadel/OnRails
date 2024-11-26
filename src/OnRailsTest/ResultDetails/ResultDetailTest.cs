@@ -72,6 +72,66 @@ public class ResultDetailTest {
     public void GetMoreDetailProperties_NoMoreDetails_ReturnEmptyList() {
         var result = new ResultDetail("Title");
 
-        Assert.False(result.GetMoreDetailProperties<string>("not-exist").Any());
+        Assert.Empty(result.GetMoreDetailProperties<string>("not-exist"));
+    }
+
+
+    [Fact]
+    public void IsTypeOf_MatchingType_ReturnsTrue() {
+        // Arrange
+        var resultDetail = new ResultDetail("Title");
+
+        // Act
+        var isTypeOfResultDetail = resultDetail.IsTypeOf(typeof(ResultDetail));
+
+        // Assert
+        Assert.True(isTypeOfResultDetail);
+    }
+
+    [Fact]
+    public void IsTypeOf_DerivedType_ReturnsFalse() {
+        // Arrange
+        var resultDetail = new ResultDetail("Title");
+
+        // Act
+        var isTypeOfErrorDetail = resultDetail.IsTypeOf(typeof(ErrorDetail));
+
+        // Assert
+        Assert.False(isTypeOfErrorDetail);
+    }
+
+    [Fact]
+    public void GetViewModel_ReturnsCorrectDictionary() {
+        // Arrange
+        const string title = "Sample Title";
+        const string message = "Sample Message";
+        var resultDetail = new ResultDetail(title, message);
+
+        // Act
+        var viewModel = resultDetail.GetViewModel();
+
+        // Assert
+        Assert.NotNull(viewModel);
+        Assert.Equal(title, viewModel[nameof(ResultDetail.Title)]);
+        Assert.Equal(message, viewModel[nameof(ResultDetail.Message)]);
+    }
+
+    [Fact]
+    public void ToString_ContainsAllProperties() {
+        // Arrange
+        const string title = "Sample Title";
+        const string message = "Sample Message";
+        const int statusCode = 200;
+        var resultDetail = new ResultDetail(title, message, statusCode, moreDetails: "extra detail");
+
+        // Act
+        var resultString = resultDetail.ToString();
+
+        // Assert
+        Assert.Contains($"Title: {title}", resultString);
+        Assert.Contains($"Message: {message}", resultString);
+        Assert.Contains($"Status Code: {statusCode}", resultString);
+        Assert.Contains($"MoreDetails:", resultString);
+        Assert.Contains($"extra detail", resultString);
     }
 }
