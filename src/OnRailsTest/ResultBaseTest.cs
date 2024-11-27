@@ -6,6 +6,20 @@ namespace OnRailTest;
 public class TestResult(bool success, ResultDetail? detail = null) : ResultBase(success, detail);
 
 public class ResultBaseTests {
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Success_Property_ShouldReturnConstructorValue(bool success) {
+        // Arrange
+        var resultBase = new TestResult(success);
+
+        // Act
+        var actualSuccess = resultBase.Success;
+
+        // Assert
+        Assert.Equal(success, actualSuccess);
+    }
+
     [Fact]
     public void HasStatusCode_ShouldReturnTrue_WhenDetailHasStatusCode() {
         // Arrange
