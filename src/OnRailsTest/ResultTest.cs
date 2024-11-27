@@ -320,4 +320,39 @@ public class ResultWithValueTest {
         Assert.Contains("Success: False", resultString);
         Assert.Contains(detail.ToString(), resultString);
     }
+
+    [Fact]
+    public void Fail_WithErrorDetailFunc_ReturnsFailedResult() {
+        // Arrange
+        var errorDetail = new ErrorDetail();
+
+        // Act
+        var result = Result<string>.Fail(() => errorDetail);
+
+        // Assert
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+        Assert.Equal(errorDetail, result.Detail);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void Fail_WithRetryingErrorDetailFunc_SucceedsAfterRetries(int numOfTry) {
+        // Arrange
+        var callCount = 0;
+        var errorDetailFunc = () => {
+            callCount++;
+            TestHelpers.ThrowException();
+            return new ErrorDetail();
+        };
+
+        // Act
+        var result = Result<string>.Fail(errorDetailFunc, numOfTry);
+
+        // Assert
+        Assert.Equal(numOfTry, callCount);
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+    }
 }
