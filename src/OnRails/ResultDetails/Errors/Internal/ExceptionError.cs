@@ -9,7 +9,7 @@ public class ExceptionError(
     string? message = null,
     object? moreDetails = null,
     bool view = false)
-    : InternalError(title, message ?? exception.Message, moreDetails: moreDetails, view) {
+    : InternalError(title, message ?? exception.Message, moreDetails: moreDetails, view: view) {
     public Exception Exception { get; } = exception;
 
     protected override string CustomFieldsToString() {
