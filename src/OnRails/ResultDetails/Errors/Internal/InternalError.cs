@@ -7,6 +7,7 @@ namespace OnRails.ResultDetails.Errors.Internal;
 public class InternalError(
     string title = nameof(InternalError),
     string? message = "An unexpected condition was encountered while processing the request.",
+    int? statusCode = StatusCodes.Status500InternalServerError,
     object? moreDetails = null,
     bool view = false)
-    : ErrorDetail(title, message, StatusCodes.Status500InternalServerError, moreDetails, view);
+    : ErrorDetail(title, message, statusCode, moreDetails, view);
