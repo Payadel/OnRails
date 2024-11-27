@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using System.Reflection;
 using System.Text;
+using OnRails.Helpers;
 
 namespace OnRails.ResultDetails;
 
@@ -10,7 +10,7 @@ public class ResultDetail {
     public string? Message { get; protected init; }
     public int? StatusCode { get; protected init; }
     public List<object> MoreDetails { get; } = [];
-    public bool View { get; protected init; }
+    public bool View { get; set; }
 
     public ResultDetail(string title, string? message = null, int? statusCode = null, object? moreDetails = null,
         bool view = false) {
@@ -39,7 +39,7 @@ public class ResultDetail {
 
         return MoreDetails
             .Aggregate(new List<T>(), (result, detail) => {
-                result.AddRange(GetProperties<T>(detail, name));
+                result.AddRange(detail.GetProperties<T>(name));
                 return result;
             });
     }
@@ -73,31 +73,5 @@ public class ResultDetail {
         return sb.ToString();
     }
 
-    protected virtual string? CustomFieldsToString() => null;
-
-    private static List<T> GetProperties<T>(object detail, string? name) {
-        if (string.IsNullOrWhiteSpace(name) && detail is T targetObject) {
-            // The whole object is our target
-            return [targetObject];
-        }
-
-        var properties = GetProperties<T>(detail);
-        if (!string.IsNullOrWhiteSpace(name))
-            properties = properties.Where(prop => prop.Name == name);
-
-        var matchingObjects = properties
-            .Select(prop => prop.GetValue(detail))
-            .Where(obj => obj != null)
-            .OfType<T>() // Convert to type T
-            .ToList();
-
-        return matchingObjects;
-    }
-
-    private static IEnumerable<PropertyInfo> GetProperties<T>(object detail) {
-        var properties = detail
-            .GetType().GetProperties()
-            .Where(prop => prop.PropertyType == typeof(T));
-        return properties;
-    }
+    protected virtual string CustomFieldsToString() => string.Empty;
 }
