@@ -53,7 +53,7 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(Action, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -77,7 +77,7 @@ public class UsingExtensionsTest {
         var result = disposableObj.Using(Action, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -108,7 +108,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -138,7 +138,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -170,7 +170,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -200,7 +200,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -229,7 +229,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -258,7 +258,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -293,7 +293,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -323,7 +323,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -353,7 +353,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -382,7 +382,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -411,7 +411,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 
@@ -442,7 +442,7 @@ public class UsingExtensionsTest {
         }, DefaultNumOfTry);
 
         Assert.True(disposableObj.IsDisposed);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
         EnsureTryWrapperValid(result.Detail);
     }
 

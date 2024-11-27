@@ -113,14 +113,14 @@ public class TryExtensionsTest {
     public void Try_FailAction_ReturnExceptionError() {
         var result = TryExtensions.Try(FailAction);
 
-        Helper.EnsureHasFailed(result, 1, true);
+        TestHelpers.EnsureHasFailed(result, 1, true);
     }
 
     [Fact]
     public void Try_FailActionWithRepeat_ReturnExceptionError() {
         var result = TryExtensions.Try(FailAction, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -135,7 +135,7 @@ public class TryExtensionsTest {
     public void Try_FailActionWithInputRepeat_ReturnExceptionError() {
         var result = TryExtensions.Try(() => FailActionWithInput("input"), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -152,7 +152,7 @@ public class TryExtensionsTest {
         const string input = "input";
         var result = input.Try(FailActionWithInput, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -167,7 +167,7 @@ public class TryExtensionsTest {
     public void Try_FailFunctionRepeat_ReturnExceptionError() {
         var result = TryExtensions.Try(FailFunctionReturnString, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -182,7 +182,7 @@ public class TryExtensionsTest {
     public void Try_FailFunctionRepeat_ReturnErrorDetail() {
         var result = TryExtensions.Try(FailFunctionReturnResultWithString, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -197,7 +197,7 @@ public class TryExtensionsTest {
     public void Try_FailFunctionReturnResult_ReturnErrorDetail() {
         var result = TryExtensions.Try(FailFunctionReturnResult, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -213,7 +213,7 @@ public class TryExtensionsTest {
     public void Try_FailFunctionReturnResultRepeat_ReturnExceptionError() {
         var result = TryExtensions.Try(() => FailFunctionReturnInput("input"), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -230,7 +230,7 @@ public class TryExtensionsTest {
         const string input = "input";
         var result = TryExtensions.Try(() => FailFunctionReturnResultWithString(input), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     #endregion
@@ -249,7 +249,7 @@ public class TryExtensionsTest {
     public async Task TryAsync_FailFunctionReturnValue_ReturnExceptionError() {
         var result = await TryExtensions.Try(() => Task.FromResult(FailFunctionReturnString()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -266,7 +266,7 @@ public class TryExtensionsTest {
         var result =
             await TryExtensions.Try(() => Task.FromResult(FailFunctionReturnResultWithString()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -280,7 +280,7 @@ public class TryExtensionsTest {
     public async Task TryAsync_FailFunctionReturnTask_ReturnExceptionError() {
         var result = await TryExtensions.Try(() => Task.Run(FailAction), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -295,7 +295,7 @@ public class TryExtensionsTest {
     public async Task TryAsync_FailFunctionReturnTaskResult_ReturnExceptionError() {
         var result = await TryExtensions.Try(() => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -309,7 +309,7 @@ public class TryExtensionsTest {
     public async Task TryAsync_FailFunctionReturnTaskAndValue_ReturnExceptionError() {
         var result = await SuccessStr.Try(_ => Task.Run(FailAction), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -325,7 +325,7 @@ public class TryExtensionsTest {
         var source = Task.Run(FailFunctionReturnString);
         var result = await source.Try(SuccessfulActionWithInput, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -333,7 +333,7 @@ public class TryExtensionsTest {
         var source = Task.Run(SuccessfulFunctionReturnString);
         var result = await source.Try(FailActionWithInput, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -349,7 +349,7 @@ public class TryExtensionsTest {
         var source = Task.Run(FailFunctionReturnString);
         var result = await source.Try(SuccessfulAction, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -357,7 +357,7 @@ public class TryExtensionsTest {
         var source = Task.Run(SuccessfulFunctionReturnString);
         var result = await source.Try(FailAction, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -373,7 +373,7 @@ public class TryExtensionsTest {
         var source = Task.Run(FailAction);
         var result = await source.Try(SuccessfulAction, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -381,7 +381,7 @@ public class TryExtensionsTest {
         var source = Task.Run(() => { });
         var result = await source.Try(FailAction, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -397,7 +397,7 @@ public class TryExtensionsTest {
         var source = Task.Run(FailAction);
         var result = await source.Try(SuccessfulFunctionReturnResult, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -405,7 +405,7 @@ public class TryExtensionsTest {
         var source = Task.Run(() => { });
         var result = await source.Try(FailFunctionReturnResult, DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -421,7 +421,7 @@ public class TryExtensionsTest {
         var source = Task.Run(FailAction);
         var result = await source.Try(() => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -429,7 +429,7 @@ public class TryExtensionsTest {
         var source = Task.Run(() => { });
         var result = await source.Try(() => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -447,7 +447,7 @@ public class TryExtensionsTest {
         var result = await source.Try<string>(input => Task.FromResult(SuccessfulFunctionReturnInput(input)),
             DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -456,7 +456,7 @@ public class TryExtensionsTest {
         var result =
             await source.Try<string>(input => Task.FromResult(FailFunctionReturnInput(input)), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -470,7 +470,7 @@ public class TryExtensionsTest {
     public async Task TryAsync_FailFunctionReturnTaskResultAndValue_ReturnErrorDetail() {
         var result = await SuccessStr.Try(_ => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -488,7 +488,7 @@ public class TryExtensionsTest {
         var result =
             await source.Try<string>(_ => Task.FromResult(SuccessfulFunctionReturnResult()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -496,7 +496,7 @@ public class TryExtensionsTest {
         var source = Task.FromResult(SuccessStr);
         var result = await source.Try<string>(_ => Task.FromResult(FailFunctionReturnResult()), DefaultNumOfTry);
 
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     #endregion

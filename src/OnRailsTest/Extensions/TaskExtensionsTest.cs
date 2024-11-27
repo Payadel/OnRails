@@ -38,7 +38,7 @@ public static class TaskExtensionsTest {
         var result = await FailTasks.Bind(DefaultNumOfTry);
 
         Assert.False(result.Success);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -55,6 +55,6 @@ public static class TaskExtensionsTest {
         var result = await FailTasksWithOutput.Bind(DefaultNumOfTry);
 
         Assert.False(result.Success);
-        Helper.EnsureHasFailed(result, DefaultNumOfTry, true);
+        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 }
