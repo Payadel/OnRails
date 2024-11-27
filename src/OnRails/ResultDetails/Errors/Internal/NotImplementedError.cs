@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
-namespace OnRails.ResultDetails.Errors;
+namespace OnRails.ResultDetails.Errors.Internal;
 
 [DebuggerStepThrough]
 public class NotImplementedError(
@@ -9,4 +9,4 @@ public class NotImplementedError(
     string? message = "The requested functionality is not implemented.",
     object? moreDetails = null,
     bool view = false)
-    : ErrorDetail(title, message, StatusCodes.Status501NotImplemented, moreDetails, view);
+    : InternalError(title, message, StatusCodes.Status501NotImplemented, moreDetails, view);
