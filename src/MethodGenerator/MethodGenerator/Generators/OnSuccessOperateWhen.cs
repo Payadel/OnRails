@@ -18,7 +18,7 @@ public class OnSuccessOperateWhen() : App.MethodGenerator(nameof(OnSuccessOperat
                                              {1},
                                              {2},
                                              int numOfTry = 1
-                                         ) => null;
+                                         ) => throw new NotImplementedException();
                                          """;
 
     public override List<GeneratedMethod> GenerateMethodSignature() =>

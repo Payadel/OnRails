@@ -17,7 +17,7 @@ public class Using() : App.MethodGenerator(nameof(Using), ["TSource", "TResult"]
                                          public static {0} Using(
                                          this {1} obj,
                                          {2},
-                                         int numOfTry = 1) where TSource : IDisposable => null;
+                                         int numOfTry = 1) where TSource : IDisposable => throw new NotImplementedException();
                                          """;
 
     protected override bool ValidCombination(IReadOnlyList<string> parameters) {

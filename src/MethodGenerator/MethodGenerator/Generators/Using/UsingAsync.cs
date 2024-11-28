@@ -18,8 +18,8 @@ public class UsingAsync() : App.MethodGenerator(nameof(Using), ["TSource", "TRes
     public string Format { get; set; } = """
                                          public static {0} Using(
                                          this {1} obj,
-                                         {2},
-                                         int numOfTry = 1) where TSource : IDisposable => null;
+                                         {2} function,
+                                         int numOfTry = 1) where TSource : IDisposable => throw new NotImplementedException();
                                          """;
 
     protected override bool ValidCombination(IReadOnlyList<string> parameters) {
