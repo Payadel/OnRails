@@ -13,7 +13,7 @@ public class GeneratedMethod : Equatable {
     public GeneratedMethod(string methodName, string format, List<string>? parameters, string? genericName) {
         if (string.IsNullOrWhiteSpace(methodName)) throw new ArgumentNullException(nameof(methodName));
         if (string.IsNullOrWhiteSpace(format)) throw new ArgumentNullException(nameof(format));
-        
+
         Format = format;
         GenericName = genericName;
         MethodName = methodName;

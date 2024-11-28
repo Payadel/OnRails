@@ -1,17 +1,19 @@
 using MethodGenerator.Helpers;
 
 namespace MethodGenerator.App;
+
 public abstract class MethodGenerator {
     protected MethodGenerator(string methodName, string genericName) {
         if (string.IsNullOrWhiteSpace(methodName)) throw new ArgumentNullException(nameof(methodName));
         if (string.IsNullOrWhiteSpace(genericName)) throw new ArgumentNullException(nameof(genericName));
-        
+
         MethodName = methodName;
         GenericName = genericName;
     }
+
     public string MethodName { get; set; }
     public string GenericName { get; set; }
-    
+
     // Generate all combinations of parameter types
     protected List<GeneratedMethod> GenerateMethodSignature(List<HashSet<string>> parameters, string methodFormat) {
         // Generate all combinations of parameter types
@@ -34,6 +36,7 @@ public abstract class MethodGenerator {
                 acc => list.Select(item => new List<string>(acc) { item })
             );
         }
+
         return result.Where(ValidCombination);
     }
 
