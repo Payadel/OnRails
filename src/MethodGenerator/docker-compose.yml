@@ -1,0 +1,8 @@
+﻿services:
+  method-generator:
+    image: method-generator
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./MethodGenerator/appsettings.json:/app/appsettings.json
