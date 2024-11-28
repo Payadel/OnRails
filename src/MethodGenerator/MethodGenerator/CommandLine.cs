@@ -24,7 +24,7 @@ public static class CommandLine {
                     result.ErrorMessage = error;
             }
         });
-        
+
         var rootCommand = new RootCommand("C# command-line app that generates methods.") {
             outputOption,
         };

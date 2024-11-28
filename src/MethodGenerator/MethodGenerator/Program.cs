@@ -1,5 +1,6 @@
 ﻿using System.IO.Abstractions;
 using MethodGeneratorTemplate;
+using MethodGeneratorTemplate.App;
 using MethodGeneratorTemplate.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
