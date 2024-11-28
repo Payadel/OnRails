@@ -3,7 +3,7 @@ using MethodGenerator.Helpers;
 
 namespace MethodGenerator.Generators;
 
-public class OnSuccessOperateWhen() : App.MethodGenerator(nameof(OnSuccessOperateWhen), ["T"]) {
+public class OnSuccessOperateWhen() : App.MethodGenerator(nameof(OnSuccessOperateWhen), ["T"], "Default") {
     public HashSet<string> SourceTypes { get; } = ["Result", "Result<T>"];
     public HashSet<string> PredicateTypes { get; } = ["bool condition", "Func<bool> predicate"];
 

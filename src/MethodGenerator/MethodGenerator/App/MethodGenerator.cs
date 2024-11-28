@@ -3,14 +3,16 @@ using MethodGenerator.Helpers;
 namespace MethodGenerator.App;
 
 public abstract class MethodGenerator {
-    protected MethodGenerator(string methodName, HashSet<string>? genericNames) {
+    protected MethodGenerator(string methodName, HashSet<string>? genericNames, string regionName) {
         if (string.IsNullOrWhiteSpace(methodName)) throw new ArgumentNullException(nameof(methodName));
 
         MethodName = methodName;
+        RegionName = regionName;
         GenericNames = genericNames ?? [];
     }
 
     public string MethodName { get; set; }
+    public string RegionName { get; set; }
     public HashSet<string> GenericNames { get; }
 
     // Generate all combinations of parameter types

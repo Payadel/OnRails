@@ -2,7 +2,7 @@ using MethodGenerator.App;
 
 namespace MethodGenerator.Generators.Using;
 
-public class Using() : App.MethodGenerator(nameof(Using), ["TSource", "TResult"]) {
+public class Using() : App.MethodGenerator(nameof(Using), ["TSource", "TResult"], "Default") {
     public HashSet<string> SourceTypes { get; } = ["TSource"];
     public HashSet<string> ReturnTypes { get; } = ["Result<TResult>", "Result"];
 
