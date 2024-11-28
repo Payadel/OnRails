@@ -54,16 +54,16 @@ public static partial class UsingExtensions {
             }
         }, numOfTry);
 
-    public static Result Using<T>(
-        this T obj,
-        Func<T, Result> function,
-        int numOfTry = 1) where T : IDisposable =>
+    public static Result Using<TSource>(
+        this TSource obj,
+        Func<TSource, Result> function,
+        int numOfTry = 1) where TSource : IDisposable =>
         obj.Using(() => function(obj), numOfTry);
 
-    public static Result Using<T>(
-        this T obj,
+    public static Result Using<TSource>(
+        this TSource obj,
         Action action,
-        int numOfTry = 1) where T : IDisposable =>
+        int numOfTry = 1) where TSource : IDisposable =>
         TryExtensions.Try(() => {
             using (obj) {
                 action();
@@ -71,10 +71,10 @@ public static partial class UsingExtensions {
         }, numOfTry);
 
 
-    public static Result Using<T>(
-        this T obj,
-        Action<T> action,
-        int numOfTry = 1) where T : IDisposable =>
+    public static Result Using<TSource>(
+        this TSource obj,
+        Action<TSource> action,
+        int numOfTry = 1) where TSource : IDisposable =>
         obj.Using(() => action(obj), numOfTry);
 
     #endregion
