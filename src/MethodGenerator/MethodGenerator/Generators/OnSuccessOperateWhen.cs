@@ -3,7 +3,7 @@ using MethodGenerator.Helpers;
 
 namespace MethodGenerator.Generators;
 
-public class OnSuccessOperateWhen() : App.MethodGenerator(nameof(OnSuccessOperateWhen), "T") {
+public class OnSuccessOperateWhen() : App.MethodGenerator(nameof(OnSuccessOperateWhen), ["T"]) {
     public HashSet<string> SourceTypes { get; } = ["Result", "Result<T>"];
     public HashSet<string> PredicateTypes { get; } = ["bool condition", "Func<bool> predicate"];
 
@@ -25,10 +25,10 @@ public class OnSuccessOperateWhen() : App.MethodGenerator(nameof(OnSuccessOperat
         GenerateMethodSignature([SourceTypes, PredicateTypes, FunctionTypes], Format);
 
     protected override bool ValidCombination(IReadOnlyList<string> parameters) {
-        if (string.IsNullOrWhiteSpace(GenericName)) return true; // None of them are generic.
+        if (GenericNames.Count == 0) return true; // None of them are generic.
 
         var sourceType = parameters[0];
-        return PatternChecker.IsGeneric(sourceType, GenericName)
-               || parameters.Skip(1).All(param => !PatternChecker.IsGeneric(param, GenericName));
+        return PatternChecker.IsGeneric(sourceType, GenericNames)
+               || parameters.Skip(1).All(param => !PatternChecker.IsGeneric(param, GenericNames));
     }
 }

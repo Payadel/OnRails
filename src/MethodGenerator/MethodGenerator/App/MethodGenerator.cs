@@ -3,16 +3,15 @@ using MethodGenerator.Helpers;
 namespace MethodGenerator.App;
 
 public abstract class MethodGenerator {
-    protected MethodGenerator(string methodName, string genericName) {
+    protected MethodGenerator(string methodName, HashSet<string>? genericNames) {
         if (string.IsNullOrWhiteSpace(methodName)) throw new ArgumentNullException(nameof(methodName));
-        if (string.IsNullOrWhiteSpace(genericName)) throw new ArgumentNullException(nameof(genericName));
 
         MethodName = methodName;
-        GenericName = genericName;
+        GenericNames = genericNames ?? [];
     }
 
     public string MethodName { get; set; }
-    public string GenericName { get; set; }
+    public HashSet<string> GenericNames { get; }
 
     // Generate all combinations of parameter types
     protected List<GeneratedMethod> GenerateMethodSignature(List<HashSet<string>> parameters, string methodFormat) {
@@ -20,9 +19,8 @@ public abstract class MethodGenerator {
         var parameterCombinations = CartesianProduct(parameters);
 
         var generatedMethods = from combination in parameterCombinations
-            let isGeneric = combination.Any(param => PatternChecker.IsGeneric(param, GenericName))
-            select new GeneratedMethod(MethodName, methodFormat, combination,
-                isGeneric ? GenericName : null);
+            let isGeneric = combination.Any(param => PatternChecker.IsGeneric(param, GenericNames))
+            select new GeneratedMethod(MethodName, methodFormat, combination, GenericNames);
 
         return generatedMethods.ToList();
     }

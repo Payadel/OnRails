@@ -4,24 +4,28 @@ namespace MethodGenerator.App;
 
 public class GeneratedMethod : Equatable {
     public string MethodName { get; }
-    public string? GenericName { get; }
-    public bool IsGeneric => GenericName is not null;
+    public HashSet<string> GenericNames { get; }
+    public bool IsGeneric => GenericNames.Count > 0;
     public string Format { get; }
     public string Result { get; }
     public List<string> Parameters { get; }
 
-    public GeneratedMethod(string methodName, string format, List<string>? parameters, string? genericName) {
+    public GeneratedMethod(string methodName, string format, List<string>? parameters, HashSet<string>? genericNames) {
         if (string.IsNullOrWhiteSpace(methodName)) throw new ArgumentNullException(nameof(methodName));
         if (string.IsNullOrWhiteSpace(format)) throw new ArgumentNullException(nameof(format));
 
         Format = format;
-        GenericName = genericName;
         MethodName = methodName;
         Parameters = parameters ?? [];
 
+
+        GenericNames = genericNames ?? [];
+        GenericNames = PatternChecker.GetExistGenerics(Parameters, GenericNames);
+
         var formatResult = string.Format(format, Parameters.ToArray());
         if (IsGeneric) {
-            formatResult = formatResult.Replace(methodName, $"{methodName}<{genericName}>");
+            var genericTypes = string.Join(", ", GenericNames);
+            formatResult = formatResult.Replace(methodName, $"{methodName}<{genericTypes}>");
         }
 
         Result = formatResult;
