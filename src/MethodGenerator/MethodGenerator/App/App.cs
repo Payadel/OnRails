@@ -19,7 +19,7 @@ public class App(ILogger<App> logger, AppSettings settings) {
             .SelectMany(assembly => assembly.GetTypes())
             .Where(type => type is { IsClass: true, IsAbstract: false }
                            && type.IsSubclassOf(typeof(MethodGenerator))
-                           && type.Namespace == "MethodGenerator.Generators")
+                           && (type.Namespace?.StartsWith("MethodGenerator.Generators") ?? false))
             .ToList();
 
         // Map each type to a Func<MethodGenerator> that calls its constructor

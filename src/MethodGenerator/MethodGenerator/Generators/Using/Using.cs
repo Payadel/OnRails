@@ -1,6 +1,6 @@
 using MethodGenerator.App;
 
-namespace MethodGenerator.Generators;
+namespace MethodGenerator.Generators.Using;
 
 public class Using() : App.MethodGenerator(nameof(Using), ["TSource", "TResult"]) {
     public HashSet<string> SourceTypes { get; } = ["TSource"];
