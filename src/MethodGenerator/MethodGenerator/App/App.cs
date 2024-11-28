@@ -1,4 +1,3 @@
-using MethodGenerator.Generators;
 using MethodGenerator.Settings;
 using Microsoft.Extensions.Logging;
 
@@ -6,10 +5,31 @@ namespace MethodGenerator.App;
 
 public class App(ILogger<App> logger, AppSettings settings) {
     public async Task RunAsync() {
-        List<Func<MethodGenerator>> generatorCreators = [
-            () => new OnSuccessOperateWhen(),
-        ];
+        var generatorCreators = GetGenerators();
 
+        await GenerateAndSaveMethods(generatorCreators);
+    }
+
+    private static List<Func<MethodGenerator>> GetGenerators() {
+        // Get all assemblies currently loaded
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        // Find all classes that inherit from MethodGenerator within the specific namespace
+        var methodGeneratorTypes = assemblies
+            .SelectMany(assembly => assembly.GetTypes())
+            .Where(type => type is { IsClass: true, IsAbstract: false }
+                           && type.IsSubclassOf(typeof(MethodGenerator))
+                           && type.Namespace == "MethodGenerator.Generators")
+            .ToList();
+
+        // Map each type to a Func<MethodGenerator> that calls its constructor
+        var generatorCreators = methodGeneratorTypes
+            .Select(type => (Func<MethodGenerator>)(() => (MethodGenerator)Activator.CreateInstance(type)))
+            .ToList();
+        return generatorCreators;
+    }
+
+    private async Task GenerateAndSaveMethods(List<Func<MethodGenerator>> generatorCreators) {
         foreach (var generatorFunc in generatorCreators) {
             var generator = generatorFunc();
 
@@ -25,8 +45,11 @@ public class App(ILogger<App> logger, AppSettings settings) {
     }
 
     private async Task SaveOutputs(string methodName, string methodStr) {
-        var outputFileName = $"{methodName}.cs";
-        await File.WriteAllTextAsync(Path.Combine(settings.Output, outputFileName), methodStr);
+        var outputFileName = $"{methodName}.txt";
+        var outputPath = Path.Combine(settings.Output, outputFileName);
+        await File.WriteAllTextAsync(outputPath, methodStr);
+
+        logger.LogInformation("{MethodName} methods saved to {path}", methodName, outputPath);
     }
 
     private static List<string> GetMethodResults(MethodGenerator generator) {
