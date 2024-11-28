@@ -1,6 +1,6 @@
-using MethodGeneratorTemplate.Helpers;
+using MethodGenerator.Helpers;
 
-namespace MethodGeneratorTemplate.App;
+namespace MethodGenerator.App;
 
 public class GeneratedMethod : Equatable {
     public string MethodName { get; }

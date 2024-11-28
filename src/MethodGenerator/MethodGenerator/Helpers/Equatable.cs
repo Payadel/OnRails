@@ -1,4 +1,4 @@
-namespace MethodGeneratorTemplate.Helpers;
+namespace MethodGenerator.Helpers;
 
 public abstract class Equatable {
     protected abstract IEnumerable<object?> GetEqualityComponents();

@@ -1,6 +1,6 @@
-using MethodGeneratorTemplate.Helpers;
+using MethodGenerator.Helpers;
 
-namespace MethodGeneratorTemplate.App;
+namespace MethodGenerator.App;
 public abstract class MethodGenerator {
     protected MethodGenerator(string methodName, string genericName) {
         if (string.IsNullOrWhiteSpace(methodName)) throw new ArgumentNullException(nameof(methodName));

@@ -1,9 +1,9 @@
-using MethodGeneratorTemplate.App;
-using MethodGeneratorTemplate.Helpers;
+using MethodGenerator.App;
+using MethodGenerator.Helpers;
 
-namespace MethodGeneratorTemplate.Generators;
+namespace MethodGenerator.Generators;
 
-public class OnSuccessOperateWhen() : MethodGenerator(nameof(OnSuccessOperateWhen), "T") {
+public class OnSuccessOperateWhen() : App.MethodGenerator(nameof(OnSuccessOperateWhen), "T") {
     public HashSet<string> SourceTypes { get; } = ["Result", "Result<T>"];
     public HashSet<string> PredicateTypes { get; } = ["bool condition", "Func<bool> predicate"];
 

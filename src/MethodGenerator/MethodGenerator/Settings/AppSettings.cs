@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace MethodGeneratorTemplate.Settings;
+namespace MethodGenerator.Settings;
 
 public class AppSettings {
     public string Output { get; set; } = default!;

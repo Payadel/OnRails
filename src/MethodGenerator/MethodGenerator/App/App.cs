@@ -1,8 +1,8 @@
-using MethodGeneratorTemplate.Generators;
-using MethodGeneratorTemplate.Settings;
+using MethodGenerator.Generators;
+using MethodGenerator.Settings;
 using Microsoft.Extensions.Logging;
 
-namespace MethodGeneratorTemplate.App;
+namespace MethodGenerator.App;
 
 public class App(ILogger<App> logger, AppSettings settings) {
     public async Task RunAsync() {

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace MethodGeneratorTemplate.Helpers;
+namespace MethodGenerator.Helpers;
 
 public static class PatternChecker {
     public static bool IsGeneric(string input, string genericName) {

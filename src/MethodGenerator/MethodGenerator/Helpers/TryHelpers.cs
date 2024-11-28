@@ -1,4 +1,4 @@
-namespace MethodGeneratorTemplate.Helpers;
+namespace MethodGenerator.Helpers;
 
 public static class TryHelpers {
     public static string? Try(this Action action) {

@@ -1,9 +1,9 @@
 using System.CommandLine;
 using System.IO.Abstractions;
-using MethodGeneratorTemplate.Helpers;
-using MethodGeneratorTemplate.Settings;
+using MethodGenerator.Helpers;
+using MethodGenerator.Settings;
 
-namespace MethodGeneratorTemplate;
+namespace MethodGenerator;
 
 public static class CommandLine {
     public static Task<int> InvokeAsync(string[] args, AppSettings settings, IFileSystem fileSystem) {
