@@ -26,5 +26,9 @@
     <ItemGroup>
         <ProjectReference Include="..\OnRails\OnRails.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ExtensionTests\Try\" />
+    </ItemGroup>
     
 </Project>

@@ -174,45 +174,41 @@ public partial class UsingExtensionsTest {
         Assert.Equal(1, actionCallCount);
         Assert.True(disposable.IsDisposed);
     }
-    
-      [Fact]
-        public void TeeUsing_WithAction_ExecutesAction()
-        {
-            // Arrange
-            var disposable = new TestDisposable();
-            var actionExecuted = false;
 
-            // Act
-            var result = disposable.TeeUsing(() =>
-            {
-                actionExecuted = true;
-                return Result.Ok();
-            });
+    [Fact]
+    public void TeeUsing_WithAction_ExecutesAction() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var actionExecuted = false;
 
-            // Assert
-            Assert.Same(disposable, result);
-            Assert.True(actionExecuted);
-            Assert.True(disposable.IsDisposed);
-        }
+        // Act
+        var result = disposable.TeeUsing(() => {
+            actionExecuted = true;
+            return Result.Ok();
+        });
 
-        [Fact]
-        public async Task TeeUsing_WithAsyncFunction_ExecutesFunction()
-        {
-            // Arrange
-            var disposable = new TestDisposable();
-            var taskObject = Task.FromResult(disposable);
-            var functionExecuted = false;
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.True(actionExecuted);
+        Assert.True(disposable.IsDisposed);
+    }
 
-            // Act
-            var result = await taskObject.TeeUsing(async () =>
-            {
-                functionExecuted = true;
-                return await Task.FromResult(Result.Ok());
-            });
+    [Fact]
+    public async Task TeeUsing_WithAsyncFunction_ExecutesFunction() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var taskObject = Task.FromResult(disposable);
+        var functionExecuted = false;
 
-            // Assert
-            Assert.Same(disposable, result);
-            Assert.True(functionExecuted);
-            Assert.True(disposable.IsDisposed);
-        }
+        // Act
+        var result = await taskObject.TeeUsing(async () => {
+            functionExecuted = true;
+            return await Task.FromResult(Result.Ok());
+        });
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.True(functionExecuted);
+        Assert.True(disposable.IsDisposed);
+    }
 }

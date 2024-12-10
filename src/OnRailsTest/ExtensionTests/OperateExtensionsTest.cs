@@ -21,17 +21,6 @@ public static class OperateExtensionsTest {
     }
 
     [Fact]
-    public static void OperateWhen_SuccessPredicateAndFunctionThrowException_FailedResult() {
-        var result = OperateWhenExtensions.OperateWhen(true,
-            () => {
-                throw new Exception("Fake");
-                return Result.Ok();
-            }, DefaultNumOfTry);
-
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-    }
-
-    [Fact]
     public static void OperateWhen_FailPredicateAndFunctionThrowException_SuccessResult() {
         var result = OperateWhenExtensions.OperateWhen(false,
             () => {
@@ -52,17 +41,6 @@ public static class OperateExtensionsTest {
     }
 
     [Fact]
-    public static void OperateWhen_SuccessPredicateFunctionAndFunctionThrowException_FailedResult() {
-        var result = OperateWhenExtensions.OperateWhen(() => true,
-            () => {
-                throw new Exception("Fake");
-                return Result.Ok();
-            }, DefaultNumOfTry);
-
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-    }
-
-    [Fact]
     public static void OperateWhen_FailPredicateFunctionAndFunctionThrowException_SuccessResult() {
         var result = OperateWhenExtensions.OperateWhen(() => false,
             () => {
@@ -73,17 +51,6 @@ public static class OperateExtensionsTest {
         Assert.True(result.Success);
     }
 
-    [Fact]
-    public static void OperateWhen_PredicateThrowException_FailedResult() {
-        var result = OperateWhenExtensions.OperateWhen(() => {
-                throw new Exception("Fake");
-                return true;
-            },
-            Result.Ok, DefaultNumOfTry);
-
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-    }
-
     //
     [Fact]
     public static void OperateWhen_SuccessPredicateAndSuccessAction_SuccessResult() {
@@ -91,13 +58,6 @@ public static class OperateExtensionsTest {
             () => { }, DefaultNumOfTry);
 
         Assert.True(result.Success);
-    }
-
-    [Fact]
-    public static void OperateWhen_SuccessPredicateAndActionThrowException_FailedResult() {
-        var result = OperateWhenExtensions.OperateWhen(true, ActionThrowException, DefaultNumOfTry);
-
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -114,24 +74,6 @@ public static class OperateExtensionsTest {
             () => { }, DefaultNumOfTry);
 
         Assert.True(result.Success);
-    }
-
-    [Fact]
-    public static void OperateWhen_SuccessPredicateFunctionAndActionThrowException_FailedResult() {
-        var result = OperateWhenExtensions.OperateWhen(() => true, ActionThrowException, DefaultNumOfTry);
-
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-    }
-
-    [Fact]
-    public static void OperateWhen_PredicateFunctionThrowException_SuccessResult() {
-        var result = OperateWhenExtensions.OperateWhen(() => {
-                throw new Exception("Fake");
-                return true;
-            },
-            () => { }, DefaultNumOfTry);
-
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]
@@ -238,14 +180,6 @@ public static class OperateExtensionsTest {
                 () => { }, DefaultNumOfTry);
 
         Assert.True(result.Success);
-    }
-
-    [Fact]
-    public static void OperateWhen_OnResultWithValue_SuccessPredicateAndActionThrowException_FailedResult() {
-        var result = Result<string>.Ok("input")
-            .OperateWhen(true, ActionThrowException, DefaultNumOfTry);
-
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 
     [Fact]

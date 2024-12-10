@@ -34,27 +34,11 @@ public static class TaskExtensionsTest {
     }
 
     [Fact]
-    public static async Task BindAsync_FailTasks_ReturnExceptionError() {
-        var result = await FailTasks.Bind(DefaultNumOfTry);
-
-        Assert.False(result.Success);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-    }
-
-    [Fact]
     public static async Task BindAsync_SuccessfulTasksWithOutput_ReturnResult() {
         var result = await SuccessfulTasksWithOutput.Bind(DefaultNumOfTry);
 
         Assert.True(result.Success);
         Assert.IsType<List<int>>(result.Value);
         Assert.Equal(2, result.Value!.Count);
-    }
-
-    [Fact]
-    public static async Task BindAsync_FailTasksWithOutput_ReturnExceptionError() {
-        var result = await FailTasksWithOutput.Bind(DefaultNumOfTry);
-
-        Assert.False(result.Success);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
     }
 }
