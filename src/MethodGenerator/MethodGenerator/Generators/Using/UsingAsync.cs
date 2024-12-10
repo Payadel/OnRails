@@ -13,6 +13,7 @@ public class UsingAsync() : App.MethodGenerator(nameof(Using), ["TSource", "TRes
         "Func<TSource, Task<TResult>> function", "Func<TSource, Task<Result<TResult>>> function",
         "Func<Result> function", "Func<TSource, Result> function",
         "Func<Task<Result>> function", "Func<TSource, Task<Result>> function",
+        "Action action", "Action<TSource> action"
     ];
 
     public string Format { get; set; } = """
