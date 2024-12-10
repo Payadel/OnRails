@@ -1,3 +1,4 @@
+using OnRails;
 using OnRails.Extensions.Using;
 
 namespace OnRailTest.ExtensionTests.Using;
@@ -72,7 +73,7 @@ public partial class UsingExtensionsTest {
         // Assert
         Assert.Same(disposable, result);
         Assert.Equal(1, functionCallCount);
-        Assert.False(disposable.IsDisposed);
+        Assert.True(disposable.IsDisposed);
     }
 
     [Fact]
@@ -88,21 +89,6 @@ public partial class UsingExtensionsTest {
         // Assert
         Assert.Same(disposable, result);
         Assert.False(disposable.IsDisposed);
-    }
-
-    [Fact]
-    public async Task TeeUsing_Task_DisposesObject_AfterTaskCompletion() {
-        // Arrange
-        var disposable = new TestDisposable();
-        var task = Task.FromResult(disposable);
-
-        // Act
-        var resultTask = task.TeeUsing(obj => Task.CompletedTask);
-        var result = await resultTask;
-
-        // Assert
-        Assert.Same(disposable, result);
-        Assert.True(disposable.IsDisposed);
     }
 
     [Fact]
@@ -188,4 +174,45 @@ public partial class UsingExtensionsTest {
         Assert.Equal(1, actionCallCount);
         Assert.True(disposable.IsDisposed);
     }
+    
+      [Fact]
+        public void TeeUsing_WithAction_ExecutesAction()
+        {
+            // Arrange
+            var disposable = new TestDisposable();
+            var actionExecuted = false;
+
+            // Act
+            var result = disposable.TeeUsing(() =>
+            {
+                actionExecuted = true;
+                return Result.Ok();
+            });
+
+            // Assert
+            Assert.Same(disposable, result);
+            Assert.True(actionExecuted);
+            Assert.True(disposable.IsDisposed);
+        }
+
+        [Fact]
+        public async Task TeeUsing_WithAsyncFunction_ExecutesFunction()
+        {
+            // Arrange
+            var disposable = new TestDisposable();
+            var taskObject = Task.FromResult(disposable);
+            var functionExecuted = false;
+
+            // Act
+            var result = await taskObject.TeeUsing(async () =>
+            {
+                functionExecuted = true;
+                return await Task.FromResult(Result.Ok());
+            });
+
+            // Assert
+            Assert.Same(disposable, result);
+            Assert.True(functionExecuted);
+            Assert.True(disposable.IsDisposed);
+        }
 }
