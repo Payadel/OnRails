@@ -5,8 +5,6 @@ namespace OnRails.Extensions.Using;
 
 [DebuggerStepThrough]
 public static partial class UsingExtensions {
-    #region <TSource, Result<TResult>>
-
     public static Result<TResult> Using<TSource, TResult>(
         this TSource obj,
         Func<TResult> function,
@@ -40,10 +38,6 @@ public static partial class UsingExtensions {
         int numOfTry = 1) where TSource : IDisposable =>
         obj.Using(() => function(obj), numOfTry);
 
-    #endregion
-
-    #region <T, Result>
-
     public static Result Using<T>(
         this T obj,
         Func<Result> function,
@@ -76,6 +70,4 @@ public static partial class UsingExtensions {
         Action<TSource> action,
         int numOfTry = 1) where TSource : IDisposable =>
         obj.Using(() => action(obj), numOfTry);
-
-    #endregion
 }
