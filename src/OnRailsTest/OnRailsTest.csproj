@@ -4,16 +4,9 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
-
         <LangVersion>latest</LangVersion>
-
         <RootNamespace>OnRailTest</RootNamespace>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <OutputPath>bin/Debug/net6.0/</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
