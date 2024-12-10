@@ -135,4 +135,18 @@ public static partial class UsingExtensions {
         Func<T, Task<Result>> function,
         int numOfTry = 1) where T : IDisposable =>
         obj.Using(() => function(obj), numOfTry);
+
+    public static Task<Result> Using<TSource>(
+        this Task<TSource> taskObject,
+        Action action,
+        int numOfTry = 1) where TSource : IDisposable =>
+        TryExtensions.Try(() => taskObject)
+            .OnSuccess(obj => obj.Using(action, numOfTry));
+
+    public static Task<Result> Using<TSource>(
+        this Task<TSource> taskObject,
+        Action<TSource> action,
+        int numOfTry = 1) where TSource : IDisposable =>
+        TryExtensions.Try(() => taskObject)
+            .OnSuccess(obj => obj.Using(action, numOfTry));
 }
