@@ -1,6 +1,6 @@
 using OnRails.Extensions.Bind;
 
-namespace OnRailTest.Extensions;
+namespace OnRailTest.ExtensionTests;
 
 public static class TaskExtensionsTest {
     private const int DefaultNumOfTry = 3;

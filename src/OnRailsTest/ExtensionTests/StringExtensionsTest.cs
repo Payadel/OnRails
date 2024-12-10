@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using OnRails.Extensions.String;
 using OnRails.ResultDetails.Errors.BadRequest;
 
-namespace OnRailTest.Extensions;
+namespace OnRailTest.ExtensionTests;
 
 public static partial class StringExtensionsTest {
     private const string SampleEmail = "test@test.com";

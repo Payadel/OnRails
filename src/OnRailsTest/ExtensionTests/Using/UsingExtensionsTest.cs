@@ -1,7 +1,7 @@
 using OnRails;
 using OnRails.Extensions.Using;
 
-namespace OnRailTest.Extensions;
+namespace OnRailTest.ExtensionTests.Using;
 
 public class UsingExtensionsTest {
     private class TestDisposable : IDisposable {

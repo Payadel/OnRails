@@ -1,6 +1,6 @@
 using OnRails.Extensions.Tee;
 
-namespace OnRailTest.Extensions;
+namespace OnRailTest.ExtensionTests;
 
 public class TeeExtensionsTest {
     private const int DefaultNumOfTry = 3;

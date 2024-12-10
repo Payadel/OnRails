@@ -4,7 +4,7 @@ using OnRails.ResultDetails;
 using OnRails.ResultDetails.Errors.BadRequest;
 using OnRails.ResultDetails.Errors.Internal;
 
-namespace OnRailTest.Extensions;
+namespace OnRailTest.ExtensionTests;
 
 public class TryExtensionsTest {
     #region TestMethods

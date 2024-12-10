@@ -2,7 +2,7 @@ using OnRails;
 using OnRails.Extensions.OperateWhen;
 using OnRails.ResultDetails;
 
-namespace OnRailTest.Extensions;
+namespace OnRailTest.ExtensionTests;
 
 public static class OperateExtensionsTest {
     private const int DefaultNumOfTry = 3;

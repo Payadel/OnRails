@@ -3,7 +3,7 @@ using OnRails.Extensions.OnFail;
 using OnRails.Extensions.ThrowException;
 using OnRails.ResultDetails.Errors.Internal;
 
-namespace OnRailTest.Extensions;
+namespace OnRailTest.ExtensionTests;
 
 public class ThrowExceptionExtensionsTest {
     private readonly ExceptionError _error = new(new Exception("Fake"));
