@@ -74,4 +74,16 @@ public static partial class UsingExtensions {
         Func<TSource, Task<Result>> function,
         int numOfTry = 1) where TSource : IDisposable =>
         obj.Tee(() => obj.Using(function, numOfTry));
+
+    public static Task<TSource> TeeUsing<TSource>(
+        this Task<TSource> taskObject,
+        Action action,
+        int numOfTry = 1) where TSource : IDisposable =>
+        taskObject.Tee(() => taskObject.Using(action, numOfTry));
+
+    public static Task<TSource> TeeUsing<TSource>(
+        this Task<TSource> taskObject,
+        Action<TSource> action,
+        int numOfTry = 1) where TSource : IDisposable =>
+        taskObject.Tee(() => taskObject.Using(action, numOfTry));
 }
