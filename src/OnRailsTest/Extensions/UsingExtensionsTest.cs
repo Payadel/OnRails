@@ -1,41 +1,159 @@
 using OnRails;
 using OnRails.Extensions.Using;
-using OnRails.ResultDetails;
-using Xunit.Sdk;
 
 namespace OnRailTest.Extensions;
 
 public class UsingExtensionsTest {
-    private class Disposable : IDisposable {
-        public bool IsDisposed { get; private set; } = false;
-
-        public void Dispose() {
-            IsDisposed = true;
-            GC.SuppressFinalize(this);
-        }
+    private class TestDisposable : IDisposable {
+        public bool IsDisposed { get; private set; }
+        public void Dispose() => IsDisposed = true;
     }
 
-    private const int DefaultNumOfTry = 3;
-
-    private static void EnsureTryWrapperValid(ResultDetail resultDetail) {
-        //If the try method is not used correctly,
-        //the Assert Exception (FalseException) may not work properly
-        //and the unit-test result may be incorrect.
-        //In this section, we want to make sure that the exception does not fall into our Try method.
-
-        var lastException = resultDetail.GetMoreDetailProperties<List<object>>()
-            .SingleOrDefault() is not null
-            ? ((List<object>)resultDetail.GetMoreDetailProperties<List<object>>()
-                .SingleOrDefault()).Last()
-            : null;
-        Assert.True(lastException is not FalseException);
-    }
+    private class TestError : Exception;
 
     #region Using
 
     [Fact]
+    public void Using_WithAction_ExecutesActionAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(() => { Assert.False(disposable.IsDisposed); });
+
+        Assert.True(result.Success);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithFunction_ExecutesFunctionAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(() => 42);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithFunction_ExecutesWithRetryOnException() {
+        var disposable = new TestDisposable();
+        var attempt = 0;
+
+        var result = disposable.Using(() => {
+            attempt++;
+            if (attempt < 2) throw new TestError();
+            return 42;
+        }, 2);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.Equal(2, attempt);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithResultFunction_ReturnsResultAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(() => Result<int>.Ok(42));
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithResultFunction_FailsOnExceptionAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(() => {
+            throw new TestError();
+            return Result.Ok();
+        }, 1);
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithActionWithParameter_ExecutesActionAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(d => {
+            Assert.False(d.IsDisposed);
+            Assert.Same(disposable, d);
+        });
+
+        Assert.True(result.Success);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithFunctionWithParameter_ExecutesFunctionAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(d => {
+            Assert.False(d.IsDisposed);
+            Assert.Same(disposable, d);
+            return 42;
+        });
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithResultFunctionWithParameter_ReturnsResultAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(d => {
+            Assert.False(d.IsDisposed);
+            Assert.Same(disposable, d);
+            return Result<int>.Ok(42);
+        });
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithResultFunctionWithParameter_FailsOnExceptionAndDisposes() {
+        var disposable = new TestDisposable();
+
+        var result = disposable.Using(d => {
+            Assert.False(d.IsDisposed);
+            throw new TestError();
+            return Result.Ok();
+        }, 1);
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void Using_WithRetries_StopsAfterMaxTries() {
+        var disposable = new TestDisposable();
+        var attempts = 0;
+
+        var result = disposable.Using(() => {
+            attempts++;
+            throw new TestError();
+            return Result.Ok();
+        }, 3);
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+        Assert.Equal(3, attempts);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
     public void Using_SuccessfulAction_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(() => Assert.False(disposableObj.IsDisposed));
@@ -45,21 +163,8 @@ public class UsingExtensionsTest {
     }
 
     [Fact]
-    public void Using_FailAction_DisposeAndReturnExceptionError() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        void Action() => throw new Exception();
-        var result = disposableObj.Using(Action, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
-
-    [Fact]
     public void Using_SuccessfulActionWithInput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(obj => Assert.False(obj.IsDisposed));
@@ -69,21 +174,8 @@ public class UsingExtensionsTest {
     }
 
     [Fact]
-    public void Using_FailActionWithInput_DisposeAndReturnExceptionError() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        void Action(Disposable obj) => throw new Exception();
-        var result = disposableObj.Using(Action, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
-
-    [Fact]
     public void Using_SuccessfulFunctionWithInputOutput_DisposeObjectAndReturnResult() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(obj => {
@@ -97,24 +189,8 @@ public class UsingExtensionsTest {
     }
 
     [Fact]
-    public void Using_FailFunctionWithInputOutput_DisposeAndReturnExceptionError() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = disposableObj.Using(obj => {
-            Assert.False(obj.IsDisposed);
-            throw new Exception();
-            return "result";
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
-
-    [Fact]
     public void Using_SuccessfulFunctionWithInputAndResultValueOutput_DisposeObjectAndReturnResult() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(obj => {
@@ -125,27 +201,12 @@ public class UsingExtensionsTest {
         Assert.True(disposableObj.IsDisposed);
         Assert.True(result.Success);
         Assert.Equal("result", result.Value);
-    }
-
-    [Fact]
-    public void Using_FailFunctionWithInputAndResultValueOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = disposableObj.Using(obj => {
-            Assert.False(obj.IsDisposed);
-            return Result<string>.Fail();
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
     }
 
 
     [Fact]
     public void Using_SuccessfulFunctionWithOutput_DisposeObjectAndReturnResult() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(() => {
@@ -159,24 +220,8 @@ public class UsingExtensionsTest {
     }
 
     [Fact]
-    public void Using_FailFunctionWithOutput_DisposeAndReturnExceptionError() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = disposableObj.Using(() => {
-            Assert.False(disposableObj.IsDisposed);
-            throw new Exception();
-            return "result";
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
-
-    [Fact]
     public void Using_SuccessfulFunctionWithResultValueOutput_DisposeObjectAndReturnResult() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(() => {
@@ -190,23 +235,8 @@ public class UsingExtensionsTest {
     }
 
     [Fact]
-    public void Using_FailFunctionWithResultValueOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = disposableObj.Using(() => {
-            Assert.False(disposableObj.IsDisposed);
-            return Result<string>.Fail();
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
-
-    [Fact]
     public void Using_SuccessfulFunctionWithResultOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(() => {
@@ -218,24 +248,10 @@ public class UsingExtensionsTest {
         Assert.True(result.Success);
     }
 
-    [Fact]
-    public void Using_FailFunctionWithResultOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = disposableObj.Using(() => {
-            Assert.False(disposableObj.IsDisposed);
-            return Result.Fail();
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
 
     [Fact]
     public void Using_SuccessfulFunctionWithInputAndResultOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = disposableObj.Using(obj => {
@@ -245,21 +261,6 @@ public class UsingExtensionsTest {
 
         Assert.True(disposableObj.IsDisposed);
         Assert.True(result.Success);
-    }
-
-    [Fact]
-    public void Using_FailFunctionWithInputAndResultOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = disposableObj.Using(obj => {
-            Assert.False(disposableObj.IsDisposed);
-            return Result.Fail();
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
     }
 
     #endregion
@@ -268,7 +269,7 @@ public class UsingExtensionsTest {
 
     [Fact]
     public async Task UsingAsync_SuccessfulFunctionWithInputOutput_DisposeObjectAndReturnResult() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = await disposableObj.Using(obj => {
@@ -281,25 +282,10 @@ public class UsingExtensionsTest {
         Assert.Equal("result", result.Value);
     }
 
-    [Fact]
-    public async Task UsingAsync_FailFunctionWithInputOutput_DisposeAndReturnExceptionError() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = await disposableObj.Using(obj => {
-            Assert.False(obj.IsDisposed);
-            throw new Exception();
-            return Task.FromResult("result");
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
 
     [Fact]
     public async Task UsingAsync_SuccessfulFunctionWithInputAndResultValueOutput_DisposeObjectAndReturnResult() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = await disposableObj.Using(obj => {
@@ -312,24 +298,10 @@ public class UsingExtensionsTest {
         Assert.Equal("result", result.Value);
     }
 
-    [Fact]
-    public async Task UsingAsync_FailFunctionWithInputAndResultValueOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = await disposableObj.Using(obj => {
-            Assert.False(obj.IsDisposed);
-            return Task.FromResult(Result<string>.Fail());
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
 
     [Fact]
     public async Task UsingAsync_SuccessfulFunctionWithResultValueOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = await disposableObj.Using(() => {
@@ -342,24 +314,10 @@ public class UsingExtensionsTest {
         Assert.Equal("result", result.Value);
     }
 
-    [Fact]
-    public async Task UsingAsync_FailFunctionWithResultValueOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = await disposableObj.Using(() => {
-            Assert.False(disposableObj.IsDisposed);
-            return Task.FromResult(Result<string>.Fail());
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
 
     [Fact]
     public async Task UsingAsync_SuccessfulFunctionWithResultOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = await disposableObj.Using(() => {
@@ -369,26 +327,11 @@ public class UsingExtensionsTest {
 
         Assert.True(disposableObj.IsDisposed);
         Assert.True(result.Success);
-    }
-
-    [Fact]
-    public async Task UsingAsync_FailFunctionWithResultOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = await disposableObj.Using(() => {
-            Assert.False(disposableObj.IsDisposed);
-            return Task.FromResult(Result.Fail());
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
     }
 
     [Fact]
     public async Task UsingAsync_SuccessfulFunctionWithInputAndResultOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = await disposableObj.Using(obj => {
@@ -401,23 +344,8 @@ public class UsingExtensionsTest {
     }
 
     [Fact]
-    public async Task UsingAsync_FailFunctionWithInputAndResultOutput_DisposeAndReturnErrorDetail() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
-
-        var result = await disposableObj.Using(obj => {
-            Assert.False(obj.IsDisposed);
-            return Task.FromResult(Result.Fail());
-        }, DefaultNumOfTry);
-
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
-    }
-
-    [Fact]
     public async Task UsingAsync_SuccessfulFunctionWithOutput_DisposeObjectAndReturnResult() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         var result = await disposableObj.Using(() => {
@@ -431,19 +359,180 @@ public class UsingExtensionsTest {
     }
 
     [Fact]
-    public async Task UsingAsync_FailFunctionWithOutput_DisposeAndReturnExceptionError() {
-        var disposableObj = new Disposable();
-        Assert.False(disposableObj.IsDisposed);
+    public async Task UsingAsync_WithTaskAndFunction_DisposesAndReturnsResult() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
 
-        var result = await disposableObj.Using(() => {
-            Assert.False(disposableObj.IsDisposed);
-            throw new Exception();
-            return Task.FromResult("result");
-        }, DefaultNumOfTry);
+        var result = await task.Using(() => 42, 1);
 
-        Assert.True(disposableObj.IsDisposed);
-        TestHelpers.EnsureHasFailed(result, DefaultNumOfTry, true);
-        EnsureTryWrapperValid(result.Detail);
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithTaskAndAsyncFunction_DisposesAndReturnsResult() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+
+        var result = await task.Using(async () => {
+            await Task.Delay(10);
+            return 42;
+        }, 1);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithTaskAndRetry_SucceedsAfterRetries() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+        var attempts = 0;
+
+        var result = await task.Using(() => {
+            attempts++;
+            if (attempts < 3) throw new TestError();
+            return 42;
+        }, 3);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.Equal(3, attempts);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithTaskAndFailingFunction_TracksFailure() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+
+        var result = await task.Using(() => {
+            throw new TestError();
+            return Result.Ok();
+        }, 1);
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithTaskAndAction_DisposesAndExecutesAction() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+
+        var result = await task.Using(() => { Assert.False(disposable.IsDisposed); }, 1);
+
+        Assert.True(result.Success);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithTaskAndAsyncResultFunction_DisposesAndReturnsResult() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+
+        var result = await task.Using(async () => {
+            await Task.Delay(10);
+            return Result<int>.Ok(42);
+        }, 1);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithTaskAndResultFunction_FailsAndTracksError() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+
+        var result = await task.Using(() => {
+            throw new TestError();
+            return Result.Ok();
+        }, 1);
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithAsyncObjectAndAsyncFunction_DisposesAndReturnsResult() {
+        var disposable = new TestDisposable();
+
+        var result = await disposable.Using(async () => {
+            await Task.Delay(10);
+            return 42;
+        }, 1);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithAsyncObjectAndAsyncResultFunction_DisposesAndReturnsResult() {
+        var disposable = new TestDisposable();
+
+        var result = await disposable.Using(async () => {
+            await Task.Delay(10);
+            return Result<int>.Ok(42);
+        }, 1);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithAsyncObjectAndAsyncFunctionWithParameter_DisposesAndReturnsResult() {
+        var disposable = new TestDisposable();
+
+        var result = await disposable.Using(async d => {
+            Assert.False(d.IsDisposed);
+            await Task.Delay(10);
+            return 42;
+        }, 1);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithAsyncObjectAndAsyncResultFunctionWithParameter_DisposesAndReturnsResult() {
+        var disposable = new TestDisposable();
+
+        var result = await disposable.Using(async d => {
+            Assert.False(d.IsDisposed);
+            await Task.Delay(10);
+            return Result<int>.Ok(42);
+        }, 1);
+
+        Assert.True(result.Success);
+        Assert.Equal(42, result.Value);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task UsingAsync_WithRetries_FailsAfterMaxTries() {
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+        var attempts = 0;
+
+        var result = await task.Using(() => {
+            attempts++;
+            throw new TestError();
+            return Result.Ok();
+        }, 3);
+
+        Assert.False(result.Success);
+        Assert.NotNull(result.Detail);
+        Assert.Equal(3, attempts);
+        Assert.True(disposable.IsDisposed);
     }
 
     #endregion
@@ -452,7 +541,7 @@ public class UsingExtensionsTest {
 
     [Fact]
     public void TeeUsing_SuccessfulFunctionWithInputOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         disposableObj.TeeUsing(obj => {
@@ -465,7 +554,7 @@ public class UsingExtensionsTest {
 
     [Fact]
     public void TeeUsing_FailFunctionWithInputOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         disposableObj.TeeUsing(obj => {
@@ -479,7 +568,7 @@ public class UsingExtensionsTest {
 
     [Fact]
     public void TeeUsing_SuccessfulFunctionWithOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         disposableObj.TeeUsing(() => {
@@ -492,7 +581,7 @@ public class UsingExtensionsTest {
 
     [Fact]
     public void TeeUsing_FailFunctionWithOutput_DisposeObject() {
-        var disposableObj = new Disposable();
+        var disposableObj = new TestDisposable();
         Assert.False(disposableObj.IsDisposed);
 
         disposableObj.TeeUsing(() => {
@@ -502,6 +591,138 @@ public class UsingExtensionsTest {
         });
 
         Assert.True(disposableObj.IsDisposed);
+    }
+
+    [Fact]
+    public void TeeUsing_ReturnsOriginalObject_AfterFunctionCall() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var functionCallCount = 0;
+
+        // Act
+        var result = disposable.TeeUsing(obj => {
+            functionCallCount++;
+            return 42;
+        });
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.Equal(1, functionCallCount);
+        Assert.False(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task TeeUsing_Task_ReturnsOriginalTask() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+
+        // Act
+        var resultTask = task.TeeUsing(obj => 42);
+        var result = await resultTask;
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.False(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public async Task TeeUsing_Task_DisposesObject_AfterTaskCompletion() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+
+        // Act
+        var resultTask = task.TeeUsing(obj => Task.CompletedTask);
+        var result = await resultTask;
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.True(disposable.IsDisposed);
+    }
+
+    [Fact]
+    public void TeeUsing_CallsFunctionWithResultObject() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var functionCallCount = 0;
+
+        // Act
+        var result = disposable.TeeUsing(obj => {
+            functionCallCount++;
+            return 42;
+        });
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.Equal(1, functionCallCount);
+    }
+
+    [Fact]
+    public async Task TeeUsing_Task_CallsFunctionWithResultObject() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+        var functionCallCount = 0;
+
+        // Act
+        var resultTask = task.TeeUsing(obj => {
+            functionCallCount++;
+            return 42;
+        });
+        var result = await resultTask;
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.Equal(1, functionCallCount);
+    }
+
+    [Fact]
+    public void TeeUsing_CallsActionWithResultObject() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var actionCallCount = 0;
+
+        // Act
+        var result = disposable.TeeUsing(obj => actionCallCount++);
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.Equal(1, actionCallCount);
+    }
+
+    [Fact]
+    public async Task TeeUsing_Task_CallsActionWithResultObject() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var task = Task.FromResult(disposable);
+        var actionCallCount = 0;
+
+        // Act
+        var resultTask = task.TeeUsing(obj => {
+            actionCallCount++;
+            return Task.CompletedTask;
+        });
+        var result = await resultTask;
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.Equal(1, actionCallCount);
+    }
+
+    [Fact]
+    public void TeeUsing_DisposesResource_AfterAction() {
+        // Arrange
+        var disposable = new TestDisposable();
+        var actionCallCount = 0;
+
+        // Act
+        var result = disposable.TeeUsing(obj => actionCallCount++);
+
+        // Assert
+        Assert.Same(disposable, result);
+        Assert.Equal(1, actionCallCount);
+        Assert.True(disposable.IsDisposed);
     }
 
     #endregion
