@@ -9,7 +9,7 @@ namespace OnRails.Extensions.Configuration;
 
 [DebuggerStepThrough]
 public static class ConfigurationExtensions {
-    public static Result<T> GetConfig<T>(this IConfiguration source, int numOfTry = 1) =>
+    public static Result<T?> GetConfig<T>(this IConfiguration source, int numOfTry = 1) =>
         TryExtensions.Try(() =>
                 source.GetSection(typeof(T).Name)
                     .Get<T>(),
