@@ -1,4 +1,4 @@
-﻿using System.IO.Abstractions;
+using System.IO.Abstractions;
 using MethodGenerator;
 using MethodGenerator.App;
 using MethodGenerator.Settings;

@@ -21,8 +21,8 @@ public abstract class MethodGenerator {
         var parameterCombinations = CartesianProduct(parameters);
 
         var generatedMethods = from combination in parameterCombinations
-            let isGeneric = combination.Any(param => PatternChecker.IsGeneric(param, GenericNames))
-            select new GeneratedMethod(MethodName, methodFormat, combination, GenericNames);
+                               let isGeneric = combination.Any(param => PatternChecker.IsGeneric(param, GenericNames))
+                               select new GeneratedMethod(MethodName, methodFormat, combination, GenericNames);
 
         return generatedMethods.ToList();
     }

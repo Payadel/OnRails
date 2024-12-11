@@ -15,8 +15,8 @@ public static partial class OnSuccessExtensions {
     public static Result OnSuccessAddMoreDetails(
         this Result source,
         object moreDetail) => source.OnSuccess(() => {
-        source.Detail ??= new SuccessDetail();
-        source.Detail.AddDetail(moreDetail);
-        return source;
-    });
+            source.Detail ??= new SuccessDetail();
+            source.Detail.AddDetail(moreDetail);
+            return source;
+        });
 }

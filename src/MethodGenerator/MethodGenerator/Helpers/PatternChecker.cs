@@ -24,9 +24,9 @@ public static class PatternChecker {
         if (parameters.Count == 0 || genericNames.Count == 0) return [];
 
         var exist = from genericName in genericNames
-            let regex = new Regex(string.Format(RegexFormat, genericName))
-            where parameters.Any(regex.IsMatch)
-            select genericName;
+                    let regex = new Regex(string.Format(RegexFormat, genericName))
+                    where parameters.Any(regex.IsMatch)
+                    select genericName;
 
         return exist.ToHashSet();
     }

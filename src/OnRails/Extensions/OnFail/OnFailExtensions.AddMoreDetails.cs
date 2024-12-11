@@ -15,8 +15,8 @@ public static partial class OnFailExtensions {
     public static Result OnFailAddMoreDetails(
         this Result source,
         object moreDetail) => source.OnFail(() => {
-        source.Detail ??= new ErrorDetail();
-        source.Detail.AddDetail(moreDetail);
-        return source;
-    });
+            source.Detail ??= new ErrorDetail();
+            source.Detail.AddDetail(moreDetail);
+            return source;
+        });
 }
