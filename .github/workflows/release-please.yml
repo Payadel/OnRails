@@ -6,6 +6,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  packages: write
 
 name: release-please
 
@@ -26,40 +27,26 @@ jobs:
         with:
           release-type: simple
 
-      # Step to manage version tags: delete existing tags, create new tags for major and minor versions, and push them to the remote repository
+  publish-to-nuget:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: needs.release-please.outputs.release_created == 'true'
+
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: tag major and minor versions
-        if: ${{ steps.release.outputs.release_created }}
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/Payadel/OnRails.git"
-          git tag -d v${{ steps.release.outputs.major }} || true
-          git tag -d v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
-          git push origin :v${{ steps.release.outputs.major }} || true
-          git push origin :v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
-          git tag -a v${{ steps.release.outputs.major }} -m "Release v${{ steps.release.outputs.major }}"
-          git tag -a v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} -m "Release v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}"
-          git push origin v${{ steps.release.outputs.major }}
-          git push origin v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-  #  TODO: Publish nuget package
-#  publish-docker:
-#    needs: release-please
-#    uses: Payadel/OnRails/.github/workflows/.publish-docker.yml@main
-#    if: ${{needs.release-please.outputs.release_created}}
-#    with:
-#      REPO_OWNER: Payadel
-#      REPO_NAME: OnRails
-#      DOCKER_OWNER: Payadel # must lowercase
-#      IMAGE_NAME: OnRails
-#      LICENSE: 'GPL-3.0'
-#      major: ${{needs.release-please.outputs.major}}
-#      minor: ${{needs.release-please.outputs.minor}}
-#      patch: ${{needs.release-please.outputs.patch}}
-#      DOCKER_CONTEXT_PATH: "./src"
-#    secrets:
-#      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-#      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Publish to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          VERSION="${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}"
+          dotnet pack src/OnRails/OnRails.csproj --configuration Release /p:PackageVersion=$VERSION
+          dotnet nuget push "src/OnRails/bin/Release/**/*.nupkg" \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key "$NUGET_API_KEY"
