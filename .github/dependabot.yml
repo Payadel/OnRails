@@ -28,3 +28,30 @@ updates:
       include: "scope"
     target-branch: 'dev'
     open-pull-requests-limit: 10
+  
+  # Enable version updates for npm packages
+  - package-ecosystem: npm
+    # Look for npm packages in the root directory
+    directory: /
+    # Check for updates once a week
+    schedule:
+      interval: weekly
+    # Group updates into two categories: development and production
+    groups:
+      npm-development:
+        # Target development dependencies
+        dependency-type: development
+        # Only update minor or patch versions
+        update-types:
+          - minor
+          - patch
+      npm-production:
+        # Target production dependencies
+        dependency-type: production
+        # Only update patch versions
+        update-types:
+          - patch
+    # Update will target the `dev` branch
+    target-branch: 'dev'
+    # Limit the number of open pull requests for updates to 10
+    open-pull-requests-limit: 10
