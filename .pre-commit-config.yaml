@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: commitlint
         stages: [ commit-msg ]
-        args: [ '--config', '.configs/commitlint.config.mjs']
+        args: [ '--config', '.configs/commitlint.config.mjs' ]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -12,7 +12,7 @@ repos:
       - id: no-commit-to-branch
         stages: [ prepare-commit-msg, merge-commit, push ]
         always_run: false
-        args: [--branch, main, --branch, master]
+        args: [ --branch, main, --branch, master ]
 
   - repo: https://github.com/mpalmer/action-validator
     rev: v0.6.0
@@ -21,7 +21,22 @@ repos:
         stages: [ commit-msg ]
 
   - repo: https://github.com/Payadel/pre-commit-hooks
-    rev: v0.1.7  # Ensure it is latest
+    rev: v1.0.0
     hooks:
       - id: document-oriented
-        args: ['--doc=*.md', '--source=src/*']
+        args: [ '--doc=*.md', '--source=src/*' ]
+
+      - id: run-scripts
+        args: [ '-f=scripts/dotnet-coverage.sh', '--line', '50', '--src', 'src' ]
+        stages: [ push ]
+        pass_filenames: false
+
+      - id: run-scripts
+        args: [ '-f=scripts/dotnet-check.sh', 'src' ]
+        stages: [ push ]
+        pass_filenames: false
+
+      - id: run-scripts
+        args: [ '-f=scripts/commit-validation.sh' ]
+        stages: [ commit-msg ]
+        pass_filenames: false
