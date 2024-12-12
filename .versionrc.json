@@ -1,0 +1,48 @@
+{
+  "types": [
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Fixes"
+    },
+    {
+      "type": "docs",
+      "section": "Documents"
+    },
+    {
+      "type": "style",
+      "section": "Refactors"
+    },
+    {
+      "type": "refactor",
+      "section": "Refactors"
+    },
+    {
+      "type": "test",
+      "section": "Tests"
+    },
+    {
+      "type": "ci",
+      "section": "Development: CI/CD, Build, etc"
+    },
+    {
+      "type": "build",
+      "section": "Development: CI/CD, Build, etc"
+    },
+    {
+      "type": "deprecate",
+      "section": "Deprecates"
+    },
+    {
+      "type": "security",
+      "section": "Security"
+    },
+    {
+      "type": "chore",
+      "hidden": true
+    }
+  ]
+}

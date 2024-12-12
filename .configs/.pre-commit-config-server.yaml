@@ -1,0 +1,12 @@
+repos:
+  - repo: https://github.com/mpalmer/action-validator
+    rev: v0.5.1
+    hooks:
+      - id: action-validator
+        
+  - repo: https://github.com/Payadel/pre-commit-hooks
+    rev: v1.0.0
+    hooks:
+      - id: run-scripts
+        args: [ '-f=scripts/dotnet-check.sh', 'src' ]
+        always_run: true

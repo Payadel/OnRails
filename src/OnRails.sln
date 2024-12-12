@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+#
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnRails", "OnRails\OnRails.csproj", "{1A0AF0F1-78C1-4996-BE41-B75CDC362189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnRailsTest", "OnRailsTest\OnRailsTest.csproj", "{8B7F7ABF-A4BB-4DE2-BB55-FD41C1267B22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MethodGenerator", "MethodGenerator\MethodGenerator\MethodGenerator.csproj", "{BE54F290-ED8D-4E77-99A0-2DF91630E4AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A0AF0F1-78C1-4996-BE41-B75CDC362189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A0AF0F1-78C1-4996-BE41-B75CDC362189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A0AF0F1-78C1-4996-BE41-B75CDC362189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A0AF0F1-78C1-4996-BE41-B75CDC362189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B7F7ABF-A4BB-4DE2-BB55-FD41C1267B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B7F7ABF-A4BB-4DE2-BB55-FD41C1267B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B7F7ABF-A4BB-4DE2-BB55-FD41C1267B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B7F7ABF-A4BB-4DE2-BB55-FD41C1267B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE54F290-ED8D-4E77-99A0-2DF91630E4AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE54F290-ED8D-4E77-99A0-2DF91630E4AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE54F290-ED8D-4E77-99A0-2DF91630E4AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE54F290-ED8D-4E77-99A0-2DF91630E4AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

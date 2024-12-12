@@ -1,0 +1,57 @@
+name: PR Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+permissions:
+  pull-requests: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8
+
+      - name: Restore and Build
+        run: |
+          cd src
+          dotnet restore
+          dotnet build --no-restore
+      
+      # Add coverlet.collector nuget package to test project - 'dotnet add <TestProject.cspoj> package coverlet
+      - name: Run Tests
+        run: |
+          dotnet test src/OnRails.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: 'coverage/*/coverage.cobertura.xml'
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '50 74'
+
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request' && always() # Ensures that the step runs no matter the outcome of previous steps.
+        with:
+          recreate: true
+          path: code-coverage-results.md
+
+      - name: Write to Job Summary
+        if: success() # Ensures the step only runs if all previous steps were successful.
+        run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,57 @@
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuring-dependabot-version-updates
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+# Basic dependabot.yml file with
+# minimum configuration for two package managers
+
+version: 2
+
+updates:
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    # Look in the `root` directory
+    directory: "/"
+    # Check for updates once a week
+    schedule:
+      interval: "weekly"
+    # Update will target the `dev` branch
+    target-branch: "dev"
+    # Limit the number of open pull requests for updates to 10
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: nuget
+    directory: src
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    target-branch: 'dev'
+    open-pull-requests-limit: 10
+  
+  # Enable version updates for npm packages
+  - package-ecosystem: npm
+    # Look for npm packages in the root directory
+    directory: /
+    # Check for updates once a week
+    schedule:
+      interval: weekly
+    # Group updates into two categories: development and production
+    groups:
+      npm-development:
+        # Target development dependencies
+        dependency-type: development
+        # Only update minor or patch versions
+        update-types:
+          - minor
+          - patch
+      npm-production:
+        # Target production dependencies
+        dependency-type: production
+        # Only update patch versions
+        update-types:
+          - patch
+    # Update will target the `dev` branch
+    target-branch: 'dev'
+    # Limit the number of open pull requests for updates to 10
+    open-pull-requests-limit: 10
