@@ -15,6 +15,34 @@ usage() {
   exit 1
 }
 
+# Function to check changes in the specific folder
+check_changes_in_target_folder() {
+  local target_folder="$1"
+
+  # Read the pre-push hook input and process
+  while read -r _ local_sha _ remote_sha; do
+    # Determine the range of commits
+    local range
+    if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+      range="$local_sha" # New branch being pushed
+    else
+      range="$remote_sha..$local_sha"
+    fi
+
+    # Check for changes in the specified folder
+    local changes
+    changes=$(git diff --name-only "$range" | grep "^$target_folder/")
+
+    if [ -n "$changes" ]; then
+      # echo "Detected changes in $target_folder folder:"
+      # echo "$changes"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 #=================================================
 # Initialize variables
 line_threshold=""
@@ -59,9 +87,7 @@ if [[ -z "$line_threshold" ]]; then
   usage
 fi
 
-# Get changed files in git
-CHANGED_FILES=$(git diff --name-only HEAD)
-if ! echo "$CHANGED_FILES" | grep -q "^$src_path/"; then
+if ! check_changes_in_target_folder "$src_path"; then
   echo "No changes detected in the source directory: $src_path"
   exit 0
 fi

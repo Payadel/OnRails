@@ -3,8 +3,8 @@
 # List of folder names to check (can be adjusted as needed)
 folder_names=("MethodGenerator" "OnRailsTest")
 
-# Get the list of changed files against HEAD
-changed_files=$(git diff --name-only HEAD)
+# Get the stage files
+changed_files=$(git diff --cached --name-only)
 
 # Check if all changed files are in the listed folders
 for file in $changed_files; do
