@@ -191,7 +191,6 @@ public class DivideByZeroError(
 
 Please see the [CHANGELOG](CHANGELOG.md) file.
 
----
 
 ## Features
 
@@ -203,7 +202,6 @@ Please see the [CHANGELOG](CHANGELOG.md) file.
 
 - **Integration Support**: Built-in features for integrating with ASP.NET
 
----
 
 ## Contributing
 
@@ -213,7 +211,6 @@ appreciated**.
 
 Please read [our contribution guidelines](docs/CONTRIBUTING.md), and thank you for being involved!
 
----
 
 ## Authors & contributors
 
@@ -222,7 +219,6 @@ The original setup of this repository is by [Payadel](https://github.com/Payadel
 For a full list of all authors and contributors,
 see [the contributors page](https://github.com/Payadel/OnRails/contributors).
 
----
 
 ## Security
 
@@ -231,7 +227,6 @@ is"** without any **warranty**.
 
 _For more information and to report security issues, please refer to our [security documentation](docs/SECURITY.md)._
 
----
 
 ## License
 
@@ -239,7 +234,6 @@ This project is licensed under the **GPLv3**.
 
 See [LICENSE](LICENSE) for more information.
 
----
 
 ## Related
 
