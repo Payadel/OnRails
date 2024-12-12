@@ -29,7 +29,7 @@ jobs:
         with:
           release-type: simple
 
-  publish-to-nuget:
+  publish-packages:
     needs: release-please
     runs-on: ubuntu-latest
     if: needs.release-please.outputs.release_created == 'true'
@@ -60,3 +60,16 @@ jobs:
           dotnet nuget push "src/OnRails/bin/Release/**/*.nupkg" \
             --source https://api.nuget.org/v3/index.json \
             --api-key "$NUGET_API_KEY"
+
+      # Publish the package to GitHub Packages
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Use the same version generated earlier
+          VERSION="${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}"
+          
+          # Push the package to GitHub Packages
+          dotnet nuget push "src/OnRails/bin/Release/**/*.nupkg" \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key "$GITHUB_TOKEN"
