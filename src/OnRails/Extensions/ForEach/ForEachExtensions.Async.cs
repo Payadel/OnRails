@@ -41,7 +41,7 @@ public static partial class ForEachExtensions {
         this Task<IEnumerable<T>> source,
         Func<T, Task<Result>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(async items => {
             foreach (var item in items) {
                 var result = await item.Try(function, numOfTry)
@@ -58,7 +58,7 @@ public static partial class ForEachExtensions {
         Func<T, Task<Result>> function,
         int numOfTry = 1
     ) =>
-        TryExtensions.Try(source, numOfTry)
+        source.Try(numOfTry)
             .OnSuccess(async items => {
                 foreach (var item in items) {
                     var result = await item.OnSuccess(function, numOfTry)

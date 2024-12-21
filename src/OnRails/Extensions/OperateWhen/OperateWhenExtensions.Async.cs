@@ -46,7 +46,7 @@ public static partial class OperateWhenExtensions {
         bool condition,
         Func<Task<T>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(condition, function, numOfTry), numOfTry: 1);
 
     public static Task<Result<T>> OperateWhen<T>(
@@ -62,7 +62,7 @@ public static partial class OperateWhenExtensions {
         bool condition,
         Func<Task<Result<T>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(condition, function, numOfTry), numOfTry: 1);
 
     public static Task<Result<T>> OperateWhen<T>(
@@ -70,7 +70,7 @@ public static partial class OperateWhenExtensions {
         bool condition,
         Func<T, Task<Result<T>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(condition, function, numOfTry), numOfTry: 1);
 
     public static Task<Result<T>> OperateWhen<T>(
@@ -94,7 +94,7 @@ public static partial class OperateWhenExtensions {
         bool condition,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(condition, function, numOfTry), numOfTry: 1);
 
     public static Task<Result<T>> OperateWhen<T>(
@@ -102,7 +102,7 @@ public static partial class OperateWhenExtensions {
         Func<bool> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(predicate, function, numOfTry), numOfTry: 1);
 
     public static Task<Result<T>> OperateWhen<T>(
@@ -110,7 +110,7 @@ public static partial class OperateWhenExtensions {
         Func<T, bool> predicate,
         Func<T, Result<T>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(predicate, function, numOfTry), numOfTry: 1);
 
     public static async Task<Result<T>> OperateWhen<T>(
@@ -178,7 +178,7 @@ public static partial class OperateWhenExtensions {
         Func<bool> predicate,
         Func<Task<Result<T>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(predicate, function, numOfTry), numOfTry: 1);
 
     public static Task<Result<T>> OperateWhen<T>(
@@ -186,7 +186,7 @@ public static partial class OperateWhenExtensions {
         Func<T, bool> predicate,
         Func<Task<Result<T>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(t => t.OperateWhen(predicate, function, numOfTry), numOfTry: 1);
 
     public static async Task<Result<T>> OperateWhen<T>(
