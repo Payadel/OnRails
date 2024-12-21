@@ -1,6 +1,18 @@
 All notable changes to this project will be documented in this file. We follow
 the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
+## [3.2.0](https://github.com/Payadel/OnRails/compare/v3.1.0...v3.2.0) (2024-12-21)
+
+
+### Features
+
+* **ResultDetail:** add `ToStringViewModel` ([2b8a675](https://github.com/Payadel/OnRails/commit/2b8a6752c092318c82b9e308066f2f48042e3358))
+
+
+### Bug Fixes
+
+* minor updates ([df1eab8](https://github.com/Payadel/OnRails/commit/df1eab861b891cfb33b8d2f71da421ec5526ac99))
+
 ## [3.1.0](https://github.com/Payadel/OnRails/compare/v3.0.0...v3.1.0) (2024-12-21)
 
 
