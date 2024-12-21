@@ -69,7 +69,7 @@ public static partial class OnFailExtensions {
         var result = await TryExtensions.Try(source, numOfTry);
         return result.Success
             ? result
-            : await TryExtensions.Try(task, numOfTry);
+            : await task.Try(numOfTry);
     }
 
     public static Task<Result> OnFailTee(

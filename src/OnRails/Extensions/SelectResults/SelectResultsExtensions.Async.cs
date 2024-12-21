@@ -10,7 +10,7 @@ public static partial class SelectResultsExtensions {
         this Task<IEnumerable<TSource>> source,
         Func<TSource, Result<TResult>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
@@ -50,7 +50,7 @@ public static partial class SelectResultsExtensions {
         this Task<IEnumerable<TSource>> source,
         Func<TSource, Task<Result<TResult>>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(async items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
@@ -70,7 +70,7 @@ public static partial class SelectResultsExtensions {
         this Task<IEnumerable<TSource>> source,
         Func<TSource, TResult> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);
@@ -110,7 +110,7 @@ public static partial class SelectResultsExtensions {
         this Task<IEnumerable<TSource>> source,
         Func<TSource, Task<TResult>> function,
         int numOfTry = 1
-    ) => TryExtensions.Try(source, numOfTry)
+    ) => source.Try(numOfTry)
         .OnSuccess(async items => {
             var list = items.ToList();
             var selectedResult = new List<TResult>(list.Count);

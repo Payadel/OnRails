@@ -50,6 +50,17 @@ public class ResultDetail {
             { nameof(Message), Message }
         };
 
+    public virtual string ToStringViewModel() {
+        var sb = new StringBuilder();
+        sb.AppendLine(Message is null ? Title : $"{Title}: {Message}");
+
+        var customFields = CustomFieldsToString();
+        if (!string.IsNullOrEmpty(customFields))
+            sb.AppendLine(customFields);
+
+        return sb.ToString();
+    }
+
     public override string ToString() {
         var sb = new StringBuilder();
 
