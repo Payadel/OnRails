@@ -1,6 +1,14 @@
 All notable changes to this project will be documented in this file. We follow
 the [Semantic Versioning 2.0.0](http://semver.org/) format.
 
+## [3.1.0](https://github.com/Payadel/OnRails/compare/v3.0.0...v3.1.0) (2024-12-21)
+
+
+### Features
+
+* **ReturnAcceptedAtLocation:** add overloads ([a142ce8](https://github.com/Payadel/OnRails/commit/a142ce8cc067bf179a55a12658c55e334452d962))
+* **ReturnCreatedAtLocation:** add overloads ([7e316e6](https://github.com/Payadel/OnRails/commit/7e316e6767540c82bcef393adaccfbf8ef5eef36))
+
 ## [3.0.0](https://github.com/Payadel/OnRails/compare/v2.0.0...v3.0.0) (2024-12-12)
 
 
