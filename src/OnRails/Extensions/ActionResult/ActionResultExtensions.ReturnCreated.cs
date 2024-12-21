@@ -95,10 +95,24 @@ public static partial class ActionResultExtensions {
             return result;
         }).ReturnResult();
 
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtLocation<T>(this Result<T> source,
+        Func<T, string> locationFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtLocationDetail(locationFunc(value));
+            return result;
+        }).ReturnResult();
+
     public static Microsoft.AspNetCore.Mvc.ActionResult<T>
         ReturnCreatedAtLocation<T>(this Result<T> source, Uri location) =>
         source.OnSuccess((_, result) => {
             result.Detail = new CreatedAtLocationDetail(location);
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T>
+        ReturnCreatedAtLocation<T>(this Result<T> source, Func<T, Uri> locationFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtLocationDetail(locationFunc(value));
             return result;
         }).ReturnResult();
 
@@ -125,6 +139,14 @@ public static partial class ActionResultExtensions {
         }).ReturnResult();
 
     public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtRoute<T>(this Result<T> source,
+        Func<T, string> routeNameFunc,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtRouteDetail(routeNameFunc(value), routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtRoute<T>(this Result<T> source,
         string routeName,
         Func<T, object> routeValuesFunc) =>
         source.OnSuccess((value, result) => {
@@ -132,6 +154,13 @@ public static partial class ActionResultExtensions {
             return result;
         }).ReturnResult();
 
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtRoute<T>(this Result<T> source,
+        Func<T, string> routeNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtRouteDetail(routeNameFunc(value), routeValuesFunc(value));
+            return result;
+        }).ReturnResult();
 
     public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtAction<T>(
         this Result<T> source,
@@ -140,6 +169,56 @@ public static partial class ActionResultExtensions {
         object routeValues) =>
         source.OnSuccess((_, result) => {
             result.Detail = new CreatedAtActionDetail(actionName, controllerName, routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtAction<T>(
+        this Result<T> source,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerName, routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtAction<T>(
+        this Result<T> source,
+        Func<T, string> actionNameFunc,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerNameFunc(value), routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtAction<T>(
+        this Result<T> source,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerName, routeValuesFunc(value));
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtAction<T>(
+        this Result<T> source,
+        Func<T, string> actionNameFunc,
+        Func<T, string> controllerNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerNameFunc(value), routeValuesFunc(value));
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtAction<T>(
+        this Result<T> source,
+        string actionName,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionName, controllerNameFunc(value), routeValues);
             return result;
         }).ReturnResult();
 
@@ -158,6 +237,14 @@ public static partial class ActionResultExtensions {
         string actionName) =>
         source.OnSuccess((_, result) => {
             result.Detail = new CreatedAtActionDetail(actionName);
+            return result;
+        }).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult<T> ReturnCreatedAtAction<T>(
+        this Result<T> source,
+        Func<T, string> actionNameFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value));
             return result;
         }).ReturnResult();
 
@@ -284,10 +371,24 @@ public static partial class ActionResultExtensions {
             return result;
         }).ReturnResult();
 
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtLocation<T>(this Task<Result<T>> source,
+        Func<T, string> locationFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtLocationDetail(locationFunc(value));
+            return result;
+        }).ReturnResult();
+
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>>
         ReturnCreatedAtLocation<T>(this Task<Result<T>> source, Uri location) =>
         source.OnSuccess((_, result) => {
             result.Detail = new CreatedAtLocationDetail(location);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>>
+        ReturnCreatedAtLocation<T>(this Task<Result<T>> source, Func<T, Uri> locationFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtLocationDetail(locationFunc(value));
             return result;
         }).ReturnResult();
 
@@ -314,10 +415,26 @@ public static partial class ActionResultExtensions {
         }).ReturnResult();
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtRoute<T>(this Task<Result<T>> source,
+        Func<T, string> routeNameFunc,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtRouteDetail(routeNameFunc(value), routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtRoute<T>(this Task<Result<T>> source,
         string routeName,
         Func<T, object> routeValuesFunc) =>
         source.OnSuccess((value, result) => {
             result.Detail = new CreatedAtRouteDetail(routeName, routeValuesFunc(value));
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtRoute<T>(this Task<Result<T>> source,
+        Func<T, string> routeNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtRouteDetail(routeNameFunc(value), routeValuesFunc(value));
             return result;
         }).ReturnResult();
 
@@ -330,6 +447,57 @@ public static partial class ActionResultExtensions {
             result.Detail = new CreatedAtActionDetail(actionName, controllerName, routeValues);
             return result;
         }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerName, routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerNameFunc(value), routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerName, routeValuesFunc(value));
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        string actionName,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionName, controllerNameFunc(value), routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        string actionName,
+        Func<T, string> controllerNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionName, controllerNameFunc(value), routeValuesFunc(value));
+            return result;
+        }).ReturnResult();
+
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
         this Task<Result<T>> source,
@@ -351,10 +519,36 @@ public static partial class ActionResultExtensions {
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
         this Task<Result<T>> source,
+        Func<T, string> actionNameFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value));
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
         string actionName,
         string controllerName) =>
         source.OnSuccess((_, result) => {
             result.Detail = new CreatedAtActionDetail(actionName, controllerName);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        string controllerName) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), controllerName);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        string actionName,
+        Func<T, string> controllerNameFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionName, controllerNameFunc(value));
             return result;
         }).ReturnResult();
 
@@ -369,10 +563,28 @@ public static partial class ActionResultExtensions {
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
         this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        object routeValues) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), routeValues);
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
         string actionName,
         Func<T, object> routeValuesFunc) =>
         source.OnSuccess((value, result) => {
             result.Detail = new CreatedAtActionDetail(actionName, routeValuesFunc(value));
+            return result;
+        }).ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult<T>> ReturnCreatedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess((value, result) => {
+            result.Detail = new CreatedAtActionDetail(actionNameFunc(value), routeValuesFunc(value));
             return result;
         }).ReturnResult();
 

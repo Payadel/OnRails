@@ -92,9 +92,19 @@ public static partial class ActionResultExtensions {
         result.OnSuccess(() => Result.Ok(new AcceptedAtLocationDetail(location)))
             .ReturnResult();
 
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtLocation<T>(this Result<T> result,
+        Func<T, string> locationFunc) =>
+        result.OnSuccess(value => Result.Ok(new AcceptedAtLocationDetail(locationFunc(value))))
+            .ReturnResult();
+
     public static Microsoft.AspNetCore.Mvc.ActionResult
         ReturnAcceptedAtLocation<T>(this Result<T> result, Uri location) =>
         result.OnSuccess(() => Result.Ok(new AcceptedAtLocationDetail(location)))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult
+        ReturnAcceptedAtLocation<T>(this Result<T> result, Func<T, Uri> locationFunc) =>
+        result.OnSuccess(value => Result.Ok(new AcceptedAtLocationDetail(locationFunc(value))))
             .ReturnResult();
 
     public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtRoute<T>(
@@ -114,9 +124,21 @@ public static partial class ActionResultExtensions {
             .ReturnResult();
 
     public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtRoute<T>(this Result<T> result,
+        Func<T, string> routeNameFunc,
+        object routeValues) =>
+        result.OnSuccess(value => Result.Ok(new AcceptedAtRouteDetail(routeNameFunc(value), routeValues)))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtRoute<T>(this Result<T> result,
         string routeName,
         Func<T, object> routeValuesFunc) =>
         result.OnSuccess(value => Result.Ok(new AcceptedAtRouteDetail(routeName, routeValuesFunc(value))))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtRoute<T>(this Result<T> result,
+        Func<T, string> routeNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        result.OnSuccess(value => Result.Ok(new AcceptedAtRouteDetail(routeNameFunc(value), routeValuesFunc(value))))
             .ReturnResult();
 
     public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
@@ -125,7 +147,53 @@ public static partial class ActionResultExtensions {
         string controllerName,
         object routeValues) =>
         result.OnSuccess(() => Result.Ok(
-                new AcceptedAtActionDetail(actionName, controllerName, routeValues)))
+            new AcceptedAtActionDetail(actionName, controllerName, routeValues))
+        ).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        string actionName,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        result.OnSuccess(value => Result.Ok(
+            new AcceptedAtActionDetail(actionName, controllerNameFunc(value), routeValues))
+        ).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        object routeValues) =>
+        result.OnSuccess(value => Result.Ok(
+            new AcceptedAtActionDetail(actionNameFunc(value), controllerName, routeValues))
+        ).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        Func<T, string> actionNameFunc,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        result.OnSuccess(value => Result.Ok(
+            new AcceptedAtActionDetail(actionNameFunc(value), controllerNameFunc(value), routeValues))
+        ).ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        Func<T, object> routeValuesFunc) =>
+        result.OnSuccess(value => Result.Ok(
+            new AcceptedAtActionDetail(actionNameFunc(value), controllerName, routeValuesFunc(value)))
+        ).ReturnResult();
+
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        string actionName,
+        Func<T, string> controllerNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        result.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionName, controllerNameFunc(value), routeValuesFunc(value))))
             .ReturnResult();
 
     public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
@@ -146,10 +214,41 @@ public static partial class ActionResultExtensions {
 
     public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
         this Result<T> result,
+        Func<T, string> actionNameFunc) =>
+        result.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value))))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
         string actionName,
         string controllerName) =>
         result.OnSuccess(() => Result.Ok(
                 new AcceptedAtActionDetail(actionName, controllerName)))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        Func<T, string> actionNameFunc,
+        string controllerName) =>
+        result.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), controllerName)))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        string actionName,
+        Func<T, string> controllerNameFunc) =>
+        result.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionName, controllerNameFunc(value))))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        Func<T, string> actionNameFunc,
+        Func<T, string> controllerNameFunc) =>
+        result.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), controllerNameFunc(value))))
             .ReturnResult();
 
     public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
@@ -162,10 +261,26 @@ public static partial class ActionResultExtensions {
 
     public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
         this Result<T> result,
+        Func<T, string> actionNameFunc,
+        object routeValues) =>
+        result.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), routeValues)))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
         string actionName,
         Func<T, object> routeValuesFunc) =>
         result.OnSuccess(value => Result.Ok(
                 new AcceptedAtActionDetail(actionName, routeValuesFunc(value))))
+            .ReturnResult();
+
+    public static Microsoft.AspNetCore.Mvc.ActionResult ReturnAcceptedAtAction<T>(
+        this Result<T> result,
+        Func<T, string> actionNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        result.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), routeValuesFunc(value))))
             .ReturnResult();
 
     #endregion
@@ -262,8 +377,18 @@ public static partial class ActionResultExtensions {
             .ReturnResult();
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtLocation<T>(this Task<Result<T>> source,
+        Func<T, string> locationFunc) =>
+        source.OnSuccess(value => Result.Ok(new AcceptedAtLocationDetail(locationFunc(value))))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtLocation<T>(this Task<Result<T>> source,
         Uri location) =>
         source.OnSuccess(() => Result.Ok(new AcceptedAtLocationDetail(location)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtLocation<T>(this Task<Result<T>> source,
+        Func<T, Uri> locationFunc) =>
+        source.OnSuccess(value => Result.Ok(new AcceptedAtLocationDetail(locationFunc(value))))
             .ReturnResult();
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtRoute<T>(
@@ -283,9 +408,21 @@ public static partial class ActionResultExtensions {
             .ReturnResult();
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtRoute<T>(this Task<Result<T>> source,
+        Func<T, string> routeNameFunc,
+        object routeValues) =>
+        source.OnSuccess(value => Result.Ok(new AcceptedAtRouteDetail(routeNameFunc(value), routeValues)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtRoute<T>(this Task<Result<T>> source,
         string routeName,
         Func<T, object> routeValuesFunc) =>
         source.OnSuccess(value => Result.Ok(new AcceptedAtRouteDetail(routeName, routeValuesFunc(value))))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtRoute<T>(this Task<Result<T>> source,
+        Func<T, string> routeNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess(value => Result.Ok(new AcceptedAtRouteDetail(routeNameFunc(value), routeValuesFunc(value))))
             .ReturnResult();
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
@@ -299,6 +436,42 @@ public static partial class ActionResultExtensions {
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
         this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        object routeValues) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), controllerName, routeValues)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), controllerNameFunc(value), routeValues)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
+        string actionName,
+        Func<T, string> controllerNameFunc,
+        object routeValues) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionName, controllerNameFunc(value), routeValues)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
+        string actionName,
+        Func<T, string> controllerNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionName, controllerNameFunc(value), routeValuesFunc(value))))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
         string actionName,
         string controllerName,
         Func<T, object> routeValuesFunc) =>
@@ -308,9 +481,25 @@ public static partial class ActionResultExtensions {
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
         this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        string controllerName,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), controllerName, routeValuesFunc(value))))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
         string actionName) =>
         source.OnSuccess(() => Result.Ok(
                 new AcceptedAtActionDetail(actionName)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value))))
             .ReturnResult();
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
@@ -323,6 +512,22 @@ public static partial class ActionResultExtensions {
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
         this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        string controllerName) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), controllerName)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
+        string actionName,
+        Func<T, string> controllerNameFunc) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionName, controllerNameFunc(value))))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
         string actionName,
         object routeValues) =>
         source.OnSuccess(() => Result.Ok(
@@ -331,10 +536,26 @@ public static partial class ActionResultExtensions {
 
     public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
         this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        object routeValues) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), routeValues)))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
         string actionName,
         Func<T, object> routeValuesFunc) =>
         source.OnSuccess(value => Result.Ok(
                 new AcceptedAtActionDetail(actionName, routeValuesFunc(value))))
+            .ReturnResult();
+
+    public static Task<Microsoft.AspNetCore.Mvc.ActionResult> ReturnAcceptedAtAction<T>(
+        this Task<Result<T>> source,
+        Func<T, string> actionNameFunc,
+        Func<T, object> routeValuesFunc) =>
+        source.OnSuccess(value => Result.Ok(
+                new AcceptedAtActionDetail(actionNameFunc(value), routeValuesFunc(value))))
             .ReturnResult();
 
     #endregion

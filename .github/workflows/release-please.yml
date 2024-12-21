@@ -22,31 +22,54 @@ jobs:
       patch: ${{ steps.release.outputs.patch }}
 
     steps:
-      - uses: googleapis/release-please-action@v4
+      # Generate a release using release-please
+      - name: Run release-please
+        uses: googleapis/release-please-action@v4
         id: release
         with:
           release-type: simple
 
-  publish-to-nuget:
+  publish-packages:
     needs: release-please
     runs-on: ubuntu-latest
     if: needs.release-please.outputs.release_created == 'true'
 
     steps:
-      - name: Checkout
+      # Checkout the repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Set up the .NET environment
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
+      # Publish the package to NuGet
       - name: Publish to NuGet
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
+          # Extract the version from release-please outputs
           VERSION="${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}"
+          
+          # Build the package
           dotnet pack src/OnRails/OnRails.csproj --configuration Release /p:PackageVersion=$VERSION
+          
+          # Push the package to NuGet
           dotnet nuget push "src/OnRails/bin/Release/**/*.nupkg" \
             --source https://api.nuget.org/v3/index.json \
             --api-key "$NUGET_API_KEY"
+
+      # Publish the package to GitHub Packages
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Use the same version generated earlier
+          VERSION="${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}"
+          
+          # Push the package to GitHub Packages
+          dotnet nuget push "src/OnRails/bin/Release/**/*.nupkg" \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key "$GITHUB_TOKEN"
